@@ -1,0 +1,65 @@
+.step {
+    position: absolute;
+    right: 0;
+    left: 0;
+    text-align: center;
+    font-size: 50px;
+}
+
+.target {
+    position: absolute;
+    right: 0;
+    left: 0;
+    text-align: center;
+    font-size: 15px;
+}
+
+.placeholder{
+    /*margin: 5px;*/
+    /*padding: 0 10px;*/
+    text-align: center;
+    background-color: #EBEBEB;
+    color: #cfcfcf;
+}
+
+.circle-box {
+  /*text-align: center;*/
+    /*margin-top: 10%;*/
+}
+
+.circle {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 100%;
+    /*background-color: #09bb07;*/
+}
+
+.index-footer {
+    height: 49%;
+    align-items:center;
+}
+
+.index-footer-content {
+    margin-left: 10px;
+}
+
+.footer-section {
+    margin-left: 10px;
+    text-align: left
+}
+
+.footer-section-right {
+    margin-right: 10px;
+    float: right;
+    font-size: 30px
+}
+
+.footer-section-content {
+    font-size: 10px;
+}
+
+.footer-section-unit {
+    font-size: 15px
+}

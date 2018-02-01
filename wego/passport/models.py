@@ -31,7 +31,7 @@ class AppUsers(models.Model):
 
 
 class WeixinUsers(models.Model):
-    user = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     openid = models.CharField(u'openid', max_length=50)
     unionid = models.CharField(u'uuid', max_length=50, default='')
     skey = models.CharField(max_length=50, default='')

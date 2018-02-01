@@ -1,0 +1,44 @@
+<view class="circle-box">
+    <canvas class="circle" style="z-index: -99; height: {{ windowWidth+50 }}px" canvas-id="canvasCircle">
+    </canvas>
+    <canvas class="circle" style="height: {{ windowWidth+50 }}px" canvas-id="canvasArcCir">
+    </canvas>
+    <view class="step" style="margin-top: {{ windowWidth/2-30 }}px">3852</view>
+    <view class="target" style="margin-top: {{ windowWidth-20 }}px">现在的目标是8000步，未完成</view>
+</view>
+
+<view class="page__bd page__bd_spacing" style="width: 100%;height: {{ windowHeight-windowWidth-50 }}px;margin-top:{{windowWidth+50 }}px; position: absolute;">
+    <view class="weui-flex">
+        <view class="weui-flex__item">
+            <view class="placeholder" style="width: 100%;height: {{ windowHeight-windowWidth-50 }}px;">
+                <view class="weui-flex index-footer">
+                    <view class="weui-flex__item footer-section">
+                        <view>
+                            消耗能量
+                        </view>
+                        <view class="footer-section-content">
+                            相当于0.39个橙子，哈哈
+                        </view>
+                    </view>
+                    <view class="footer-section-right">
+                        1000<span class="footer-section-unit">kcal</span>
+                    </view>
+                </view>
+                <view style="height:1px;border:none;border-top:1px solid #555555;"></view>
+                <view class="weui-flex index-footer">
+                    <view class="weui-flex__item footer-section">
+                        <view>
+                            运动距离
+                        </view>
+                        <view class="footer-section-content">
+                            相当于3圈400米跑道
+                        </view>
+                    </view>
+                    <view class="footer-section-right">
+                        1.2<span class="footer-section-unit">km</span>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
