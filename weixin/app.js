@@ -23,7 +23,7 @@ App({
             // 登录后端, wx code -> dj sid
             helper.wxPromisify(wx.request)({
                 url: config.baseURL + '/passport/wx/login/',
-                data: {code: res.code},
+                data: {code: res.code}
             }).then(function (res) {
                 config.gData.userSid = res.data.sid;
                 config.emitter.emit('userSid');

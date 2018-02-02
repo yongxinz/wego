@@ -43,3 +43,14 @@ class WeixinUsers(models.Model):
     class Meta:
         ordering = ['-pk']
         get_latest_by = "pk"
+
+
+class AccessToken(models.Model):
+    access_token = models.CharField(max_length=600)
+    expiration = models.DateTimeField(blank=False)
+    source = models.CharField(u"来源", max_length=15, default='wx')
+
+    def save(self, *args, **kwargs):
+        if not self.expiration:
+            self.expiration = datetime.datetime.now() + datetime.timedelta(minutes=int(100))
+        super(AccessToken, self).save(*args, **kwargs)
