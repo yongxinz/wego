@@ -36,6 +36,7 @@ class WeixinUsers(models.Model):
     unionid = models.CharField(u'uuid', max_length=50, default='')
     skey = models.CharField(max_length=50, default='')
     sid = models.UUIDField(default=uuid.uuid1)
+    is_del = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.user

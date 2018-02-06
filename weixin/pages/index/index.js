@@ -49,6 +49,13 @@ Page({
         cxt_arc.arc(this.data.windowWidth / 2, this.data.windowWidth / 2, 110, 0, 2 * Math.PI, false);
         cxt_arc.stroke();
         cxt_arc.draw();
+
+        app.helper.wxPromisify(wx.getWeRunData)().then(function (res) {
+            const encryptedData = res.encryptedData;
+            console.log(encryptedData)
+        }).catch(function (res) {
+            console.error(res.errMsg)
+        });
     },
     onLoad: function (options) {
         let that = this;

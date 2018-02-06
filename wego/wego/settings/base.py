@@ -33,6 +33,6 @@ SMS = {
 
 WEIXIN = {
     'url': 'https://api.weixin.qq.com',
-    'id': 'wx6e33d6ee4b1d2251',
-    'key': '091c11eceedc2d8bcf8736c086e43359',
+    'id': 'wx2d7e3590b4d63791',
+    'key': 'a4be29fc6e97553bc9ee4492fecfc9da',
 }

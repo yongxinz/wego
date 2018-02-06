@@ -69,8 +69,6 @@ def get_or_create_user(mobile, password=None):
         if not password:
             password = uuid.uuid4().hex
         user = User.objects.create_user(mobile, 'default@youmutou.com', password)
-        # todo 新用户同时新建公司，并绑定
-        Company.objects.create(user=[user.pk])
 
     return user
 
