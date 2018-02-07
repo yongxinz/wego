@@ -3,11 +3,8 @@
 import base64
 import hashlib
 import json
-
 import datetime
 
-import arrow
-import os
 import requests
 from Crypto.Cipher import AES
 from django.conf import settings

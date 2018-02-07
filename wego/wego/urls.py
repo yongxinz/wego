@@ -17,9 +17,11 @@ from django.conf.urls import url, include
 from rest_framework import routers
 
 from passport.api import WeixinUserViewSet
+from adminset.api import WeRunViewSet
 
 router = routers.DefaultRouter()
 router.register(r'passport/wx', WeixinUserViewSet, base_name='passport_wx'),
+router.register(r'adminset/werun', WeRunViewSet, base_name='werun'),
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),

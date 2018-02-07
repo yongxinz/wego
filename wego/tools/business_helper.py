@@ -26,11 +26,11 @@ def captcha_check(imgcode, imgkey):
 def sms_check(mobile, smscode, hashkey=None):
     start_date = Helper.get_safe_now() - datetime.timedelta(seconds=300)
     has_sms = CodeDB.objects.filter(
-        mobile=mobile, limit_times__lte=5, created__gte=start_date
+        mobile=mobile, limit_times__lte=5, created_time__gte=start_date
     )
     has_sms.update(limit_times=F('limit_times') + 1)
     if hashkey:
-        return has_sms.filter(sms_code=smscode, hashkey=hashkey).exists()
+        return has_sms.filter(sms_code=smscode, hash_key=hashkey).exists()
 
     return has_sms.filter(sms_code=smscode).exists()
 
@@ -39,19 +39,19 @@ def send_sms_by_key(mobile, imgkey=''):
     start_date = Helper.get_safe_now() - datetime.timedelta(seconds=60)
     result = {"status": False}
 
-    if CodeDB.objects.filter(mobile=mobile, created__gte=start_date).exists():
+    if CodeDB.objects.filter(mobile=mobile, created_time__gte=start_date).exists():
         result.update({"msg": "60秒内只能发送一次哦！请稍后重试！"})
     else:
         random_int = Helper.mk_random(num=4, ram_type='int')
         msg = "验证码: %s" % random_int
         if settings.DEBUG:
-            CodeDB.objects.create(mobile=mobile, sms_code=random_int, hashkey=imgkey)
+            CodeDB.objects.create(mobile=mobile, sms_code=random_int, hash_key=imgkey)
             result.update({"status": True, "msg": "DEBUG模式,短信验证码不发送到手机 -> " + msg})
         else:
             r_text = Sms.send_sms(text=msg, mobile=mobile)
             status = r_text.split(',')
             if status[1] == '0':
-                CodeDB.objects.create(mobile=mobile, sms_code=random_int, hashkey=imgkey)
+                CodeDB.objects.create(mobile=mobile, sms_code=random_int, hash_key=imgkey)
                 result.update({"status": True, "msg": "短信验证码已发送，请查看手机!"})
             else:
                 result.update({"msg": "短信验证码发送失败，请稍后重试！"})

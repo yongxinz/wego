@@ -58,7 +58,7 @@ class WeixinUserViewSet(viewsets.ViewSet):
         # 如果微信绑定过系统用户, 便写入appuser
         if wx_user.user is not None:
             AppUsers.objects.update_or_create(
-                user=wx_user.user, source='wx_' + str(wx_user.pk), is_del=False, defaults={'hashKey': wx_user.sid}
+                user=wx_user.user, source='wx_' + str(wx_user.pk), is_del=False, defaults={'hash_key': wx_user.sid}
             )
 
         return Response(dict(status=True, sid=wx_user.sid))
@@ -88,9 +88,9 @@ class WeixinUserViewSet(viewsets.ViewSet):
         wx_user.save()
 
         # 写入appUser 避免 切换绑定时，同一个sid绑定到多个用户
-        AppUsers.objects.filter(hashKey=sid).delete()
+        AppUsers.objects.filter(hash_key=sid).delete()
         AppUsers.objects.update_or_create(
-            user=user, source='wx_' + str(wx_user.pk), is_del=False, defaults={'hashKey': wx_user.sid}
+            user=user, source='wx_' + str(wx_user.pk), is_del=False, defaults={'hash_key': wx_user.sid}
         )
 
         return Response({'status': True, 'msg': u'绑定系统用户成功!', 'mobile': wx_info.get('purePhoneNumber')})
@@ -122,9 +122,9 @@ class WeixinUserViewSet(viewsets.ViewSet):
                 wx_user.user = user
                 wx_user.save()
 
-                AppUsers.objects.filter(hashKey=sid).delete()  # 避免多次绑定导致sid重复
+                AppUsers.objects.filter(hash_key=sid).delete()  # 避免多次绑定导致sid重复
                 AppUsers.objects.update_or_create(
-                    user=user, source='wx_' + str(wx_user.pk), is_del=False, defaults={'hashKey': wx_user.sid}
+                    user=user, source='wx_' + str(wx_user.pk), is_del=False, defaults={'hash_key': wx_user.sid}
                 )
 
                 return Response({
@@ -141,7 +141,7 @@ class WeixinUserViewSet(viewsets.ViewSet):
 
         try:
             WeixinUsers.objects.filter(sid=sid).update(user=None)
-            AppUsers.objects.filter(hashKey=sid).delete()
+            AppUsers.objects.filter(hash_key=sid).delete()
             resp = {'msg': u'解除绑定成功', 'status': True}
         except:
             resp = {'msg': u'解除绑定失败', 'status': False}
@@ -151,27 +151,8 @@ class WeixinUserViewSet(viewsets.ViewSet):
         return Response(resp)
 
     @list_route(methods=['get'], authentication_classes=())
-    def share_info(self, request):
-        hashkey = request.query_params.get('hashkey', '')
-        results = {}
-        if hashkey:
-            results = YMapi.get('share_info', 'erp', params={'hashkey': hashkey}).json()
-
-            hash_key = request.META.get('HTTP_AUTHORIZATION', '123abc')
-            try:
-                user = AppUsers.objects.get(hashKey=hash_key, is_del=False, expires_in__gt=timezone.now())
-                dealer, is_new = RecentDealer.objects.get_or_create(user=user.user, hashKey=hashkey, is_del=False)
-                if results['company_name']:
-                    dealer.name = results['company_name']
-                    dealer.save()
-            except:
-                pass
-
-        return Response(results)
-
-    @list_route(methods=['get'], authentication_classes=())
     def applet_image(self, request):
         page = request.query_params.get('page')
-        hashkey = request.query_params.get('hashkey', '').replace('-', '')
+        hash_key = request.query_params.get('hash_key', '').replace('-', '')
 
-        return HttpResponse(WXHelper().get_appcode(page=page, scene=hashkey).content, content_type="image/jpeg")
+        return HttpResponse(WXHelper().get_appcode(page=page, scene=hash_key).content, content_type="image/jpeg")

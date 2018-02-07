@@ -33,7 +33,7 @@ class DataSummary(models.Model):
     mileage = models.DecimalField(u"距离", default=0, max_digits=25, decimal_places=2, )
     altitude = models.DecimalField(u"海拔", default=0, max_digits=25, decimal_places=2, )
     calorie = models.DecimalField(u"卡路里", default=0, max_digits=25, decimal_places=2, )
-    created_time = models.DateTimeField()
+    created_time = models.DateField()
 
     class Meta:
         ordering = ['-id']

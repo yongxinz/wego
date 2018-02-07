@@ -7,7 +7,9 @@ var ctx = wx.createCanvasContext('canvasArcCir');
 Page({
     data: {
         windowWidth: 0,
-        windowHeight: 0
+        windowHeight: 0,
+        encryptedData: '',
+        iv: ''
     },
     drawCircle: function () {
         let that = this;
@@ -50,11 +52,29 @@ Page({
         cxt_arc.stroke();
         cxt_arc.draw();
 
+        let that = this;
         app.helper.wxPromisify(wx.getWeRunData)().then(function (res) {
             const encryptedData = res.encryptedData;
-            console.log(encryptedData)
+            console.log(res)
+            that.setData({'encryptedData': res.encryptedData, 'iv': res.iv})
+            that.submitWeRunData();
         }).catch(function (res) {
             console.error(res.errMsg)
+            wx.showModal({
+                title: '用户未授权',
+                content: '如需正常使用计步功能，请按确定并在授权管理中选中“微信运动”，然后点按确定。最后再重新进入小程序即可正常使用。',
+                showCancel: false,
+                success: function (res) {
+                    if (res.confirm) {
+                        console.log('用户点击确定')
+                        wx.openSetting({
+                            success: function success(res) {
+                                console.log('openSetting success', res.authSetting);
+                            }
+                        });
+                    }
+                }
+            })
         });
     },
     onLoad: function (options) {
@@ -65,6 +85,16 @@ Page({
                     windowWidth: res.windowWidth,
                     windowHeight: res.windowHeight
                 });
+            }
+        });
+    },
+
+    submitWeRunData: function () {
+        app.helper.postApi('werun', {'encryptedData': this.data.encryptedData, 'iv': this.data.iv}).then(function (res) {
+            if (res.data.status) {
+                console.log(res)
+            } else {
+                console.log(res)
             }
         });
     }
