@@ -16,7 +16,7 @@ class CodeDB(models.Model):
 
 
 class AppUsers(models.Model):
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     hash_key = models.UUIDField(u"", default=uuid.uuid1)
     source = models.CharField(u"来源", max_length=15, default='ios')
     created_time = models.DateTimeField(auto_now_add=True)

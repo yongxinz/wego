@@ -44,7 +44,7 @@ module.exports.apiMap = {
     trust_quotes: '/support/trust_quotes/',
     dealer: '/dealer/',
     get_source_city: '/get_source_city/',
-    werun: '/adminset/werun/'
+    werun: '/data/werun/'
 };
 
 

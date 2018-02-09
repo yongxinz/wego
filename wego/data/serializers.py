@@ -2,11 +2,11 @@
 
 from rest_framework import serializers
 
-from .models import DataSummary
+from .models import DayData
 
 
-class DataSummarySerializer(serializers.ModelSerializer):
+class DayDataSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = DataSummary
+        model = DayData
         exclude = ('user', 'created_time')

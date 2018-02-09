@@ -15,7 +15,7 @@ STATUS = (
 
 
 class ActivityCreate(models.Model):
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     title = models.CharField(u"标题", max_length=20)
     summary = models.CharField(u"介绍", max_length=50)
     start_time = models.DateTimeField(u"开始时间")
@@ -28,9 +28,9 @@ class ActivityCreate(models.Model):
 
 
 class ActivityJoin(models.Model):
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     is_creater = models.BooleanField(default=False)
-    activity = models.ForeignKey(ActivityCreate, on_delete=models.PROTECT)
+    activity = models.ForeignKey(ActivityCreate, on_delete=models.SET_NULL, null=True)
     step = models.IntegerField(u"步数", default=0)
     mileage = models.DecimalField(u"距离", default=0, max_digits=25, decimal_places=2, )
     altitude = models.DecimalField(u"海拔", default=0, max_digits=25, decimal_places=2, )

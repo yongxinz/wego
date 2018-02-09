@@ -6,15 +6,15 @@ from django.conf import settings
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from adminset.models import DataSummary
+from data.models import DayData
 from passport.models import WeixinUsers
-from adminset.serializers import DataSummarySerializer
+from data.serializers import DayDataSerializer
 from tools.wx_helper import WXBizDataCrypt
 
 
 class WeRunViewSet(viewsets.ModelViewSet):
-    queryset = DataSummary.objects.all()
-    serializer_class = DataSummarySerializer
+    queryset = DayData.objects.all()
+    serializer_class = DayDataSerializer
 
     def perform_create(self, serializer):
         crypt_data = self.request.data.get('encryptedData', '')
@@ -30,11 +30,8 @@ class WeRunViewSet(viewsets.ModelViewSet):
         app_id = settings.WEIXIN.get('id')
 
         werun_data = WXBizDataCrypt(app_id, s_key).decrypt(crypt_data, iv)
-        print(werun_data)
 
         step_info_list = werun_data['stepInfoList']
         for item in step_info_list:
-            print(time.strftime('%Y-%m-%d', time.localtime(item['timestamp'])))
-            print(item['step'])
-            DataSummary.objects.update_or_create(user=wx_user.user, created_time=time.strftime('%Y-%m-%d', time.localtime(item['timestamp'])),
-                                                 defaults={'step': item['step']})
+            DayData.objects.update_or_create(user=wx_user.user, created_time=time.strftime('%Y-%m-%d', time.localtime(item['timestamp'])),
+                                             defaults={'step': item['step']})

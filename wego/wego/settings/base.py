@@ -22,7 +22,8 @@ INSTALLED_APPS += [
     'captcha',
     'passport',
     'adminset',
-    'activity'
+    'activity',
+    'data'
 ]
 
 SMS = {
