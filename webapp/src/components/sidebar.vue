@@ -8,14 +8,7 @@
                     </router-link>
                 </li>
 
-                <ym-sidelink title="入库" :items="getNavs('001')" icon="fa-indent"></ym-sidelink>
-                <ym-sidelink title="出库" :items="getNavs('002')" icon="fa-outdent"></ym-sidelink>
-                <ym-sidelink title="库存" :items="getNavs('003')" icon="fa-align-justify"></ym-sidelink>
-                <template v-if="$store.state.role == 'AD' || $store.state.role == 'CU'">
-                    <ym-sidelink title="盘点" :items="getNavs('004')" icon="fa-bar-chart-o"></ym-sidelink>
-                    <ym-sidelink title="仓租" :items="getNavs('005')" icon="fa-th"></ym-sidelink>
-                    <ym-sidelink title="设置" :items="getNavs('006')" icon="fa-gear"></ym-sidelink>
-                </template>
+                <ym-sidelink title="用户" :items="getNavs('001')" icon="fa-align-justify"></ym-sidelink>
             </ul>
         </nav>
     </aside>

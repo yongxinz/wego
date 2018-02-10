@@ -3,18 +3,108 @@
 import uuid
 import arrow
 import requests
+import json
 
 from django.conf import settings
 from django.http import HttpResponse
-from django.utils import timezone
+from django.http import JsonResponse
 from rest_framework.decorators import list_route
 from rest_framework import viewsets
 from rest_framework.response import Response
+from django.contrib.auth import authenticate
+from django.views.decorators.csrf import csrf_exempt
+from captcha.models import CaptchaStore
+from captcha.helpers import captcha_image_url
 
 from passport.models import WeixinUsers, AppUsers
-from tools.business_helper import sms_check, send_sms_by_key, get_or_create_user
+from tools.business_helper import sms_check, send_sms_by_key, get_or_create_user, captcha_check
 from tools.helper import Helper, Dict2obj, YMapi
 from tools.wx_helper import WXBizDataCrypt, WXHelper
+
+
+@csrf_exempt
+def login(request):
+    post_args = json.loads(request.body)
+    mobile = post_args.get('mobile', '')
+    password = post_args.get('password', '')
+    imgcode = post_args.get('imgcode', '')
+    imgkey = post_args.get('imgkey', '')
+
+    if not captcha_check(imgcode, imgkey):
+        return JsonResponse({"status": False, "msg": "图片验证码错误", 'status_code': 500200})
+
+    user = authenticate(username=mobile, password=password)
+    if user and user.is_active:
+        return JsonResponse({'status': True, 'userhashid': obj.hashKey})
+    else:
+        return JsonResponse({'status': False, 'msg': '用户名或密码错误!'})
+
+
+@csrf_exempt
+def join(request):
+    post_args = json.loads(request.body)
+    mobile = post_args.get('mobile', '')
+    password = post_args.get('password', '')
+    smscode = post_args.get('smscode', '')
+    dialog_sms = post_args.get('dialogSMS', '')
+    imgcode = post_args.get('imgcode', '')
+    imgkey = post_args.get('imgkey', '')
+
+    # 验证手机号格式
+    mobile_status = Helper.mobile_format_check(mobile)
+    if not mobile_status.get('status'):
+        return JsonResponse(mobile_status)
+
+    # 验证密码格式
+    password_status = Helper.password_format_check(password)
+    if not password_status.get('status'):
+        return JsonResponse(password_status)
+
+    # 验证码
+    if dialog_sms:
+        # 短信验证码
+        if sms_check(mobile, smscode, hashkey=imgkey):
+            user = get_or_create_user(mobile=mobile, password=password)
+            if not user.first_name:
+                user.first_name = mobile
+                user.save()
+
+            obj = WeixinUsers.objects.get(user=user, is_del=False)
+
+            return JsonResponse({"status": True, 'userhashid': obj.sid})
+        else:
+            return JsonResponse({"status": False, "msg": "短信验证码错误或过期，请重试！"})
+    else:
+        # 图片验证码
+        if captcha_check(imgcode, imgkey):
+            sms_status = send_sms_by_key(post_args.get('mobile', ''), post_args.get('imgkey', ''))
+            return JsonResponse(sms_status)
+        else:
+            return JsonResponse({"status": False, "msg": "图片验证码错误或过期，请重试！", 'status_code': 500200})
+
+
+def info(request):
+    hash_key = request.META.get('HTTP_AUTHORIZATION', '123abc')
+    if not hash_key:
+        return JsonResponse({
+            'status': False,
+            'status_code': 403001,
+            'msg': '用户登录状态失效或过期，请重新登录！',
+        })
+
+    return JsonResponse({
+        "status": True
+    })
+
+
+def captcha_refresh(request):
+    new_key = CaptchaStore.generate_key()
+    scheme = request.META.get('HTTP_X_FORWARDED_PROTO', 'http')
+    json_response = {
+        'key': new_key,
+        'url': scheme + "://" + request.META.get("HTTP_HOST") + captcha_image_url(new_key),
+    }
+    return JsonResponse(json_response)
 
 
 class WeixinUserViewSet(viewsets.ViewSet):

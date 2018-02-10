@@ -18,12 +18,15 @@ from rest_framework import routers
 
 from passport.api import WeixinUserViewSet
 from data.api import WeRunViewSet
+from adminset.api import UsersViewSet
 
 router = routers.DefaultRouter()
 router.register(r'passport/wx', WeixinUserViewSet, base_name='passport_wx'),
 router.register(r'data/werun', WeRunViewSet, base_name='werun'),
+router.register(r'users', UsersViewSet)
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^api/captcha/', include('captcha.urls')),
+    url(r'^api/passport/', include('passport.urls')),
 ]

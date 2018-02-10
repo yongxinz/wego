@@ -43,7 +43,7 @@
                 </el-col>
             </el-row>
         </div>
-        <el-dialog title="短信验证码已发送到手机！" v-model="baseForm.form.dialogSMS">
+        <el-dialog title="短信验证码已发送到手机！" :visible="baseForm.form.dialogSMS">
             <el-form>
                 <el-form-item label="请输入短信验证码">
                     <el-input v-model="baseForm.form.smscode" auto-complete="off"></el-input>

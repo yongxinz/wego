@@ -10,12 +10,11 @@ GENDER = (
 )
 
 
-class Profile(models.Model):
+class Users(models.Model):
     """
     个人信息
     """
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    nickname = models.CharField(u'昵称', max_length=15)
     gender = models.CharField(u"性别", max_length=1, choices=GENDER, default='')
     autograph = models.CharField(u'签名', max_length=50, default='')
     created_time = models.DateTimeField(u"注册时间", auto_now_add=True)

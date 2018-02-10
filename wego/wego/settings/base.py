@@ -37,3 +37,8 @@ WEIXIN = {
     'id': 'wx2d7e3590b4d63791',
     'key': 'a4be29fc6e97553bc9ee4492fecfc9da',
 }
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('tools.auth.YMAuthentication',),
+    'DEFAULT_PAGINATION_CLASS': 'tools.rest_helper.YMPagination',
+}

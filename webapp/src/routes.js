@@ -27,6 +27,13 @@ export default [
         meta: {auth: false},
         component: resolve => require(['./pages/info'], resolve)
     },
+    {
+        path: '/adminset/users',
+        name: '001-1',
+        label: '用户列表',
+        // meta: {auth: false},
+        component: resolve => require(['./pages/adminset/users'], resolve)
+    },
     // 其他
     {
         path: '*', // 其他页面，强制跳转到登录页面

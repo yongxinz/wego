@@ -55,9 +55,9 @@ router.beforeEach((to, from, next) => {
     let {auth = true} = to.meta;
     let isLogin = Boolean(window.localStorage.getItem('userhashid'));
 
-    // if (auth && !isLogin) {
-    //     return next({path: '/login'})
-    // }
+    if (auth && !isLogin) {
+        return next({path: '/login'})
+    }
 
     Vue.prototype.ym_path = {to: to, from: from};
     store.commit('addTab', to.name);
