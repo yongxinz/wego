@@ -52,14 +52,20 @@ Page({
         cxt_arc.stroke();
         cxt_arc.draw();
 
+        // 检验小程序是否绑定手机号
+        app.helper.waitUserSid(function () {
+            app.helper.checkJoin().then(function (res) {
+                app.config.gData.mobile = res.data.user.mobile;
+                that.setData({'gData.mobile': app.config.gData.mobile})
+            });
+        });
+
         let that = this;
         app.helper.wxPromisify(wx.getWeRunData)().then(function (res) {
             const encryptedData = res.encryptedData;
-            console.log(res)
             that.setData({'encryptedData': res.encryptedData, 'iv': res.iv})
             that.submitWeRunData();
         }).catch(function (res) {
-            console.error(res.errMsg)
             wx.showModal({
                 title: '用户未授权',
                 content: '如需正常使用计步功能，请按确定并在授权管理中选中“微信运动”，然后点按确定。最后再重新进入小程序即可正常使用。',
