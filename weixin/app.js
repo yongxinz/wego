@@ -6,7 +6,6 @@ App({
     config: config,
 
     onLaunch: function () {
-        let that = this;
         // 获取用户基础信息, 微信已知bug，app中getSetting不执行，暂时放到页面内获取
         // helper.wxPromisify(wx.getSetting)().then(function (res) {
         //     if (res.authSetting['scope.userInfo']) {

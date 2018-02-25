@@ -5,6 +5,7 @@ Page({
         gData: null,
         is_ready: false
     },
+
     onLoad() {
         let that = this;
 
@@ -28,27 +29,32 @@ Page({
             }
         });
     },
+
     onShow() {
         this.setData({gData: app.config.gData});
+        app.helper.waitUserSid(this.updateUsers);
+    },
 
+    updateUsers: function () {
         let that = this;
+
         app.helper.postApi('nickname', that.data.gData).then(function (res) {
             console.log(res)
         })
     },
+
     // 获取用户头像昵称
     bindGetUserinfo: function (res) {
         app.config.gData.userInfo = res.detail.userInfo;
         this.setData({'gData.userInfo': res.detail.userInfo});
 
-        let that = this;
-        app.helper.postApi('nickname', that.data.gData).then(function (res) {
-            console.log(res)
-        })
+        app.helper.waitUserSid(this.updateUsers);
     },
+
     mobBind() {
         wx.navigateTo({url: '/pages/login/index'})
     },
+
     cancelBind() {
         let that = this;
         app.helper.getApi('cancel').then(function (res) {
@@ -57,8 +63,5 @@ Page({
                 that.setData({'gData.mobile': app.config.gData.mobile})
             }
         })
-    },
-    goItem(e) {
-        wx.navigateTo({url: this.data.gData.mobile ? e.currentTarget.dataset.url : '/pages/login/index'})
     }
 });
