@@ -1,0 +1,15 @@
+<view class="swiper-tab">
+    <view class="swiper-tab-list {{ currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">全国排名</view>
+    <view class="swiper-tab-list {{ currentTab==1 ? 'on' : ''}}" data-current="1" bindtap="swichNav">个人数据</view>
+</view>
+
+<swiper current="{{ currentTab }}" class="swiper-box" duration="300" style="height:{{ winHeight - 31}}px"
+        bindchange="bindChange">
+    <swiper-item>
+        <view>我是哈哈</view>
+    </swiper-item>
+
+    <swiper-item>
+        <view>我是呵呵</view>
+    </swiper-item>
+</swiper>

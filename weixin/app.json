@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/ranking/index",
     "pages/home/index",
     "pages/login/index",
     "pages/logs/logs"
@@ -16,7 +17,7 @@
         "text": "挑战"
       },
       {
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/ranking/index",
         "text": "排行榜"
       },
       {
