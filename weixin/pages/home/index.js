@@ -30,11 +30,21 @@ Page({
     },
     onShow() {
         this.setData({gData: app.config.gData});
+
+        let that = this;
+        app.helper.postApi('nickname', that.data.gData).then(function (res) {
+            console.log(res)
+        })
     },
     // 获取用户头像昵称
     bindGetUserinfo: function (res) {
         app.config.gData.userInfo = res.detail.userInfo;
-        this.setData({'gData.userInfo': res.detail.userInfo})
+        this.setData({'gData.userInfo': res.detail.userInfo});
+
+        let that = this;
+        app.helper.postApi('nickname', that.data.gData).then(function (res) {
+            console.log(res)
+        })
     },
     mobBind() {
         wx.navigateTo({url: '/pages/login/index'})
