@@ -6,7 +6,18 @@
 <swiper current="{{ currentTab }}" class="swiper-box" duration="300" style="height:{{ winHeight - 31}}px"
         bindchange="bindChange">
     <swiper-item>
-        <view>我是哈哈</view>
+        <view>
+            <view class="list">
+                <view class="item" wx:for="{{ ranks }}" wx:key="{{ id }}">
+                    <text class="rank"> {{ index + 1 }}</text>
+                    <view class="user">
+                        <image class="user-face" src="{{ item.user_info.avatar_url }}"></image>
+                        <text class="user-name">{{ item.user_info.nickname }}</text>
+                    </view>
+                    <text class="time"> {{ item.step }}</text>
+                </view>
+            </view>
+        </view>
     </swiper-item>
 
     <swiper-item>

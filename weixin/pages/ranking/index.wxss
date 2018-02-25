@@ -27,3 +27,46 @@
 .swiper-box view {
     text-align: center;
 }
+
+.list {
+    background-color: #ebe2db;
+}
+
+.item {
+    display: flex;
+    background-color: #f7eee7;
+    padding: 5vw;
+    line-height: 70rpx;
+    margin-bottom: 30rpx;
+}
+
+.item .rank {
+    margin-right: 40rpx;
+    color: #5c5354;
+    font-size: 35rpx;
+    font-weight: bold;
+}
+
+.item .user {
+    display: flex;
+}
+
+.item .user-face {
+    width: 70rpx;
+    height: 70rpx;
+    border-radius: 50%;
+    margin-right: 20rpx;
+}
+
+.item .user-name {
+    width: 210rpx;
+    color: #3d3835;
+    height: 70rpx;
+}
+
+.item .time {
+    color: #1db405;
+    font-size: 50rpx;
+    font-weight: bold;
+    margin-left: 70rpx;
+}

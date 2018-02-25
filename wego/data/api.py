@@ -1,6 +1,7 @@
 # coding=utf-8
 
 import time
+import datetime
 
 from django.conf import settings
 from rest_framework import viewsets
@@ -15,6 +16,11 @@ from tools.wx_helper import WXBizDataCrypt
 class WeRunViewSet(viewsets.ModelViewSet):
     queryset = DayData.objects.all()
     serializer_class = DayDataSerializer
+
+    def get_queryset(self):
+        queryset = DayData.objects.filter(created_time=datetime.datetime.now().date()).order_by('step')
+
+        return queryset
 
     def perform_create(self, serializer):
         crypt_data = self.request.data.get('encryptedData', '')
