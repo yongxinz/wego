@@ -35,7 +35,8 @@ def login(request):
 
     user = authenticate(username=mobile, password=password)
     if user and user.is_active:
-        return JsonResponse({'status': True, 'userhashid': obj.hashKey})
+        obj = WeixinUsers.objects.get(user=user, is_del=False)
+        return JsonResponse({'status': True, 'userhashid': obj.sid})
     else:
         return JsonResponse({'status': False, 'msg': '用户名或密码错误!'})
 

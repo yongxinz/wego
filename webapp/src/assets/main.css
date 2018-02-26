@@ -54,7 +54,7 @@ nav.youmu ul li {
     width: 100%;
     z-index: 905;
     background-color: white;
-    padding-top: 5px;
+    /*padding-top: 5px;*/
     border-bottom: 1px solid #20a0ff;
 }
 

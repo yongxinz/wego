@@ -6,6 +6,7 @@ from adminset.models import Users
 
 
 class UsersSerializer(serializers.ModelSerializer):
+    mobile = serializers.ReadOnlyField(source='user.username')
 
     class Meta:
         model = Users
