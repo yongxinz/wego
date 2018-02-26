@@ -9,6 +9,7 @@
                 </li>
 
                 <ym-sidelink title="用户" :items="getNavs('001')" icon="fa-align-justify"></ym-sidelink>
+                <ym-sidelink title="设置" :items="getNavs('002')" icon="fa-align-justify"></ym-sidelink>
             </ul>
         </nav>
     </aside>

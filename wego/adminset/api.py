@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import list_route
 from django.contrib.auth.models import User
 
-from adminset.serializers import UsersSerializer
-from adminset.models import Users
+from adminset.serializers import UsersSerializer, DataDefineSerializer
+from adminset.models import Users, DataDefine, TYPE
 from tools.rest_helper import YMMixin
 
 
@@ -17,16 +17,29 @@ class UsersViewSet(YMMixin, viewsets.ModelViewSet):
     @list_route(methods=['post'])
     def nickname(self, request):
         mobile = self.request.data.get('mobile')
-        userInfo = self.request.data.get('userInfo')
+        user_info = self.request.data.get('userInfo')
         
-        if userInfo is None:
+        if user_info is None:
             return Response({'status': False})
 
-        nickname = userInfo.get('nickName')
-        avatar_url = userInfo.get('avatarUrl')
-        gender = userInfo.get('gender')
+        nickname = user_info.get('nickName')
+        avatar_url = user_info.get('avatarUrl')
+        gender = user_info.get('gender')
 
         user = User.objects.get(username=mobile)
         Users.objects.filter(user=user).update(nickname=nickname, avatar_url=avatar_url, gender=gender)
 
         return Response({'status': True})
+
+
+class DataDefineViewSet(YMMixin, viewsets.ModelViewSet):
+    queryset = DataDefine.objects.all()
+    serializer_class = DataDefineSerializer
+
+    @list_route()
+    def type(self, request):
+        result = []
+        for option in TYPE:
+            option_group = {'label': option[1], 'value': option[0]}
+            result.append(option_group)
+        return Response(result)

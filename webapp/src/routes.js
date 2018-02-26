@@ -34,6 +34,13 @@ export default [
         // meta: {auth: false},
         component: resolve => require(['./pages/adminset/users'], resolve)
     },
+    {
+        path: '/adminset/define',
+        name: '002-1',
+        label: '数据定义',
+        // meta: {auth: false},
+        component: resolve => require(['./pages/adminset/define'], resolve)
+    },
     // 其他
     {
         path: '*', // 其他页面，强制跳转到登录页面
