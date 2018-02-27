@@ -10,11 +10,12 @@ class UsersSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Users
-        exclude = ('user', 'created_time')
+        exclude = ('user', )
 
 
 class DataDefineSerializer(serializers.ModelSerializer):
     type_display = serializers.ReadOnlyField(source='get_type_display')
+    status = serializers.ReadOnlyField()
 
     class Meta:
         model = DataDefine

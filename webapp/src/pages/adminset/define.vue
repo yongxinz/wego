@@ -5,20 +5,32 @@
                 <el-button type="primary" size="small" @click="handleNew()" class="float_right">新增</el-button>
             </el-row>
             <el-table :data="apiData" stripe border>
-                <el-table-column prop="type_display" label="数据类型" min-width="120" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="min_value" label="数据分级(小)" min-width="120"
+                <el-table-column prop="type_display" label="数据类型" min-width="80"
                                  show-overflow-tooltip></el-table-column>
-                <el-table-column prop="max_value" label="数据分级(大)" min-width="120"
+                <el-table-column prop="min_value" label="数据分级(小)" min-width="80"
+                                 show-overflow-tooltip></el-table-column>
+                <el-table-column prop="max_value" label="数据分级(大)" min-width="80"
                                  show-overflow-tooltip></el-table-column>
                 <el-table-column prop="reference" label="参考物" min-width="120" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="reference_value" label="参考物数值" min-width="120"
                                  show-overflow-tooltip></el-table-column>
-                <el-table-column prop="summary" label="分享文案" min-width="120" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="created_time" label="创建时间" min-width="180" show-overflow-tooltip>
+                <el-table-column prop="summary" label="分享文案" min-width="200" show-overflow-tooltip></el-table-column>
+                <!--<el-table-column prop="created_time" label="创建时间" min-width="180" show-overflow-tooltip>-->
+                    <!--<template slot-scope="scope">-->
+                        <!--<div>-->
+                            <!--{{ scope.row.created_time|moment }}-->
+                        <!--</div>-->
+                    <!--</template>-->
+                <!--</el-table-column>-->
+                <el-table-column label="操作" fixed="right" min-width="100">
                     <template slot-scope="scope">
-                        <div>
-                            {{ scope.row.created_time|moment }}
-                        </div>
+                        <el-button size="small" type="primary" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                        <template v-if="scope.row.status === 'ONL'">
+                            <el-button size="small" type="success" @click="submitOffline(scope.$index, scope.row)">下线</el-button>
+                        </template>
+                        <template v-else>
+                            <el-button size="small" type="success" @click="submitOnline(scope.$index, scope.row)">上线</el-button>
+                        </template>
                     </template>
                 </el-table-column>
             </el-table>
@@ -163,6 +175,28 @@
                 }
             },
 
+            handleEdit(index, row) {
+                this.form = row;
+                this.form.id = row.id;
+                this.dialogFormVisible = true
+            },
+
+            submitOffline(index, row) {
+                this.$http.patch(this.url + row.id + '/offline/').then((response) => {
+                    if (response.data.status) {
+                        this.apiData[index]['status'] = 'CIM'
+                    }
+                })
+            },
+
+            submitOnline(index, row) {
+                this.$http.patch(this.url + row.id + '/online/').then((response) => {
+                    if (response.data.status) {
+                        this.apiData[index]['status'] = 'ONL'
+                    }
+                })
+            },
+
             fetchType() {
                 this.$http.get(this.url + 'type/').then((response) => {
                     this.type = response.data
@@ -171,18 +205,3 @@
         }
     }
 </script>
-
-<style>
-    .el-form .el-form-item {
-        margin-bottom: 20px;
-    }
-
-    .in_list_input > .el-input__inner {
-        height: 35px;
-    }
-
-    .el-date-editor--datetimerange.el-input {
-        width: 300px;
-        min-width: 200px;
-    }
-</style>

@@ -10,8 +10,14 @@ GENDER = (
 )
 
 TYPE = (
-    ('K', u"里程"),
+    ('K', u"里程(km)"),
     ('S', u"步数")
+)
+
+STATUS = (
+    ('CIM', u"已提交"),
+    ('DEL', u"已删除"),
+    ('ONL', u"已上架"),
 )
 
 
@@ -43,6 +49,7 @@ class DataDefine(models.Model):
     reference = models.CharField(u'参考物', max_length=10, default='')
     reference_value = models.DecimalField(u"参考物数值", default=0, max_digits=25, decimal_places=2, )
     summary = models.CharField(u'分享文案', max_length=100, default='')
+    status = models.CharField(u"状态", max_length=5, choices=STATUS, default='ONL')
     created_time = models.DateTimeField(u"注册时间", auto_now_add=True)
 
     class Meta:
