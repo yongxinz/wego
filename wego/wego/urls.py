@@ -24,7 +24,7 @@ from adminset.api import UsersViewSet, DataDefineViewSet
 
 router = routers.DefaultRouter()
 router.register(r'passport/wx', WeixinUserViewSet, base_name='passport_wx'),
-router.register(r'data/werun', WeRunViewSet, base_name='werun'),
+router.register(r'werun', WeRunViewSet, base_name='werun'),
 router.register(r'users', UsersViewSet)
 router.register(r'define', DataDefineViewSet)
 

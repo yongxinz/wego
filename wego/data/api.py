@@ -6,6 +6,7 @@ import datetime
 from django.conf import settings
 from rest_framework import viewsets
 from rest_framework.response import Response
+from rest_framework.decorators import list_route
 
 from data.models import DayData
 from passport.models import WeixinUsers
@@ -21,6 +22,14 @@ class WeRunViewSet(viewsets.ModelViewSet):
         queryset = DayData.objects.filter(created_time=datetime.datetime.now().date()).order_by('step')
 
         return queryset
+
+    @list_route(methods=['get'])
+    def today(self, request):
+        print(self.request.user)
+        obj = DayData.objects.filter(user=self.request.user).first()
+        print(obj.step)
+
+        return Response({'results': {'step': obj.step}})
 
     def perform_create(self, serializer):
         crypt_data = self.request.data.get('encryptedData', '')

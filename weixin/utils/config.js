@@ -23,7 +23,8 @@ module.exports.apiMap = {
     get_applet_image: '/passport/wx/applet_image/',
     cancel: '/passport/wx/cancel/',
     join2wx: '/passport/wx/join2wx/',
-    werun: '/data/werun/',
+    werun: '/werun/',
+    today: '/werun/today/',
     nickname: '/users/nickname/'
 };
 

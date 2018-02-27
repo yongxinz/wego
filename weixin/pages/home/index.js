@@ -6,15 +6,15 @@ Page({
         is_ready: false
     },
 
-    onLoad() {
+    onLoad: function () {
         let that = this;
 
-        app.helper.waitUserSid(function () {
-            app.helper.checkJoin().then(function (res) {
-                app.config.gData.mobile = res.data.user.mobile;
-                that.setData({'gData.mobile': app.config.gData.mobile})
-            });
-        });
+        // app.helper.waitUserSid(function () {
+        //     app.helper.checkJoin().then(function (res) {
+        //         app.config.gData.mobile = res.data.user.mobile;
+        //         that.setData({'gData.mobile': app.config.gData.mobile})
+        //     });
+        // });
 
         //检查配置项
         app.helper.wxPromisify(wx.getSetting)().then(function (res) {
@@ -30,7 +30,7 @@ Page({
         });
     },
 
-    onShow() {
+    onShow: function () {
         this.setData({gData: app.config.gData});
         app.helper.waitUserSid(this.updateUsers);
     },
@@ -51,11 +51,11 @@ Page({
         app.helper.waitUserSid(this.updateUsers);
     },
 
-    mobBind() {
+    mobBind: function () {
         wx.navigateTo({url: '/pages/login/index'})
     },
 
-    cancelBind() {
+    cancelBind: function () {
         let that = this;
         app.helper.getApi('cancel').then(function (res) {
             if (res.data.status) {

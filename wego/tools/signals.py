@@ -13,4 +13,5 @@ def create_users(**kwargs):
     instance = kwargs['instance']
     if created:
         user = instance.user
-        Users.objects.create(user=user)
+        if not Users.objects.filter(user=user).exists():
+            Users.objects.create(user=user)
