@@ -68,7 +68,7 @@ def get_or_create_user(mobile, password=None):
     else:
         if not password:
             password = uuid.uuid4().hex
-        user = User.objects.create_user(mobile, 'default@youmutou.com', password)
+        user = User.objects.create_user(mobile, 'default@lvzhou.info', password)
 
     return user
 

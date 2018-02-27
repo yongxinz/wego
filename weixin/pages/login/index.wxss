@@ -1,3 +1,4 @@
 .page {
   margin-top: 120px;
+  background-color: white;
 }

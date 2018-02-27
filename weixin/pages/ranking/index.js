@@ -23,6 +23,10 @@ Page({
     },
 
     onShow: function () {
+        app.helper.waitUserSid(this.getApiData);
+    },
+
+    getApiData: function () {
         let that = this;
         app.helper.getApi('werun').then(function (res) {
             that.setData({ranks: res.data.results})

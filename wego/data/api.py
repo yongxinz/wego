@@ -34,10 +34,10 @@ class WeRunViewSet(viewsets.ModelViewSet):
             return Response({'status': False, 'msg': u'微信验证失败，请重新授权'})
 
         app_id = settings.WEIXIN.get('id')
-
         werun_data = WXBizDataCrypt(app_id, s_key).decrypt(crypt_data, iv)
 
         step_info_list = werun_data['stepInfoList']
         for item in step_info_list:
-            DayData.objects.update_or_create(user=wx_user.user, created_time=time.strftime('%Y-%m-%d', time.localtime(item['timestamp'])),
+            DayData.objects.update_or_create(user=wx_user.user,
+                                             created_time=time.strftime('%Y-%m-%d', time.localtime(item['timestamp'])),
                                              defaults={'step': item['step']})
