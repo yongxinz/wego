@@ -26,6 +26,9 @@ INSTALLED_APPS += [
     'data'
 ]
 
+TO_KCAL = 40
+TO_MILE = 0.7
+
 SMS = {
     "url": "http://222.73.117.156",
     "uid": "youmutou",

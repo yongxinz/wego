@@ -25,11 +25,9 @@ class WeRunViewSet(viewsets.ModelViewSet):
 
     @list_route(methods=['get'])
     def today(self, request):
-        print(self.request.user)
         obj = DayData.objects.filter(user=self.request.user).first()
-        print(obj.step)
 
-        return Response({'results': {'step': obj.step}})
+        return Response({'results': {'step': obj.step, 'mileage': obj.mileage, 'calorie': obj.calorie}})
 
     def perform_create(self, serializer):
         crypt_data = self.request.data.get('encryptedData', '')
@@ -47,6 +45,9 @@ class WeRunViewSet(viewsets.ModelViewSet):
 
         step_info_list = werun_data['stepInfoList']
         for item in step_info_list:
+            step = item['step']
+            mileage = round(step * settings.TO_MILE / 1000, 2)
+            calorie = round(step / settings.TO_KCAL)
             DayData.objects.update_or_create(user=wx_user.user,
                                              created_time=time.strftime('%Y-%m-%d', time.localtime(item['timestamp'])),
-                                             defaults={'step': item['step']})
+                                             defaults={'step': step, 'mileage': mileage, 'calorie': calorie})

@@ -21,7 +21,7 @@
                         </view>
                     </view>
                     <view class="footer-section-right">
-                        1000<span class="footer-section-unit">kcal</span>
+                        {{ calorie }}<span class="footer-section-unit">kcal</span>
                     </view>
                 </view>
                 <view style="height:1px;border:none;border-top:1px solid #555555;"></view>
@@ -35,7 +35,7 @@
                         </view>
                     </view>
                     <view class="footer-section-right">
-                        1.2<span class="footer-section-unit">km</span>
+                        {{ mileage }}<span class="footer-section-unit">km</span>
                     </view>
                 </view>
             </view>
