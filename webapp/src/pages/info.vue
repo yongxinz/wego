@@ -5,8 +5,8 @@
                 <el-col>
                     <el-card :body-style="{ padding: '20px' }">
                         <div slot="header" class="clearfix">
-                            <span id="logo"><img src="../assets/logo.png" alt="云仓ERP"> </span>
-                            <div class="pull-right tel400">咨询热线：400-723-0868</div>
+                            <span id="logo"><img src="../assets/logo.png" alt="WEGO"> </span>
+                            <div class="pull-right tel400">咨询微信：zhangyx6a</div>
                         </div>
                         <el-form>
                             <el-alert :title="msg" type="error" :closable="false" :description="msgd"></el-alert>
@@ -32,8 +32,8 @@
 
         activated: function () {
             if (this.$route.query.code === '500') {
-                this.msg = '木头哥出小差了! ';
-                this.msgd = '请您稍后再来，或联系我们: 400-723-0868'
+                this.msg = '系统出了点问题! ';
+                this.msgd = '请您稍后再来，或微信联系管理员: zhangyx6a'
             } else {
                 this.checkStatus()
             }

@@ -1,10 +1,10 @@
 <template>
     <div>
         <slot name="header">
-            <ym-header :company_name="company_name" :username="username"></ym-header>
+            <ym-header :username="username"></ym-header>
         </slot>
         <slot name="sidebar">
-            <ym-sidebar :role="role"></ym-sidebar>
+            <ym-sidebar></ym-sidebar>
         </slot>
         <div id="main" role="main">
             <div id="content">
@@ -31,9 +31,7 @@
 
         data() {
             return {
-                company_name: '',
                 username: '',
-                role: '',
                 api_groups: []
             }
         },
@@ -55,10 +53,7 @@
 
         activated() {
             this.$http.get(this.ym_api + '/passport/info/').then((resp) => {
-                this.company_name = resp.data.company_name;
-                this.username = resp.data.username;
-                this.role = resp.data.role;
-                this.$store.commit('setRole', resp.data.role);
+                this.username = resp.data.user.username;
             }).then((resp) => {
                 if (!this.is_permission) {
                     this.$alert('您没有权限访问该内容！点击确定返回上一步！', '权限错误', {

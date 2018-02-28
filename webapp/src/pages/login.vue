@@ -4,8 +4,8 @@
             <el-col>
                 <el-card :body-style="{ padding: '20px' }">
                     <div slot="header" class="clearfix">
-                        <span id="logo"><img src="../assets/logo.png" alt="云仓ERP"> </span>
-                        <div class="pull-right tel400">咨询热线：400-723-0868</div>
+                        <span id="logo"><img src="../assets/logo.png" alt="WEGO"> </span>
+                        <div class="pull-right tel400">微信咨询：zhangyx6a</div>
                     </div>
                     <el-form>
                         <el-alert :title="result.msg" type="error" :closable="false" v-if="result.msg" show-icon></el-alert>

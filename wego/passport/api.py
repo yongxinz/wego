@@ -8,17 +8,18 @@ import json
 from django.conf import settings
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.contrib.auth import authenticate
+from django.views.decorators.csrf import csrf_exempt
+from django.forms.models import model_to_dict
 from rest_framework.decorators import list_route
 from rest_framework import viewsets
 from rest_framework.response import Response
-from django.contrib.auth import authenticate
-from django.views.decorators.csrf import csrf_exempt
 from captcha.models import CaptchaStore
 from captcha.helpers import captcha_image_url
 
 from passport.models import WeixinUsers, AppUsers
 from tools.business_helper import sms_check, send_sms_by_key, get_or_create_user, captcha_check
-from tools.helper import Helper, Dict2obj, YMapi
+from tools.helper import Helper, Dict2obj
 from tools.wx_helper import WXBizDataCrypt, WXHelper
 
 
@@ -86,15 +87,18 @@ def join(request):
 
 def info(request):
     hash_key = request.META.get('HTTP_AUTHORIZATION', '123abc')
-    if not hash_key:
+    try:
+        user = AppUsers.objects.get(hash_key=hash_key, is_del=False)
+    except:
         return JsonResponse({
             'status': False,
-            'status_code': 403001,
-            'msg': '用户登录状态失效或过期，请重新登录！',
+            'status_code': 403010,
+            'msg': u'用户登录状态失效或过期，请重新登录！',
         })
 
     return JsonResponse({
-        "status": True
+        "status": True,
+        'user': model_to_dict(user.user, fields=('username',))
     })
 
 
