@@ -15,7 +15,7 @@ TIME_ZONE = 'Asia/Shanghai'
 LANGUAGE_CODE = 'zh-hans'
 
 ALLOWED_HOSTS = [
-    '127.0.0.1',
+    '127.0.0.1', '192.168.8.110'
 ]
 
 INSTALLED_APPS += [

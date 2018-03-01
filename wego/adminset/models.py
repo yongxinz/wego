@@ -10,8 +10,9 @@ GENDER = (
 )
 
 TYPE = (
-    ('K', u"里程(km)"),
-    ('S', u"步数")
+    ('M', u"里程(km)"),
+    ('S', u"步数"),
+    ('C', u"卡路里")
 )
 
 STATUS = (
@@ -47,7 +48,7 @@ class DataDefine(models.Model):
     min_value = models.IntegerField(u'数据分级小', default=0)
     max_value = models.IntegerField(u'数据分级大', default=0)
     reference = models.CharField(u'参考物', max_length=10, default='')
-    reference_value = models.DecimalField(u"参考物数值", default=0, max_digits=25, decimal_places=2, )
+    reference_value = models.FloatField(u"参考物数值", default=0)
     summary = models.CharField(u'分享文案', max_length=100, default='')
     status = models.CharField(u"状态", max_length=5, choices=STATUS, default='ONL')
     created_time = models.DateTimeField(u"注册时间", auto_now_add=True)

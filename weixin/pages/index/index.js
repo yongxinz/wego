@@ -9,9 +9,7 @@ Page({
         windowHeight: 0,
         encryptedData: '',
         iv: '',
-        step: 0,
-        mileage: 0,
-        calorie: 0
+        results: {}
     },
 
     onLoad: function (options) {
@@ -80,8 +78,7 @@ Page({
         let that = this;
 
         app.helper.getApi('today').then(function (res) {
-            that.setData({step: res.data.results.step, mileage: res.data.results.mileage,
-                          calorie: res.data.results.calorie});
+            that.setData({results: res.data.results});
         })
     },
 

@@ -2,6 +2,7 @@
 from __future__ import print_function
 import uuid
 import datetime
+import random
 
 from django.conf import settings
 from django.db.models import F
@@ -91,3 +92,11 @@ def reset_pawd(mobile, password):
         result.update({"status": False, "msg": "账户不存在,请输入正确的手机号码!"})
 
     return result
+
+
+def generate_summary(summary_list, item):
+    random_num = random.randint(0, len(summary_list) - 1)
+    summary = summary_list[random_num]['summary'].replace('N', str(round(
+        item / summary_list[random_num]['reference_value'], 2)))
+
+    return summary

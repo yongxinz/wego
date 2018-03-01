@@ -3,7 +3,7 @@
     </canvas>
     <canvas class="circle" style="height: {{ windowWidth+50 }}px" canvas-id="canvasArcCir">
     </canvas>
-    <view class="step" style="margin-top: {{ windowWidth/2-40 }}px">{{ step }}</view>
+    <view class="step" style="margin-top: {{ windowWidth/2-40 }}px">{{ results.step }}</view>
     <view class="target" style="margin-top: {{ windowWidth-20 }}px">现在的目标是8000步，未完成</view>
 </view>
 
@@ -17,11 +17,11 @@
                             消耗能量
                         </view>
                         <view class="footer-section-content">
-                            相当于0.39个橙子，哈哈
+                            {{ results.calorie_summary }}
                         </view>
                     </view>
                     <view class="footer-section-right">
-                        {{ calorie }}<span class="footer-section-unit">kcal</span>
+                        {{ results.calorie }}<span class="footer-section-unit">kcal</span>
                     </view>
                 </view>
                 <view style="height:1px;border:none;border-top:1px solid #555555;"></view>
@@ -31,11 +31,11 @@
                             运动距离
                         </view>
                         <view class="footer-section-content">
-                            相当于3圈400米跑道
+                            {{ results.mileage_summary }}
                         </view>
                     </view>
                     <view class="footer-section-right">
-                        {{ mileage }}<span class="footer-section-unit">km</span>
+                        {{ results.mileage }}<span class="footer-section-unit">km</span>
                     </view>
                 </view>
             </view>
