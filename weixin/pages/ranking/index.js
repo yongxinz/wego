@@ -2,6 +2,10 @@ var app = getApp();
 
 Page({
     data: {
+        tabs: ['全国排名', '个人数据'],
+        is_ready: false,
+        activeIndex: 0,
+        sliderOffset: 0,
         winWidth: 0,
         winHeight: 0,
         // tab切换
@@ -29,7 +33,11 @@ Page({
     getApiData: function () {
         let that = this;
         app.helper.getApi('werun').then(function (res) {
-            that.setData({ranks: res.data.results})
+            let ranks = [];
+            for (let i = 0; i < 10; i++) {
+                ranks.push(res.data.results[0])
+            }
+            that.setData({ranks: ranks})
         });
     },
 
@@ -41,18 +49,10 @@ Page({
         that.setData({currentTab: e.detail.current});
     },
 
-    /**
-     * 点击tab切换
-     */
-    swichNav: function (e) {
-        var that = this;
-
-        if (this.data.currentTab === e.target.dataset.current) {
-            return false;
-        } else {
-            that.setData({
-                currentTab: e.target.dataset.current
-            })
-        }
+    tabClick: function (e) {
+        this.setData({
+            sliderOffset: e.currentTarget.offsetLeft,
+            activeIndex: e.currentTarget.id
+        });
     }
 });

@@ -1,33 +1,3 @@
-.swiper-tab {
-    width: 100%;
-    border-bottom: 2rpx solid #777777;
-    text-align: center;
-    line-height: 80rpx;
-}
-
-.swiper-tab-list {
-    font-size: 30rpx;
-    display: inline-block;
-    width: 33.33%;
-    color: #777777;
-}
-
-.on {
-    color: #da7c0c;
-    border-bottom: 5rpx solid #da7c0c;
-}
-
-.swiper-box {
-    display: block;
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-}
-
-.swiper-box view {
-    text-align: center;
-}
-
 .list {
     background-color: #ebe2db;
 }
@@ -37,10 +7,11 @@
     background-color: #f7eee7;
     padding: 5vw;
     line-height: 70rpx;
-    margin-bottom: 30rpx;
+    margin-bottom: 5rpx;
 }
 
 .item .rank {
+    width: 50rpx;
     margin-right: 40rpx;
     color: #5c5354;
     font-size: 35rpx;
@@ -59,14 +30,47 @@
 }
 
 .item .user-name {
-    width: 210rpx;
+    width: 350rpx;
     color: #3d3835;
     height: 70rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.item .time {
+.item .step {
     color: #1db405;
     font-size: 50rpx;
     font-weight: bold;
-    margin-left: 70rpx;
+}
+
+.summary-image {
+    height: 230rpx;
+    border-radius: 18rpx;
+}
+
+.summary-text {
+    position: relative;
+    left: 52rpx;
+    bottom: 200rpx;
+    color: #ffffff;
+    font-size: 36rpx;
+    text-align: center;
+    text-shadow: 0 0 14rpx #000000;
+    font-weight: bold;
+}
+
+.sign {
+    height: 230rpx;
+    margin: 18rpx 50rpx 32rpx 50rpx;
+}
+
+.sign-bottom{
+    height: 230rpx;
+    margin: 18rpx 50rpx 28rpx 50rpx;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
 }

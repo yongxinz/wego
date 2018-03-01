@@ -40,8 +40,14 @@ class WeRunViewSet(viewsets.ModelViewSet):
             elif item.type == 'C' and item.min_value <= calorie and item.max_value > calorie:
                 calorie_summary_list.append({'reference_value': item.reference_value, 'summary': item.summary})
 
-        mileage_summary = generate_summary(mileage_summary_list, mileage)
-        calorie_summary = generate_summary(calorie_summary_list, calorie)
+        if mileage_summary_list:
+            mileage_summary = generate_summary(mileage_summary_list, mileage)
+        else:
+            mileage_summary = ''
+        if calorie_summary_list:
+            calorie_summary = generate_summary(calorie_summary_list, calorie)
+        else:
+            calorie_summary = ''
 
         return Response({'results': {'step': obj.step, 'mileage': mileage, 'calorie': calorie,
                                      'mileage_summary': mileage_summary, 'calorie_summary': calorie_summary}})

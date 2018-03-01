@@ -14,20 +14,6 @@
     box-sizing: border-box;
 } 
 
-.float-cart {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 60px;
-    height: 60px;
-}
-
-.float-cart image {
-    width: 50px;
-    height: 50px;
-    margin: 5px;
-}
-
 .mini-btn{
     margin-right: 5px;
 }
