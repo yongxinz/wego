@@ -13,7 +13,7 @@
                       style="transform: translateX({{ sliderOffset }}px);-webkit-transform: translateX({{ sliderOffset }}px);width: {{ 100/tabs.length }}%"></view>
             </view>
             <view wx:if="{{ activeIndex == 0 }}" class="weui-tab__panel">
-                <view class="list">
+                <view class="weui-panel list">
                     <view class="item" wx:for="{{ ranks }}" wx:key="{{ id }}">
                         <text class="rank"> {{ index + 1 }}</text>
                         <view class="user">
@@ -24,26 +24,23 @@
                     </view>
                 </view>
             </view>
-            <view wx:if="{{ activeIndex == 1 }}" class="weui-tab__panel" style="margin-top: 20rpx">
-                <view class='sign'>
-                    <image class="summary-image" src="/static/image/index1.jpg" bindtap='turnToSign'></image>
-                    <text class="summary-text"></text>
-                </view>
-                <view class='sign'>
-                    <image class="summary-image" src="/static/image/index2.jpg" bindtap='turnToCheck'></image>
-                    <text class="summary-text"></text>
-                </view>
-                <view class='sign'>
-                    <image class="summary-image" src="/static/image/index3.jpg" bindtap='turnToMap'></image>
-                    <text class="summary-text"></text>
-                </view>
-                <view class='sign'>
-                    <image class="summary-image" src="/static/image/index4.jpg" bindtap='turnToRules'></image>
-                    <text class="summary-text"></text>
-                </view>
-                <view class='sign-bottom'>
-                    <image class="summary-image" src="/static/image/index5.jpg" bindtap='turnToFeedback'></image>
-                    <text class="summary-text"></text>
+            <view wx:if="{{ activeIndex == 1 }}" class="weui-tab__panel">
+                <view class="weui-panel">
+                    <view class='sign'>
+                        <image class="summary-image" src="/static/image/index1.jpg" bindtap='turnToSign'></image>
+                        <text class="summary-text">今天我走了{{ personal.step_day }}步, 大概
+                            {{ personal.mileage_day }}公里。</text>
+                    </view>
+                    <view class='sign'>
+                        <image class="summary-image" src="/static/image/index2.jpg" bindtap='turnToCheck'></image>
+                        <text class="summary-text">本周我走了{{ personal.step_week }}步, 大概
+                            {{ personal.mileage_week }}公里。</text>
+                    </view>
+                    <view class='sign-bottom'>
+                        <image class="summary-image" src="/static/image/index3.jpg" bindtap='turnToMap'></image>
+                        <text class="summary-text">本月我走了{{ personal.step_month }}步, 大概
+                            {{ personal.mileage_month }}公里。</text>
+                    </view>
                 </view>
             </view>
         </view>

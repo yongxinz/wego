@@ -8,9 +8,8 @@ Page({
         sliderOffset: 0,
         winWidth: 0,
         winHeight: 0,
-        // tab切换
-        currentTab: 0,
-        ranks: []
+        ranks: [],
+        personal: {}
     },
 
     onLoad: function () {
@@ -41,6 +40,14 @@ Page({
         });
     },
 
+    getPersonalData: function () {
+        let that = this;
+        app.helper.getApi('personal').then(function (res) {
+            console.log(res.data.results)
+            that.setData({personal: res.data.results})
+        });
+    },
+
     /**
      * 滑动切换tab
      */
@@ -54,5 +61,11 @@ Page({
             sliderOffset: e.currentTarget.offsetLeft,
             activeIndex: e.currentTarget.id
         });
+
+        if (this.data.activeIndex == 0) {
+            this.getApiData()
+        } else {
+            this.getPersonalData()
+        }
     }
 });

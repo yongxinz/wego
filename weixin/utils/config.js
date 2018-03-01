@@ -26,6 +26,7 @@ module.exports.apiMap = {
     join2wx: '/passport/wx/join2wx/',
     werun: '/werun/',
     today: '/werun/today/',
+    personal: '/werun/personal/',
     nickname: '/users/nickname/'
 };
 
