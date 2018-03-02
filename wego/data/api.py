@@ -52,7 +52,8 @@ class WeRunViewSet(viewsets.ModelViewSet):
             calorie_summary = ''
 
         return Response({'results': {'step': obj.step, 'mileage': mileage, 'calorie': calorie,
-                                     'mileage_summary': mileage_summary, 'calorie_summary': calorie_summary}})
+                                     'mileage_summary': mileage_summary, 'calorie_summary': calorie_summary,
+                                     'target': self.request.auth.target}})
 
     @list_route(methods=['get'])
     def personal(self, request):

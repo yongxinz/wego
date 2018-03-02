@@ -6,7 +6,8 @@ Page({
         windowHeight: 0,
         encryptedData: '',
         iv: '',
-        results: {}
+        results: {},
+        targetFlag: 0
     },
 
     onLoad: function (options) {
@@ -69,9 +70,11 @@ Page({
         let that = this;
 
         app.helper.getApi('today').then(function (res) {
-            that.setData({results: res.data.results});
+            let targetFlag = res.data.results.step/res.data.results.target;
+            that.setData({results: res.data.results, targetFlag: targetFlag});
+
             var cxt_arc = wx.createCanvasContext('canvasArcCir');
-            that.drawCircle(cxt_arc, '#d81e06', (2 * res.data.results.step/8000 + 1.5) * Math.PI)
+            that.drawCircle(cxt_arc, '#d81e06', (2 * targetFlag + 1.5) * Math.PI)
         })
     },
 

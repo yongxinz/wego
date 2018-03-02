@@ -43,7 +43,6 @@ Page({
     getPersonalData: function () {
         let that = this;
         app.helper.getApi('personal').then(function (res) {
-            console.log(res.data.results)
             that.setData({personal: res.data.results})
         });
     },
@@ -62,7 +61,7 @@ Page({
             activeIndex: e.currentTarget.id
         });
 
-        if (this.data.activeIndex == 0) {
+        if (this.data.activeIndex === 0) {
             this.getApiData()
         } else {
             this.getPersonalData()

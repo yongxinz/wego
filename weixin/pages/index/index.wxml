@@ -4,7 +4,12 @@
     <canvas class="circle" style="height: {{ windowWidth+50 }}px" canvas-id="canvasArcCir">
     </canvas>
     <view class="step" style="margin-top: {{ windowWidth/2-40 }}px">{{ results.step }}</view>
-    <view class="target" style="margin-top: {{ windowWidth-20 }}px">现在的目标是8000步，未完成</view>
+    <view wx:if="{{ targetFlag < 1 }}" class="target" style="margin-top: {{ windowWidth-20 }}px">
+        今日的目标是{{ results.target }}步，未完成
+    </view>
+    <view wx:else class="target" style="margin-top: {{ windowWidth-20 }}px">
+        今日的目标是{{ results.target }}步，已完成
+    </view>
 </view>
 
 <view class="page__bd page__bd_spacing" style="width: 100%;height: {{ windowHeight-windowWidth-50 }}px;margin-top:{{windowWidth+50 }}px; position: absolute;">

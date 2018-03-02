@@ -31,6 +31,7 @@ class Users(models.Model):
     nickname = models.CharField(u'微信昵称', max_length=20, default='')
     avatar_url = models.CharField(u'微信头像', max_length=300, default='')
     autograph = models.CharField(u'签名', max_length=50, default='')
+    target = models.IntegerField(u'每日步数目标', default=6000)
     created_time = models.DateTimeField(u"注册时间", auto_now_add=True)
 
     class Meta:
