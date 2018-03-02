@@ -3,6 +3,7 @@
     "pages/index/index",
     "pages/ranking/index",
     "pages/home/index",
+    "pages/home/target/target",
     "pages/login/index",
     "pages/logs/logs"
   ],

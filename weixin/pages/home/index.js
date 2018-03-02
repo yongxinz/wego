@@ -3,7 +3,8 @@ const app = getApp();
 Page({
     data: {
         gData: null,
-        is_ready: false
+        is_ready: false,
+        results: {}
     },
 
     onLoad: function () {
@@ -39,7 +40,15 @@ Page({
         let that = this;
 
         app.helper.postApi('nickname', that.data.gData).then(function (res) {
-            console.log(res)
+            app.helper.waitUserSid(that.getApiData);
+        })
+    },
+
+    getApiData: function () {
+        let that = this;
+
+        app.helper.getApi('users').then(function (res) {
+            that.setData({results: res.data.results[0]});
         })
     },
 
@@ -49,6 +58,10 @@ Page({
         this.setData({'gData.userInfo': res.detail.userInfo});
 
         app.helper.waitUserSid(this.updateUsers);
+    },
+
+    updateTarget(e) {
+        wx.navigateTo({url: e.currentTarget.dataset.url})
     },
 
     mobBind: function () {

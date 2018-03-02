@@ -27,7 +27,9 @@ module.exports.apiMap = {
     werun: '/werun/',
     today: '/werun/today/',
     personal: '/werun/personal/',
-    nickname: '/users/nickname/'
+    users: '/users/',
+    nickname: '/users/nickname/',
+    target: '/users/target/'
 };
 
 

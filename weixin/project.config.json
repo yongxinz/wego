@@ -32,6 +32,12 @@
 					"name": "ranking",
 					"pathName": "pages/ranking/index",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "home",
+					"pathName": "pages/home/index",
+					"query": ""
 				}
 			]
 		}

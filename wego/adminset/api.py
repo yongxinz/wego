@@ -14,6 +14,11 @@ class UsersViewSet(YMMixin, viewsets.ModelViewSet):
     queryset = Users.objects.all()
     serializer_class = UsersSerializer
 
+    def get_queryset(self):
+        queryset = Users.objects.filter(user=self.request.user)
+
+        return queryset
+
     @list_route(methods=['post'])
     def nickname(self, request):
         mobile = self.request.data.get('mobile')
@@ -30,6 +35,18 @@ class UsersViewSet(YMMixin, viewsets.ModelViewSet):
         Users.objects.filter(user=user).update(nickname=nickname, avatar_url=avatar_url, gender=gender)
 
         return Response({'status': True})
+
+    @detail_route(methods=['patch', 'put'])
+    def target(self, request, pk):
+        obj = self.get_object()
+        print(self.request.data.get('target'))
+        obj.target = self.request.data.get('target')
+        obj.save()
+
+        return Response({
+            'status': True,
+            'success_msg': u'下线成功!'
+        })
 
 
 class DataDefineViewSet(YMMixin, viewsets.ModelViewSet):
