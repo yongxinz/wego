@@ -1,10 +1,10 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/ranking/index",
-    "pages/home/index",
+    "pages/ranking/ranking",
+    "pages/home/home",
     "pages/home/target/target",
-    "pages/login/index",
+    "pages/login/login",
     "pages/logs/logs"
   ],
   "tabBar": {
@@ -18,11 +18,11 @@
         "text": "挑战"
       },
       {
-        "pagePath": "pages/ranking/index",
+        "pagePath": "pages/ranking/ranking",
         "text": "排行榜"
       },
       {
-        "pagePath": "pages/home/index",
+        "pagePath": "pages/home/home",
         "text": "我的"
       }
     ]

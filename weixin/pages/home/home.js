@@ -65,7 +65,7 @@ Page({
     },
 
     mobBind: function () {
-        wx.navigateTo({url: '/pages/login/index'})
+        wx.navigateTo({url: '/pages/login/login'})
     },
 
     cancelBind: function () {
