@@ -33,14 +33,14 @@ Page({
 
     onShow: function () {
         this.setData({gData: app.config.gData});
-        app.helper.waitUserSid(this.updateUsers);
+        app.helper.waitUserSid(this.getApiData);
     },
 
     updateUsers: function () {
         let that = this;
 
-        app.helper.postApi('nickname', that.data.gData).then(function (res) {
-            app.helper.waitUserSid(that.getApiData);
+        app.helper.putApi('users', that.data.gData, this.data.results.id + '/nickname/').then(function (res) {
+            console.log(res)
         })
     },
 
@@ -49,6 +49,8 @@ Page({
 
         app.helper.getApi('users').then(function (res) {
             that.setData({results: res.data.results[0]});
+        }).then(function (res) {
+            app.helper.waitUserSid(that.updateUsers);
         })
     },
 

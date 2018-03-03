@@ -19,9 +19,8 @@ class UsersViewSet(YMMixin, viewsets.ModelViewSet):
 
         return queryset
 
-    @list_route(methods=['post'])
-    def nickname(self, request):
-        mobile = self.request.data.get('mobile')
+    @detail_route(methods=['patch', 'put'])
+    def nickname(self, request, pk):
         user_info = self.request.data.get('userInfo')
         
         if user_info is None:
@@ -31,21 +30,23 @@ class UsersViewSet(YMMixin, viewsets.ModelViewSet):
         avatar_url = user_info.get('avatarUrl')
         gender = user_info.get('gender')
 
-        user = User.objects.get(username=mobile)
-        Users.objects.filter(user=user).update(nickname=nickname, avatar_url=avatar_url, gender=gender)
+        obj = self.get_object()
+        obj.nickname = nickname
+        obj.avatar_url = avatar_url
+        obj.gender = gender
+        obj.save()
 
         return Response({'status': True})
 
     @detail_route(methods=['patch', 'put'])
     def target(self, request, pk):
         obj = self.get_object()
-        print(self.request.data.get('target'))
         obj.target = self.request.data.get('target')
         obj.save()
 
         return Response({
             'status': True,
-            'success_msg': u'下线成功!'
+            'success_msg': u'设置目标成功!'
         })
 
 
