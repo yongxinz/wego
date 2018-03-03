@@ -6,7 +6,7 @@
         </div>
 
         <div class="hidden-xs" style="color: #000; margin-left: 10px">
-            <h1>hello</h1>
+            <h1>WEGO运动运营管理平台</h1>
         </div>
 
         <div class="pull-right" v-if="username">

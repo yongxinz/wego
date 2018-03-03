@@ -36,8 +36,8 @@ def login(request):
 
     user = authenticate(username=mobile, password=password)
     if user and user.is_active:
-        obj = WeixinUsers.objects.get(user=user, is_del=False)
-        return JsonResponse({'status': True, 'userhashid': obj.sid})
+        obj = AppUsers.objects.get(user=user, is_del=False)
+        return JsonResponse({'status': True, 'userhashid': obj.hash_key})
     else:
         return JsonResponse({'status': False, 'msg': '用户名或密码错误!'})
 
@@ -67,13 +67,9 @@ def join(request):
         # 短信验证码
         if sms_check(mobile, smscode, hashkey=imgkey):
             user = get_or_create_user(mobile=mobile, password=password)
-            if not user.first_name:
-                user.first_name = mobile
-                user.save()
+            obj, is_new = AppUsers.objects.get_or_create(user=user, source='webapp')
 
-            obj = WeixinUsers.objects.get(user=user, is_del=False)
-
-            return JsonResponse({"status": True, 'userhashid': obj.sid})
+            return JsonResponse({"status": True, 'userhashid': obj.hash_key})
         else:
             return JsonResponse({"status": False, "msg": "短信验证码错误或过期，请重试！"})
     else:
