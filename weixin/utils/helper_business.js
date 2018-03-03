@@ -38,13 +38,12 @@ function requestApi(api_name, data, uri = '', method = 'GET') {
             method: method,
         }).then(function (res) {
             if (res.statusCode === 403) {
-                wx.navigateTo({url: '/pages/login/index'})
+                wx.navigateTo({url: '/pages/login/login'})
             } else {
                 resolve(res)
             }
         }).catch(function (res) {
             reject(res);
-            console.log(res)
         });
     })
 }
@@ -89,7 +88,7 @@ module.exports.checkJoin = function () {
                 }
 
                 if (res.data.code === 403002) {
-                    wx.navigateTo({url: '/pages/login/index'})
+                    wx.navigateTo({url: '/pages/login/login'})
                 }
             }
         });
