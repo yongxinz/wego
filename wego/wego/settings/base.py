@@ -31,8 +31,8 @@ TO_MILE = 0.7
 
 SMS = {
     "url": "http://222.73.117.156",
-    "uid": "youmutou",
-    "key": "Tch778899"
+    "uid": "beijinaimei",
+    "key": "Beijinai8211"
 }
 
 WEIXIN = {
