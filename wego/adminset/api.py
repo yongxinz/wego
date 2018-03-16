@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.http import HttpResponse, StreamingHttpResponse
+from django.http import HttpResponse
 
-from rest_framework import viewsets, status
+from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import list_route, detail_route
 
@@ -98,20 +98,6 @@ class SummaryPicViewSet(YMMixin, viewsets.ModelViewSet):
             queryset = queryset.filter(data_define=data_define)
 
         return queryset
-
-    @detail_route(methods=['get'])
-    def get_pic(self, request, pk=None):
-        queryset = SummaryPic.objects.exclude(status='DEL')
-
-        if pk:
-            pic = queryset.get(pk=pk).pic
-            if pic:
-                image = open(pic.url, 'rb')
-                data = image.read()
-                image.close()
-                return Response(data, content_type="image/png")
-
-        return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 def get_pic(request):

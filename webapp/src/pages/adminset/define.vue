@@ -233,8 +233,6 @@
             },
 
             handleEditImg(index, row) {
-                this.form = row;
-                this.form.id = row.id;
                 this.fileData['data_define'] = row.id;
                 this.dialogImgVisible = true;
 
