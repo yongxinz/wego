@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from rest_framework import serializers
 
-from adminset.models import Users, DataDefine
+from adminset.models import Users, DataDefine, SummaryPic
 
 
 class UsersSerializer(serializers.ModelSerializer):
@@ -19,4 +19,11 @@ class DataDefineSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DataDefine
+        exclude = ('created_time',)
+
+
+class SummaryPicSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SummaryPic
         exclude = ('created_time',)

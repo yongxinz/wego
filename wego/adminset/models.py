@@ -1,7 +1,10 @@
 # coding=utf-8
+import uuid
 
 from django.db import models
 from django.contrib.auth.models import User
+
+from tools.helper import Helper
 
 
 GENDER = (
@@ -52,7 +55,25 @@ class DataDefine(models.Model):
     reference_value = models.FloatField(u"参考物数值", default=0)
     summary = models.CharField(u'分享文案', max_length=100, default='')
     status = models.CharField(u"状态", max_length=5, choices=STATUS, default='ONL')
-    created_time = models.DateTimeField(u"注册时间", auto_now_add=True)
+    created_time = models.DateTimeField(u"创建时间", auto_now_add=True)
+
+    class Meta:
+        ordering = ['-id']
+
+
+def summary_pic_path(instance, file):
+    now = Helper.get_safe_now()
+    return 'static/summary-pic/{0}/{1}'.format(str(now.year) + str(now.month), uuid.uuid4())
+
+
+class SummaryPic(models.Model):
+    """
+    文案图片
+    """
+    data_define = models.ForeignKey(DataDefine, on_delete=models.SET_NULL, null=True)
+    pic = models.ImageField(upload_to=summary_pic_path, default='')
+    status = models.CharField(u"状态", max_length=5, choices=STATUS, default='CIM')
+    created_time = models.DateTimeField(u"创建时间", auto_now_add=True)
 
     class Meta:
         ordering = ['-id']

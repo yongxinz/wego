@@ -24,6 +24,7 @@
                 <!--</el-table-column>-->
                 <el-table-column label="操作" fixed="right" min-width="100">
                     <template slot-scope="scope">
+                        <el-button size="small" type="info" @click="handleEditImg(scope.$index, scope.row)">图片</el-button>
                         <el-button size="small" type="primary" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                         <template v-if="scope.row.status === 'ONL'">
                             <el-button size="small" type="success" @click="submitOffline(scope.$index, scope.row)">下线</el-button>
@@ -87,6 +88,28 @@
                 </el-form>
             </el-dialog>
         </div>
+
+        <div slot="footer-dialog">
+            <el-dialog title="文案图片" custom-class="ym-select-dialog" :visible.sync="dialogImgVisible" top="5%">
+                <el-form :model="form" :inline="true" ref="form" :label-width="'100px'">
+                    <el-row>
+                        <el-form-item label="" prop="pic">
+                              <el-upload action="/api/summary_pic/"
+                                         list-type="picture-card"
+                                         :headers='uploadHeader'
+                                         :data="fileData"
+                                         :on-success="upload_success"
+                                         :on-remove="delPic"
+                                         :before-upload="before_upload"
+                                         :file-list="fileList"
+                                         :auto-upload="true">
+                                  <i class="el-icon-plus"></i>
+                              </el-upload>
+                          </el-form-item>
+                    </el-row>
+                </el-form>
+            </el-dialog>
+        </div>
     </ym-layout>
 </template>
 
@@ -123,6 +146,12 @@
                     ]
                 },
                 dialogFormVisible: false,
+                dialogImgVisible: false,
+                fileData: {},
+                fileList: [],
+                uploadHeader: {
+                    'Authorization': window.localStorage.getItem('userhashid')
+                }
             };
         },
 
@@ -201,7 +230,50 @@
                 this.$http.get(this.url + 'type/').then((response) => {
                     this.type = response.data
                 })
+            },
+
+            handleEditImg(index, row) {
+                this.form = row;
+                this.form.id = row.id;
+                this.fileData['data_define'] = row.id;
+                this.dialogImgVisible = true;
+
+                this.$http.get(this.ym_api + '/summary_pic/', {params: {'data_define': this.fileData.data_define}}).then((response) => {
+                    this.fileList = [];
+                    for (let i = 0; i < response.data.results.length; i++) {
+                        if (response.data.results[i].pic !== null) {
+                            this.fileList.push({
+                                'id': response.data.results[i].id,
+                                'url': this.ym_api + '/get_pic/?pk=' + response.data.results[i].id
+                            })
+                        }
+                    }
+                })
+            },
+
+            upload_success(response, file) {
+                file['id'] = response.id;
+            },
+
+            before_upload(file) {
+                this.fileData['pic'] = file;
+            },
+
+            delPic(file, fileList) {
+                this.$http.delete(this.ym_api + '/summary_pic/' + file['id'] + '/').then((response) => {
+                    for (let i = 0; i < this.fileList.length; i++) {
+                        if (this.fileList[i]['id'] === file['id']) {
+                            this.fileList.splice(i, 1)
+                        }
+                    }
+                });
             }
         }
     }
 </script>
+
+<style>
+    input.el-upload__input {
+        display: none
+    }
+</style>

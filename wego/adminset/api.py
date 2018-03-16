@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from rest_framework import viewsets
+from django.http import HttpResponse, StreamingHttpResponse
+
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import list_route, detail_route
-from django.contrib.auth.models import User
 
-from adminset.serializers import UsersSerializer, DataDefineSerializer
-from adminset.models import Users, DataDefine, TYPE
+from adminset.serializers import UsersSerializer, DataDefineSerializer, SummaryPicSerializer
+from adminset.models import Users, DataDefine, TYPE, SummaryPic
 from tools.rest_helper import YMMixin
 
 
@@ -83,3 +84,45 @@ class DataDefineViewSet(YMMixin, viewsets.ModelViewSet):
             'status': True,
             'success_msg': u'上线成功!'
         })
+
+
+class SummaryPicViewSet(YMMixin, viewsets.ModelViewSet):
+    queryset = SummaryPic.objects.all()
+    serializer_class = SummaryPicSerializer
+
+    def get_queryset(self):
+        queryset = SummaryPic.objects.exclude(status='DEL')
+
+        data_define = self.request.query_params.get('data_define')
+        if data_define:
+            queryset = queryset.filter(data_define=data_define)
+
+        return queryset
+
+    @detail_route(methods=['get'])
+    def get_pic(self, request, pk=None):
+        queryset = SummaryPic.objects.exclude(status='DEL')
+
+        if pk:
+            pic = queryset.get(pk=pk).pic
+            if pic:
+                image = open(pic.url, 'rb')
+                data = image.read()
+                image.close()
+                return Response(data, content_type="image/png")
+
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+def get_pic(request):
+    pk = request.GET.get('pk')
+    queryset = SummaryPic.objects.exclude(status='DEL')
+
+    if pk:
+        pic = queryset.get(pk=pk).pic
+        image = open(pic.url, 'rb')
+        data = image.read()
+        image.close()
+        return HttpResponse(data, content_type="image/png")
+
+    return HttpResponse({}, content_type="image/png")
