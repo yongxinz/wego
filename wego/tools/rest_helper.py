@@ -11,7 +11,15 @@ class YMPagination(PageNumberPagination):
 
 class YMMixin(object):
     def get_queryset(self):
+        fields = [f.name for f in self.get_serializer().Meta.model._meta.local_fields]
+
         queryset = self.queryset
+        if self.request.user and 'user' in fields:
+            queryset = queryset.filter(user=self.request.user)
+
+        if 'status' in fields:
+            queryset = queryset.exclude(status='DEL')
+
         return queryset
 
     def perform_create(self, serializer):

@@ -39,10 +39,11 @@ Page({
         // 获取微信运动权限
         app.helper.wxPromisify(wx.getWeRunData)().then(function (res) {
             that.setData({'encryptedData': res.encryptedData, 'iv': res.iv});
-            that.submitWeRunData();
+            app.helper.waitUserSid(that.submitWeRunData)
         }).then(
             app.helper.waitUserSid(that.getApiData)
         ).catch(function (res) {
+            console.log(res)
             wx.showModal({
                 title: '用户未授权',
                 content: '如需正常使用计步功能，请按确定并在授权管理中选中“微信运动”，然后点按确定。最后再重新进入小程序即可正常使用。',

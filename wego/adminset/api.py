@@ -15,11 +15,6 @@ class UsersViewSet(YMMixin, viewsets.ModelViewSet):
     queryset = Users.objects.all()
     serializer_class = UsersSerializer
 
-    def get_queryset(self):
-        queryset = Users.objects.filter(user=self.request.user)
-
-        return queryset
-
     @detail_route(methods=['patch', 'put'])
     def nickname(self, request, pk):
         user_info = self.request.data.get('userInfo')
