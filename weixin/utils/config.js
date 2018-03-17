@@ -1,7 +1,6 @@
 let EventEmitter = require('./event-emitter');
 
-// let baseURL = 'https://shop.youmutou.com/api/v1';
-let baseURL = 'http://192.168.8.110:8810/api';
+let baseURL = 'https://wego.lvzhou.info/api';
 
 try {
     let res = wx.getSystemInfoSync();
