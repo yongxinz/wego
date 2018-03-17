@@ -1,6 +1,6 @@
 let EventEmitter = require('./event-emitter');
 
-let baseURL = 'https://wego.lvzhou.info/api';
+let baseURL = 'https://wego.run/api';
 
 try {
     let res = wx.getSystemInfoSync();
