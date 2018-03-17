@@ -15,7 +15,7 @@ TIME_ZONE = 'Asia/Shanghai'
 LANGUAGE_CODE = 'zh-hans'
 
 ALLOWED_HOSTS = [
-    '127.0.0.1', '192.168.8.110', 'wego.lvzhou.info', 'deal.lvzhou.info', 'wego.run'
+    '127.0.0.1', '192.168.8.110', 'wego.lvzhouhuwai.com', 'deal.lvzhouhuwai.com', 'wego.run'
 ]
 
 INSTALLED_APPS += [
