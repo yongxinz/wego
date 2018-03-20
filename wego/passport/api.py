@@ -35,8 +35,9 @@ def login(request):
         return JsonResponse({"status": False, "msg": "图片验证码错误", 'status_code': 500200})
 
     user = authenticate(username=mobile, password=password)
+    print(user)
     if user and user.is_active:
-        obj = AppUsers.objects.get(user=user, is_del=False)
+        obj = AppUsers.objects.get(user=user, is_del=False, source='webapp')
         return JsonResponse({'status': True, 'userhashid': obj.hash_key})
     else:
         return JsonResponse({'status': False, 'msg': '用户名或密码错误!'})
