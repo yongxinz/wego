@@ -92,6 +92,13 @@ def info(request):
             'msg': u'用户登录状态失效或过期，请重新登录！',
         })
 
+    if user.user.username not in settings.WHITE_LIST:
+        return JsonResponse({
+            'status': False,
+            'status_code': 403010,
+            'msg': u'你还没有权限，请联系管理员吧！微信咨询：zhangyx6a',
+        })
+
     return JsonResponse({
         "status": True,
         'user': model_to_dict(user.user, fields=('username',))

@@ -29,6 +29,8 @@ INSTALLED_APPS += [
 TO_KCAL = 40
 TO_MILE = 0.7
 
+WHITE_LIST = ['18610011929', '18801089166', '13910843366']
+
 SMS = {
     "url": "http://222.73.117.156",
     "uid": "beijinaimei",
