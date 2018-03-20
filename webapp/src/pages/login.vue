@@ -5,7 +5,7 @@
                 <el-card :body-style="{ padding: '20px' }">
                     <div slot="header" class="clearfix">
                         <span id="logo"><img src="../assets/logo.png" alt="WEGO"> </span>
-                        <div class="pull-right tel400">微信咨询：zhangyx6a</div>
+                        <div class="pull-right tel400">技术支持，微信咨询：zhangyx6a</div>
                     </div>
                     <el-form>
                         <el-alert :title="result.msg" type="error" :closable="false" v-if="result.msg" show-icon></el-alert>
@@ -22,7 +22,7 @@
                                     name="password" type="password"
                                     placeholder="请输入密码" class="login captcha"
                                     v-model="baseForm.form.password">
-                                <template slot="prepend">密码：</template>
+                                <template slot="prepend">密&emsp;码：</template>
                             </el-input>
                         </div>
                         <div style="margin-top: 15px;">

@@ -4,7 +4,8 @@ body {
 }
 
 #logo-group {
-    background: linear-gradient(to right, #f7f7f7 99%, #cacaca 100%)
+    background: linear-gradient(to right, #f7f7f7 99%, #cacaca 100%);
+    text-align: center;
 }
 
 #header > :first-child, aside {

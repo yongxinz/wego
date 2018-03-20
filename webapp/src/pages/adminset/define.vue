@@ -77,7 +77,7 @@
                     </el-row>
                     <el-row>
                         <el-form-item label="分享文案" prop="summary">
-                            <el-input v-model="form.summary" placeholder="请输入" style="width: 300%"></el-input>
+                            <el-input v-model="form.summary" placeholder="请输入，具体数值用大写N代替" style="width: 300%"></el-input>
                         </el-form-item>
                     </el-row>
                     <el-row>

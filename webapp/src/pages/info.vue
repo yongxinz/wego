@@ -6,7 +6,7 @@
                     <el-card :body-style="{ padding: '20px' }">
                         <div slot="header" class="clearfix">
                             <span id="logo"><img src="../assets/logo.png" alt="WEGO"> </span>
-                            <div class="pull-right tel400">咨询微信：zhangyx6a</div>
+                            <div class="pull-right tel400">技术支持，咨询微信：zhangyx6a</div>
                         </div>
                         <el-form>
                             <el-alert :title="msg" type="error" :closable="false" :description="msgd"></el-alert>

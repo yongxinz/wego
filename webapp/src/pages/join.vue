@@ -17,7 +17,7 @@
                             </div>
                             <div style="margin-top: 15px;" class="login captcha">
                                 <el-input placeholder="请设置您的密码：至少8位、至少有一位数字和字母" type="password" v-model="baseForm.form.password">
-                                    <template slot="prepend">密码：</template>
+                                    <template slot="prepend">密&emsp;码：</template>
                                 </el-input>
                             </div>
                             <div style="margin-top: 15px;" class="login">
