@@ -31,7 +31,7 @@
     export default {
         data() {
             return {
-                url: this.ym_api + '/users/',
+                url: this.ym_api + '/users/all/',
                 apiData: [],
                 searchForm: {
                     page: 1
