@@ -1,25 +1,26 @@
 .step {
-    position: absolute;
     right: 0;
     left: 0;
     text-align: center;
-    font-size: 50px;
+    font-size: 72rpx;
+    color: #5c5c5c;
+    margin-top: 115rpx
 }
 
 .target {
-    position: absolute;
     right: 0;
     left: 0;
     text-align: center;
-    font-size: 15px;
+    font-size: 36rpx;
+    color: #5c5c5c;
+    height: 28px;
+    margin-top: 52px;
 }
 
 .placeholder{
     /*margin: 5px;*/
     /*padding: 0 10px;*/
     text-align: center;
-    background-color: #EBEBEB;
-    color: #cfcfcf;
 }
 
 .circle-box {
@@ -29,6 +30,7 @@
 
 .circle {
     position: absolute;
+    top: 0;
     left: 0;
     right: 0;
     margin: auto;
@@ -36,30 +38,31 @@
     /*background-color: #09bb07;*/
 }
 
-.index-footer {
-    height: 49%;
-    align-items:center;
+.footer-section-title {
+    margin-top: 26rpx;
+    margin-left: 50rpx;
+    font-size: 30rpx;
 }
 
-.index-footer-content {
-    margin-left: 10px;
+.footer-section-content {
+    margin-top: 18rpx;
+    margin-left: 50rpx;
+    margin-bottom: 26rpx;
+    font-size: 18rpx;
 }
 
 .footer-section {
-    margin-left: 10px;
     text-align: left
 }
 
 .footer-section-right {
-    margin-right: 10px;
+    margin-top: 35rpx;
+    margin-right: 53rpx;
     float: right;
-    font-size: 30px
-}
-
-.footer-section-content {
-    font-size: 10px;
+    font-size: 46rpx;
+    color: #4dc47f;
 }
 
 .footer-section-unit {
-    font-size: 15px
+    font-size: 24rpx
 }

@@ -4,6 +4,7 @@ Page({
     data: {
         windowWidth: 0,
         windowHeight: 0,
+        radius: 110,
         encryptedData: '',
         iv: '',
         results: {},
@@ -16,7 +17,8 @@ Page({
             success: function (res) {
                 that.setData({
                     windowWidth: res.windowWidth,
-                    windowHeight: res.windowHeight
+                    windowHeight: res.windowHeight,
+                    radius: res.windowWidth / 2 - 142 / 2
                 });
             }
         });
@@ -34,7 +36,7 @@ Page({
         let that = this;
 
         var cxt_arc = wx.createCanvasContext('canvasCircle');
-        that.drawCircle(cxt_arc, '#eaeaea', 3.5 * Math.PI);
+        that.drawCircle(cxt_arc, '#eeeeee', 3.5 * Math.PI);
 
         // 获取微信运动权限
         app.helper.wxPromisify(wx.getWeRunData)().then(function (res) {
@@ -84,7 +86,7 @@ Page({
         cxt_arc.setStrokeStyle(color);
         cxt_arc.setLineCap('round');
         cxt_arc.beginPath();
-        cxt_arc.arc(this.data.windowWidth / 2, this.data.windowWidth / 2, 110, 1.5 * Math.PI, endAngle, false);
+        cxt_arc.arc(this.data.windowWidth / 2, this.data.windowWidth / 2 - 71 + 57.5, this.data.radius, 1.5 * Math.PI, endAngle, false);
         cxt_arc.stroke();
         cxt_arc.draw();
     }

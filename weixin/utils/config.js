@@ -1,6 +1,7 @@
 let EventEmitter = require('./event-emitter');
 
 let baseURL = 'https://wego.lvzhouhuwai.com/api';
+baseURL = 'http://192.168.8.110:8810/api';
 
 try {
     let res = wx.getSystemInfoSync();

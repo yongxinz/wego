@@ -1,24 +1,29 @@
 <view class="circle-box">
-    <canvas class="circle" style="z-index: -99; height: {{ windowWidth+50 }}px" canvas-id="canvasCircle">
+    <canvas class="circle" style="z-index: -99;" style="height: {{ windowWidth-142+57.5+52 }}px"
+            canvas-id="canvasCircle">
     </canvas>
-    <canvas class="circle" style="height: {{ windowWidth+50 }}px" canvas-id="canvasArcCir">
+    <canvas class="circle" style="height: {{ windowWidth-142+57.5+52 }}px" canvas-id="canvasArcCir">
     </canvas>
-    <view class="step" style="margin-top: {{ windowWidth/2-40 }}px">{{ results.step }}</view>
-    <view wx:if="{{ targetFlag < 1 }}" class="target" style="margin-top: {{ windowWidth-20 }}px">
-        今日的目标是{{ results.target }}步，未完成
+    <view class="step" style="line-height: {{ windowWidth-142 }}px">{{ results.step }}</view>
+</view>
+
+<view class="target">
+    <view wx:if="{{ targetFlag < 1 }}">
+        今日目标{{ results.target }}步，未完成
     </view>
-    <view wx:else class="target" style="margin-top: {{ windowWidth-20 }}px">
-        今日的目标是{{ results.target }}步，已完成
+    <view wx:else>
+        今日目标{{ results.target }}步，已完成
     </view>
 </view>
 
-<view class="page__bd page__bd_spacing" style="width: 100%;height: {{ windowHeight-windowWidth-50 }}px;margin-top:{{windowWidth+50 }}px; position: absolute;">
+<view class="page__bd page__bd_spacing" style="width: 100%;margin-top: 45px;">
     <view class="weui-flex">
         <view class="weui-flex__item">
-            <view class="placeholder" style="width: 100%;height: {{ windowHeight-windowWidth-50 }}px;">
-                <view class="weui-flex index-footer">
+            <view class="placeholder">
+                <view style="height:3px;border:none;border-top:3px solid #0fefef;"></view>
+                <view class="weui-flex">
                     <view class="weui-flex__item footer-section">
-                        <view>
+                        <view class="footer-section-title">
                             消耗能量
                         </view>
                         <view class="footer-section-content">
@@ -29,10 +34,10 @@
                         {{ results.calorie }}<span class="footer-section-unit">kcal</span>
                     </view>
                 </view>
-                <view style="height:1px;border:none;border-top:1px solid #555555;"></view>
+                <view style="height:3px;border:none;border-top:3px solid #0fefef;"></view>
                 <view class="weui-flex index-footer">
                     <view class="weui-flex__item footer-section">
-                        <view>
+                        <view class="footer-section-title">
                             运动距离
                         </view>
                         <view class="footer-section-content">
