@@ -1,36 +1,43 @@
 page {
-  background-color: #F0F0F0;
+    background-color: #F0F0F0;
 }
 
 .userinfo {
-  flex-direction: column;
-  background-color: #36975D;
-  height: 205rpx;
-  margin-bottom: 20rpx;
+    flex-direction: column;
+    background-color: white;
+    height: 200rpx;
+    margin-top: 16rpx;
+    margin-bottom: 35rpx;
 }
 
 .userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 40rpx;
-  border-radius: 50%;
-  float: left;
+    width: 120rpx;
+    height: 120rpx;
+    margin-top: 40rpx;
+    margin-left: 68rpx;
+    margin-right: 24rpx;
+    border-radius: 50%;
+    float: left;
 }
 
 .userinfo-name {
-  flex-direction:column;
-  display: flex;
-  float: left;
+    flex-direction:column;
+    display: flex;
+    float: left;
 }
 
 .userinfo-nickname {
-  color: #FFFFFF;
-  margin: 75rpx 0 0 0;
+    color: black;
+    font-size: 35rpx;
+    margin-top: 75rpx;
 }
 
 .userinfo-phone {
-  color: #FFFFFF;
-  font-size:25rpx;
+    color: black;
+    font-size:20rpx;
 }
 
-
+.target {
+    margin-top:10rpx;
+    font-size: 28rpx;
+}

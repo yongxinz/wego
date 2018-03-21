@@ -9,7 +9,7 @@
         </block>
 
         <block wx:if="{{ is_ready && gData.userInfo == null }}">
-            <view style="color: white; text-align: center; padding-top: 30rpx">
+            <view style="color: black; text-align: center; padding-top: 30rpx">
                 <text>{{ gData.mobile }}</text>
             </view>
             <view style="text-align: center; margin-top: 40rpx">
@@ -20,11 +20,11 @@
         </block>
     </view>
 
-    <view class="weui-cells">
+    <view class="weui-cells" style="height: 100rpx;position: inherit">
         <view bindtap="updateTarget" data-url="./target/target?id={{ results.id }}&target={{ results.target }}"
               class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-            <view class="weui-cell__bd" style="margin-top:5px;">我的目标</view>
-            <view class="weui-cell__ft">{{ results.target }}</view>
+            <view class="weui-cell__bd target">我的目标</view>
+            <view class="weui-cell__ft target">{{ results.target }}</view>
         </view>
     </view>
 
