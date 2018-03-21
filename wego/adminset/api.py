@@ -17,9 +17,12 @@ class UsersViewSet(YMMixin, viewsets.ModelViewSet):
 
     @list_route(methods=['get'])
     def all(self, request):
-        queryset = self.filter_queryset(self.get_queryset())
-        serializer = self.get_serializer(queryset, many=True)
-        return Response({'results': serializer.data})
+        queryset = Users.objects.all()
+        page = self.paginate_queryset(queryset)
+        serializer = UsersSerializer(page, many=True)
+        rsp = self.get_paginated_response(serializer.data)
+
+        return rsp
 
     @detail_route(methods=['patch', 'put'])
     def nickname(self, request, pk):

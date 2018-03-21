@@ -3,10 +3,8 @@
         <el-card>
             <el-table :data="apiData" stripe border>
                 <el-table-column prop="mobile" label="注册电话" min-width="120" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="nickname" label="昵称" min-width="120"
-                                 show-overflow-tooltip></el-table-column>
-                <el-table-column prop="created_time" label="注册时间" min-width="180"
-                                 show-overflow-tooltip>
+                <el-table-column prop="nickname" label="昵称" min-width="120" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="created_time" label="注册时间" min-width="180" show-overflow-tooltip>
                     <template slot-scope="scope">
                         <div>
                             {{ scope.row.created_time|moment }}
@@ -60,7 +58,7 @@
             handleCurrentChange(val) {
                 this.searchForm.page = val;
                 this.search()
-            },
+            }
         }
     }
 </script>
