@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.http import HttpResponse
+from django.conf import settings
 
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -9,6 +10,7 @@ from rest_framework.decorators import list_route, detail_route
 from adminset.serializers import UsersSerializer, DataDefineSerializer, SummaryPicSerializer
 from adminset.models import Users, DataDefine, TYPE, SummaryPic
 from tools.rest_helper import YMMixin
+from tools.business_helper import generate_summary
 
 
 class UsersViewSet(YMMixin, viewsets.ModelViewSet):
@@ -66,6 +68,30 @@ class DataDefineViewSet(YMMixin, viewsets.ModelViewSet):
             option_group = {'label': option[1], 'value': option[0]}
             result.append(option_group)
         return Response(result)
+
+    @list_route()
+    def summary(self, request):
+        item = self.request.query_params.get('item', '')
+        type = self.request.query_params.get('type', '')
+
+        summary_list = []
+        define_obj = DataDefine.objects.filter(status='ONL')
+        for m in define_obj:
+            if m.type == type and m.min_value <= int(item) and m.max_value > int(item):
+                summary_list.append({'reference_value': m.reference_value, 'summary': m.summary, 'id': m.id})
+
+        if summary_list:
+            id, summary = generate_summary(summary_list, int(item))
+            obj = SummaryPic.objects.filter(data_define=id).exclude(status='DEL').order_by('?')[:1]
+            pic = obj[0].pic
+            pic_id = obj[0].id
+        else:
+            summary = ''
+            pic = ''
+            pic_id = 6
+
+        return Response({'results': {'item': item, 'summary': summary, 'pic': str(pic),
+                                     'url': settings.DEFAULT_URL + 'get_pic/?pk=' + str(pic_id)}})
 
     @detail_route(methods=['patch', 'put'])
     def offline(self, request, pk):

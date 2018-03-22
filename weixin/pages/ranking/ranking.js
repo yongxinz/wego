@@ -47,9 +47,6 @@ Page({
         });
     },
 
-    /**
-     * 滑动切换tab
-     */
     bindChange: function (e) {
         var that = this;
         that.setData({currentTab: e.detail.current});
@@ -66,5 +63,11 @@ Page({
         } else {
             this.getPersonalData()
         }
+    },
+
+    sharePic: function (e) {
+        let item = e.currentTarget.dataset.item;
+        let type = e.currentTarget.dataset.type;
+        wx.navigateTo({ url: './share/share?item=' + item + '&type=' + type })
     }
 });

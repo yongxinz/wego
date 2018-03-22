@@ -2,6 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/ranking/ranking",
+    "pages/ranking/share/share",
     "pages/home/home",
     "pages/home/target/target",
     "pages/login/login",

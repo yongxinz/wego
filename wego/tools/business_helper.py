@@ -99,4 +99,4 @@ def generate_summary(summary_list, item):
     summary = summary_list[random_num]['summary'].replace('N', str(round(
         item / summary_list[random_num]['reference_value'], 2)))
 
-    return summary
+    return summary_list[random_num]['id'], summary

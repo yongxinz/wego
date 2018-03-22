@@ -1,0 +1,7 @@
+<view>
+    <canvas style="width:345px;height:600px;margin-left: {{ (windowWidth-345)/2 }}px" canvas-id="myCanvas"></canvas>
+
+     <view class="footer">
+        <button class="button-done" type="primary" bindtap="savePic">保存海报</button>
+    </view> 
+</view>

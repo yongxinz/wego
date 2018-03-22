@@ -20,7 +20,7 @@
     <view class="weui-flex">
         <view class="weui-flex__item">
             <view class="placeholder">
-                <view style="height:3px;border:none;border-top:3px solid #0fefef;"></view>
+                <view style="height:3px;border:none;border-top:3px solid #f0efef;"></view>
                 <view class="weui-flex">
                     <view class="weui-flex__item footer-section">
                         <view class="footer-section-title">
@@ -34,7 +34,7 @@
                         {{ results.calorie }}<span class="footer-section-unit">kcal</span>
                     </view>
                 </view>
-                <view style="height:3px;border:none;border-top:3px solid #0fefef;"></view>
+                <view style="height:3px;border:none;border-top:3px solid #f0efef;"></view>
                 <view class="weui-flex index-footer">
                     <view class="weui-flex__item footer-section">
                         <view class="footer-section-title">

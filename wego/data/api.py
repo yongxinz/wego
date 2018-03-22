@@ -38,16 +38,18 @@ class WeRunViewSet(viewsets.ModelViewSet):
         define_obj = DataDefine.objects.filter(status='ONL')
         for item in define_obj:
             if item.type == 'M' and item.min_value <= mileage and item.max_value > mileage:
-                mileage_summary_list.append({'reference_value': item.reference_value, 'summary': item.summary})
+                mileage_summary_list.append({'reference_value': item.reference_value, 'summary': item.summary,
+                                             'id': item.id})
             elif item.type == 'C' and item.min_value <= calorie and item.max_value > calorie:
-                calorie_summary_list.append({'reference_value': item.reference_value, 'summary': item.summary})
+                calorie_summary_list.append({'reference_value': item.reference_value, 'summary': item.summary,
+                                             'id': item.id})
 
         if mileage_summary_list:
-            mileage_summary = generate_summary(mileage_summary_list, mileage)
+            id, mileage_summary = generate_summary(mileage_summary_list, mileage)
         else:
             mileage_summary = ''
         if calorie_summary_list:
-            calorie_summary = generate_summary(calorie_summary_list, calorie)
+            id, calorie_summary = generate_summary(calorie_summary_list, calorie)
         else:
             calorie_summary = ''
 
