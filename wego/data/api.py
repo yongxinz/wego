@@ -15,7 +15,6 @@ from data.models import DayData
 from passport.models import WeixinUsers
 from data.serializers import DayDataSerializer
 from tools.wx_helper import WXBizDataCrypt
-from tools.business_helper import generate_summary
 
 
 class WeRunViewSet(viewsets.ModelViewSet):
@@ -33,25 +32,19 @@ class WeRunViewSet(viewsets.ModelViewSet):
         mileage = obj.mileage
         calorie = obj.calorie
 
-        mileage_summary_list = []
-        calorie_summary_list = []
-        define_obj = DataDefine.objects.filter(status='ONL')
-        for item in define_obj:
-            if item.type == 'M' and item.min_value <= mileage and item.max_value > mileage:
-                mileage_summary_list.append({'reference_value': item.reference_value, 'summary': item.summary,
-                                             'id': item.id})
-            elif item.type == 'C' and item.min_value <= calorie and item.max_value > calorie:
-                calorie_summary_list.append({'reference_value': item.reference_value, 'summary': item.summary,
-                                             'id': item.id})
+        obj_m = DataDefine.objects.filter(status='ONL', type='M', min_value__lte=mileage, max_value__gt=mileage)
+        if obj_m.exists():
+            obj_m = obj_m.order_by('?')[:1]
+            mileage_summary = obj_m[0].summary.replace('N', str(round(mileage / obj_m[0].reference_value, 2)))
+        else:
+            mileage_summary = '相当于' + str(round(mileage / 0.4, 2)) + '圈400米跑道'
 
-        if mileage_summary_list:
-            id, mileage_summary = generate_summary(mileage_summary_list, mileage)
+        obj_c = DataDefine.objects.filter(status='ONL', type='C', min_value__lte=calorie, max_value__gt=calorie)
+        if obj_c.exists():
+            obj_c = obj_c.order_by('?')[:1]
+            calorie_summary = obj_c[0].summary.replace('N', str(round(mileage / obj_c[0].reference_value, 2)))
         else:
-            mileage_summary = ''
-        if calorie_summary_list:
-            id, calorie_summary = generate_summary(calorie_summary_list, calorie)
-        else:
-            calorie_summary = ''
+            calorie_summary = '相当于' + str(round(calorie / 80, 2)) + '个苹果'
 
         return Response({'results': {'step': obj.step, 'mileage': mileage, 'calorie': calorie,
                                      'mileage_summary': mileage_summary, 'calorie_summary': calorie_summary,
