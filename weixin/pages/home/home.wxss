@@ -38,6 +38,23 @@ page {
 }
 
 .target {
-    margin-top:10rpx;
-    font-size: 28rpx;
+    height: 100rpx;
+    background-color: white;
+    flex-direction: column;
+    font-size: 30rpx;
+}
+
+.target-title {
+    float: left;
+    line-height: 100rpx;
+    text-align: center;
+    margin-left: 60rpx;
+}
+
+.target-value {
+    float: right;
+    line-height: 100rpx;
+    text-align: center;
+    margin-right: 60rpx;
+    color: #999;
 }

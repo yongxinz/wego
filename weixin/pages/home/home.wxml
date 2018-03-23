@@ -20,12 +20,10 @@
         </block>
     </view>
 
-    <view class="weui-cells" style="height: 100rpx;position: inherit">
-        <view bindtap="updateTarget" data-url="./target/target?id={{ results.id }}&target={{ results.target }}"
-              class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-            <view class="weui-cell__bd target">我的目标</view>
-            <view class="weui-cell__ft target">{{ results.target }}</view>
-        </view>
+    <view bindtap="updateTarget" data-url="./target/target?id={{ results.id }}&target={{ results.target }}"
+          class="target">
+        <view class="target-title">我的目标</view>
+        <view class="target-value">{{ results.target }}</view>
     </view>
 
     <view class="weui-flex">
