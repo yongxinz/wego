@@ -17,8 +17,8 @@
                     <text class="rank"> {{ index + 1 }}</text>
                     <view class="user">
                         <image class="user-face" src="{{ item.user_info.avatar_url }}"></image>
-                        <text class="user-name">{{ item.user_info.nickname }}</text>
                     </view>
+                    <text class="user-name">{{ item.user_info.nickname }}</text>
                     <text class="step"> {{ item.step }}</text>
                 </view>
             </view>

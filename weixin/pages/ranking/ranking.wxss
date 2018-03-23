@@ -3,40 +3,54 @@
 }
 
 .item {
+    height: 140rpx;
     display: flex;
     background-color: white;
-    padding: 5vw;
-    line-height: 70rpx;
     margin-bottom: 5rpx;
 }
 
 .item .rank {
-    width: 50rpx;
-    margin-right: 20rpx;
+    width: 70rpx;
+    margin-left: 40rpx;
     font-size: 35rpx;
+    line-height: 140rpx;
+    text-align: center;
 }
 
 .item .user {
-    display: flex;
+    height: 140rpx;
+    line-height: 140rpx;
+    text-align: center;
+    display: inline-block;
 }
 
 .item .user-face {
     width: 80rpx;
     height: 80rpx;
     border-radius: 50%;
-    margin-right: 20rpx;
+    margin-left: 20rpx;
+    vertical-align: middle;
 }
 
 .item .user-name {
-    width: 350rpx;
-    height: 70rpx;
+    width: 45%;
+    line-height: 140rpx;
+    text-align: left;
+    margin-left: 20rpx;
+    font-size: 35rpx;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .item .step {
     color: #4dc47f;
     font-size: 50rpx;
+    line-height: 140rpx;
+    float: right;
+    position: fixed;
+    right: 0;
+    margin-right: 40rpx;
 }
 
 .summary-image {

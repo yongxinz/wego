@@ -32,11 +32,7 @@ Page({
     getApiData: function () {
         let that = this;
         app.helper.getApi('werun').then(function (res) {
-            let ranks = [];
-            for (let i = 0; i < 10; i++) {
-                ranks.push(res.data.results[0])
-            }
-            that.setData({ranks: ranks})
+            that.setData({ranks: res.data.results})
         });
     },
 
