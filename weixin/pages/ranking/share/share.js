@@ -64,14 +64,18 @@ Page({
     },
 
     createNewImg: function (res) {
-        let that = this;
         let ctx = wx.createCanvasContext('myCanvas');
-        ctx.drawImage(res.data.results.url, 0, 0, 345, 600);
-        ctx.draw();
+
+        wx.downloadFile({
+            url: res.data.results.url,
+            success: function (res) {
+                ctx.drawImage(res.tempFilePath, 0, 0, 345, 600);
+                ctx.draw();
+            }
+        });
     },
 
     savePic: function () {
-        let that = this;
         wx.canvasToTempFilePath({
             x: 0,
             y: 0,
