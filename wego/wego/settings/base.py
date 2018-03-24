@@ -18,7 +18,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1', '192.168.8.110', 'wego.lvzhouhuwai.com', 'deal.lvzhouhuwai.com'
 ]
 
-DEFAULT_URL = 'https://deal/lvzhouhuwai.com/api/'
+DEFAULT_URL = 'https://deal.lvzhouhuwai.com/api/'
 
 INSTALLED_APPS += [
     'captcha',
