@@ -1,4 +1,11 @@
 .page {
-  margin-top: 120px;
-  background-color: white;
+    background-color: white;
+}
+
+.placeholder {
+    color: #aaaaaa;
+}
+
+.weui-label {
+    width: 180rpx;
 }
