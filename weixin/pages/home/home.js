@@ -16,24 +16,33 @@ Page({
         //         that.setData({'gData.mobile': app.config.gData.mobile})
         //     });
         // });
-
-        //检查配置项
-        app.helper.wxPromisify(wx.getSetting)().then(function (res) {
-            if (res.authSetting['scope.userInfo']) {
-                // 获取用户微信基础信息
-                app.helper.wxPromisify(wx.getUserInfo)().then(function (res) {
-                    app.config.gData.userInfo = res.userInfo;
-                    that.setData({'gData.userInfo': app.config.gData.userInfo, is_ready: true})
-                })
-            } else {
-                that.setData({is_ready: true})
-            }
-        });
     },
 
     onShow: function () {
-        this.setData({gData: app.config.gData});
-        app.helper.waitUserSid(this.getApiData);
+        let that = this;
+
+        app.helper.wxPromisify(wx.getUserInfo)().then(function (res) {
+            app.config.gData.userInfo = res.userInfo;
+            that.setData({'gData.userInfo': app.config.gData.userInfo, is_ready: true});
+            that.setData({gData: app.config.gData});
+
+            app.helper.waitUserSid(that.getApiData);
+        }).catch(function (res) {
+            wx.showModal({
+                title: '微信授权',
+                content: '为获得最佳体验，请按确定并在授权管理中选中“用户信息”，再重新进入小程序即可正常使用。',
+                showCancel: false,
+                success: function (res) {
+                    if (res.confirm) {
+                        wx.openSetting({
+                            success: function success(res) {
+                                console.log('openSetting success', res.authSetting);
+                            }
+                        });
+                    }
+                }
+            })
+        });
     },
 
     updateUsers: function () {

@@ -42,13 +42,10 @@ Page({
         app.helper.wxPromisify(wx.getWeRunData)().then(function (res) {
             that.setData({'encryptedData': res.encryptedData, 'iv': res.iv});
             app.helper.waitUserSid(that.submitWeRunData)
-        }).then(
-            app.helper.waitUserSid(that.getApiData)
-        ).catch(function (res) {
-            console.log(res)
+        }).catch(function (res) {
             wx.showModal({
-                title: '用户未授权',
-                content: '如需正常使用计步功能，请按确定并在授权管理中选中“微信运动”，然后点按确定。最后再重新进入小程序即可正常使用。',
+                title: '微信授权',
+                content: '为获得最佳体验，请按确定并在授权管理中选中“微信运动步数”，再重新进入小程序即可正常使用。',
                 showCancel: false,
                 success: function (res) {
                     if (res.confirm) {
@@ -64,8 +61,9 @@ Page({
     },
 
     submitWeRunData: function () {
+        let that = this;
         app.helper.postApi('werun', {'encryptedData': this.data.encryptedData, 'iv': this.data.iv}).then(function (res) {
-            console.log(res);
+            app.helper.waitUserSid(that.getApiData)
         });
     },
 
