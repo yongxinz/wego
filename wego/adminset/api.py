@@ -82,7 +82,7 @@ class DataDefineViewSet(YMMixin, viewsets.ModelViewSet):
         else:
             url = settings.DEFAULT_URL + 'get_default_pic/'
 
-        return Response({'results': {'url': url}})
+        return Response({'results': {'url': url, 'id': str(obj[0].id)}})
 
     @detail_route(methods=['patch', 'put'])
     def offline(self, request, pk):
@@ -119,6 +119,13 @@ class SummaryPicViewSet(YMMixin, viewsets.ModelViewSet):
             queryset = queryset.filter(data_define=data_define)
 
         return queryset
+
+    @list_route()
+    def get_default_pic(self):
+        image = open('static/default.png', 'rb')
+        data = image.read()
+        image.close()
+        return Response(data, content_type="image/png")
 
 
 def get_pic(request):

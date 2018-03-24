@@ -67,7 +67,7 @@ Page({
         let ctx = wx.createCanvasContext('myCanvas');
 
         wx.downloadFile({
-            url: res.data.results.url,
+            url: app.helper.getApi('summary_pic'),
             success: function (res) {
                 ctx.drawImage(res.tempFilePath, 0, 0, 345, 600);
                 ctx.draw();
