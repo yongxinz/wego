@@ -79,10 +79,12 @@ class DataDefineViewSet(YMMixin, viewsets.ModelViewSet):
 
             obj = SummaryPic.objects.filter(data_define=define_obj[0].id).exclude(status='DEL').order_by('?')[:1]
             url = settings.DEFAULT_URL + 'get_pic/?pk=' + str(obj[0].id)
+            id = str(obj[0].id)
         else:
             url = settings.DEFAULT_URL + 'get_default_pic/'
+            id = ''
 
-        return Response({'results': {'url': url, 'id': str(obj[0].id)}})
+        return Response({'results': {'url': url, 'id': id}})
 
     @detail_route(methods=['patch', 'put'])
     def offline(self, request, pk):
