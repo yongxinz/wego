@@ -16,7 +16,7 @@
     </view>
 </view>
 
-<view class="page__bd page__bd_spacing" style="width: 100%;margin-top: 45px;">
+<view class="page__bd page__bd_spacing" style="width: 100%;">
     <view class="weui-flex">
         <view class="weui-flex__item">
             <view class="placeholder">

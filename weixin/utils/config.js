@@ -6,8 +6,7 @@ baseURL = 'http://192.168.8.110:8810/api';
 try {
     let res = wx.getSystemInfoSync();
     if (res.platform === 'devtools') {
-        // baseURL = 'http://127.0.0.1:8810/api';
-        baseURL = 'http://192.168.8.110:8810/api';
+        baseURL = 'http://127.0.0.1:8810/api';
     }
 } catch (e) {
     // Do something when catch error
