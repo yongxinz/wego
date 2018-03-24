@@ -123,7 +123,7 @@ class SummaryPicViewSet(YMMixin, viewsets.ModelViewSet):
         return queryset
 
     @list_route()
-    def get_default_pic(self):
+    def get_default_pic(self, request):
         image = open('static/default.png', 'rb')
         data = image.read()
         image.close()
