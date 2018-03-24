@@ -127,7 +127,7 @@ class SummaryPicViewSet(YMMixin, viewsets.ModelViewSet):
         image = open('static/default.png', 'rb')
         data = image.read()
         image.close()
-        return Response(data, content_type="image/png")
+        return HttpResponse(data, content_type="image/png")
 
 
 def get_pic(request):
