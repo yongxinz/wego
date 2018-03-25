@@ -75,6 +75,7 @@ class DataDefineViewSet(YMMixin, viewsets.ModelViewSet):
         define_obj = DataDefine.objects.filter(status='ONL', type=type, min_value__lte=item, max_value__gt=item)
         if define_obj.exists():
             define_obj = define_obj.order_by('?')[:1]
+            summary = define_obj[0].summary
 
             obj = SummaryPic.objects.filter(data_define=define_obj[0].id).exclude(status='DEL')
             if obj.exists():
@@ -84,8 +85,9 @@ class DataDefineViewSet(YMMixin, viewsets.ModelViewSet):
                 pk = ''
         else:
             pk = ''
+            summary = ''
 
-        return Response({'results': {'pk': pk}})
+        return Response({'results': {'pk': pk, 'summary': summary}})
 
     @detail_route(methods=['patch', 'put'])
     def offline(self, request, pk):

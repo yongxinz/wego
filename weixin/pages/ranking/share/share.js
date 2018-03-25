@@ -10,12 +10,20 @@ Page({
         thinkList: [],
         footer: '',
         offset: 0,
-        lineHeight: 30
+        lineHeight: 30,
+        content: ''
     },
 
     onLoad: function (options) {
         let that = this;
         that.setData({options: options});
+        if (options.gather === 'day') {
+            that.setData({content: '今天我走了 ' + options.item + ' 步,'});
+        } else if (options.gather === 'week') {
+            that.setData({content: '本周我走了 ' + options.item + ' 步,'});
+        } else if (options.gather === 'month') {
+            that.setData({content: '本月我走了 ' + options.item + ' 步,'});
+        }
         wx.getSystemInfo({
             success: function (res) {
                 that.setData({
@@ -40,38 +48,30 @@ Page({
         })
     },
 
-    drawSquare: function (ctx, height) {
-        ctx.setFontSize(24);
-        ctx.rect(0, 50, this.data.windowWidth, height);
-        ctx.setFillStyle("#f5f6fd");
-        ctx.fill()
-    },
-
     drawFont: function (ctx, content, height) {
-        ctx.setFontSize(16);
-        ctx.setFillStyle("#484a3d");
-        ctx.fillText(content, this.data.offset, height);
-    },
-
-    drawLine: function (ctx, height) {
-        ctx.beginPath();
-        ctx.moveTo(this.data.offset, height);
-        ctx.lineTo(this.data.windowWidth - this.data.offset, height);
-        ctx.stroke('#eee');
-        ctx.closePath();
+        ctx.setFontSize(13);
+        ctx.setFillStyle("#A3A3A3");
+        ctx.setTextAlign('center');
+        ctx.fillText(content, 172, height);
     },
 
     createNewImg: function (res) {
+        let that = this;
         let ctx = wx.createCanvasContext('myCanvas');
+        if (res.data.results.summary === '') {
+            res.data.results.summary = '如果帅可以当饭吃，我可以养活十万人'
+        }
 
         wx.downloadFile({
             url: app.helper.getUrl('summary_pic') + '?pk=' + res.data.results.pk,
             header: {
                 'Authorization': app.config.gData.userSid
             },
-            success: function (res) {
+            success: function (res_) {
                 wx.hideLoading();
-                ctx.drawImage(res.tempFilePath, 0, 0, 345, 600);
+                ctx.drawImage(res_.tempFilePath, 0, 0, 345, 600);
+                that.drawFont(ctx, that.data.content, 410);
+                that.drawFont(ctx, res.data.results.summary, 430);
                 ctx.draw();
             }
         });

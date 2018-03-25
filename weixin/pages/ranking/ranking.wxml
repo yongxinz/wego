@@ -27,19 +27,19 @@
             <view>
                 <view class='sign'>
                     <image class="summary-image" src="/static/image/today.png" bindtap='sharePic'
-                           data-item="{{ personal.step_day }}" data-type="S"></image>
+                           data-item="{{ personal.step_day }}" data-type="S" data-gather="day"></image>
                     <text class="summary-text">今天我走了{{ personal.step_day }}步, 大概
                         {{ personal.mileage_day }}公里。</text>
                 </view>
                 <view class='sign'>
                     <image class="summary-image" src="/static/image/week.png" bindtap='sharePic'
-                           data-item="{{ personal.step_week }}" data-type="S"></image>
+                           data-item="{{ personal.step_week }}" data-type="S" data-gather="week"></image>
                     <text class="summary-text">本周我走了{{ personal.step_week }}步, 大概
                         {{ personal.mileage_week }}公里。</text>
                 </view>
                 <view class='sign'>
                     <image class="summary-image" src="/static/image/month.png" bindtap='sharePic'
-                           data-item="{{ personal.step_month }}" data-type="S"></image>
+                           data-item="{{ personal.step_month }}" data-type="S" data-gather="month"></image>
                     <text class="summary-text">本月我走了{{ personal.step_month }}步, 大概
                         {{ personal.mileage_month }}公里。</text>
                 </view>

@@ -64,6 +64,7 @@ Page({
     sharePic: function (e) {
         let item = e.currentTarget.dataset.item;
         let type = e.currentTarget.dataset.type;
-        wx.navigateTo({ url: './share/share?item=' + item + '&type=' + type })
+        let gather = e.currentTarget.dataset.gather;
+        wx.navigateTo({ url: './share/share?item=' + item + '&type=' + type + '&gather=' + gather })
     }
 });
