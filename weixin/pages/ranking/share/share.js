@@ -11,7 +11,8 @@ Page({
         footer: '',
         offset: 0,
         lineHeight: 30,
-        content: ''
+        content: '',
+        img_url: ''
     },
 
     onLoad: function (options) {
@@ -49,15 +50,16 @@ Page({
     },
 
     drawFont: function (ctx, content, height) {
-        ctx.setFontSize(13);
+        ctx.setFontSize(26);
         ctx.setFillStyle("#A3A3A3");
         ctx.setTextAlign('center');
-        ctx.fillText(content, 172, height);
+        ctx.fillText(content, 345, height);
     },
 
     createNewImg: function (res) {
         let that = this;
         let ctx = wx.createCanvasContext('myCanvas');
+        let ctx_ = wx.createCanvasContext('myCanvasShow');
         if (res.data.results.summary === '') {
             res.data.results.summary = '如果帅可以当饭吃，我可以养活十万人'
         }
@@ -69,10 +71,16 @@ Page({
             },
             success: function (res_) {
                 wx.hideLoading();
-                ctx.drawImage(res_.tempFilePath, 0, 0, 345, 600);
-                that.drawFont(ctx, that.data.content, 410);
-                that.drawFont(ctx, res.data.results.summary, 430);
+                ctx.drawImage(res_.tempFilePath, 0, 0, 690, 1200);
+                that.drawFont(ctx, that.data.content, 820);
+                that.drawFont(ctx, res.data.results.summary, 860);
                 ctx.draw();
+
+                ctx_.scale(0.5, 0.5);
+                ctx_.drawImage(res_.tempFilePath, 0, 0, 690, 1200);
+                that.drawFont(ctx_, that.data.content, 820);
+                that.drawFont(ctx_, res.data.results.summary, 860);
+                ctx_.draw();
             }
         });
     },
@@ -81,8 +89,8 @@ Page({
         wx.canvasToTempFilePath({
             x: 0,
             y: 0,
-            width: 345,
-            height: 600,
+            width: 690,
+            height: 1200,
             canvasId: 'myCanvas',
             success: function (res) {
                 util.savePicToAlbum(res.tempFilePath)
