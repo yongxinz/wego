@@ -20,7 +20,7 @@ from rest_framework import routers
 
 from passport.api import WeixinUserViewSet
 from data.api import WeRunViewSet
-from adminset.api import UsersViewSet, DataDefineViewSet, SummaryPicViewSet, get_pic, get_default_pic
+from adminset.api import UsersViewSet, DataDefineViewSet, SummaryPicViewSet, get_pic
 
 router = routers.DefaultRouter()
 router.register(r'passport/wx', WeixinUserViewSet, base_name='passport_wx'),
@@ -34,5 +34,4 @@ urlpatterns = [
     url(r'^api/captcha/', include('captcha.urls')),
     url(r'^api/passport/', include('passport.urls')),
     url(r'^api/get_pic/', get_pic),
-    url(r'^api/get_default_pic/', get_default_pic),
 ]

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.http import HttpResponse
-from django.conf import settings
 
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -77,14 +76,16 @@ class DataDefineViewSet(YMMixin, viewsets.ModelViewSet):
         if define_obj.exists():
             define_obj = define_obj.order_by('?')[:1]
 
-            obj = SummaryPic.objects.filter(data_define=define_obj[0].id).exclude(status='DEL').order_by('?')[:1]
-            url = settings.DEFAULT_URL + 'get_pic/?pk=' + str(obj[0].id)
-            id = str(obj[0].id)
+            obj = SummaryPic.objects.filter(data_define=define_obj[0].id).exclude(status='DEL')
+            if obj.exists():
+                obj = obj.order_by('?')[:1]
+                pk = str(obj[0].id)
+            else:
+                pk = ''
         else:
-            url = settings.DEFAULT_URL + 'get_default_pic/'
-            id = ''
+            pk = ''
 
-        return Response({'results': {'url': url, 'id': id}})
+        return Response({'results': {'pk': pk}})
 
     @detail_route(methods=['patch', 'put'])
     def offline(self, request, pk):
@@ -123,8 +124,16 @@ class SummaryPicViewSet(YMMixin, viewsets.ModelViewSet):
         return queryset
 
     @list_route()
-    def get_default_pic(self, request):
-        image = open('static/default.png', 'rb')
+    def get_summary_pic(self, request):
+        pk = request.GET.get('pk')
+
+        if pk:
+            queryset = SummaryPic.objects.exclude(status='DEL')
+            pic = queryset.get(pk=pk).pic
+            image = open(pic.url, 'rb')
+        else:
+            image = open('static/default.png', 'rb')
+
         data = image.read()
         image.close()
         return HttpResponse(data, content_type="image/png")
@@ -142,10 +151,3 @@ def get_pic(request):
         return HttpResponse(data, content_type="image/png")
 
     return HttpResponse({}, content_type="image/png")
-
-
-def get_default_pic(request):
-    image = open('static/default.png', 'rb')
-    data = image.read()
-    image.close()
-    return HttpResponse(data, content_type="image/png")

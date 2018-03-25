@@ -67,7 +67,7 @@ Page({
         let ctx = wx.createCanvasContext('myCanvas');
 
         wx.downloadFile({
-            url: res.data.results.url,
+            url: app.helper.getUrl('summary_pic') + '?pk=' + res.data.results.pk,
             header: {
                 'Authorization': app.config.gData.userSid
             },

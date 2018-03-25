@@ -28,7 +28,7 @@ module.exports.apiMap = {
     personal: '/werun/personal/',
     users: '/users/',
     summary: '/define/summary/',
-    summary_pic: '/summary_pic/get_default_pic/'
+    summary_pic: '/summary_pic/get_summary_pic/'
 };
 
 
