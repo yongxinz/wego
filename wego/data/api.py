@@ -22,7 +22,7 @@ class WeRunViewSet(viewsets.ModelViewSet):
     serializer_class = DayDataSerializer
 
     def get_queryset(self):
-        queryset = DayData.objects.filter(created_time=datetime.now().date()).order_by('step')
+        queryset = DayData.objects.filter(created_time=datetime.now().date()).order_by('-step')
 
         return queryset
 
