@@ -66,12 +66,14 @@ Page({
     createNewImg: function (res) {
         let ctx = wx.createCanvasContext('myCanvas');
 
+        wx.showLoading({ title: '海报生成中...' });
         wx.downloadFile({
             url: app.helper.getUrl('summary_pic') + '?pk=' + res.data.results.pk,
             header: {
                 'Authorization': app.config.gData.userSid
             },
             success: function (res) {
+                wx.hideLoading();
                 ctx.drawImage(res.tempFilePath, 0, 0, 345, 600);
                 ctx.draw();
             }
