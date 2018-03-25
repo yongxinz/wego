@@ -34,12 +34,10 @@ Page({
     getApiData: function () {
         let that = this;
 
-        wx.showLoading({ title: '加载中...' });
+        wx.showLoading({ title: '海报生成中...' });
         app.helper.getApi('summary', that.data.options).then(function (res) {
             that.createNewImg(res)
-        }).then(function () {
-            wx.hideLoading()
-        });
+        })
     },
 
     drawSquare: function (ctx, height) {
@@ -66,7 +64,6 @@ Page({
     createNewImg: function (res) {
         let ctx = wx.createCanvasContext('myCanvas');
 
-        wx.showLoading({ title: '海报生成中...' });
         wx.downloadFile({
             url: app.helper.getUrl('summary_pic') + '?pk=' + res.data.results.pk,
             header: {
