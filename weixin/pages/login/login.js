@@ -6,7 +6,8 @@ Page({
         msg: '',
         countDown: false,
         countDownSecond: 60,
-        countDownCron: ''
+        countDownCron: '',
+        showInput: false
     },
     bindSubmit: function (e) {
         let that = this;
@@ -14,8 +15,8 @@ Page({
         app.helper.postApi('join', e.detail.value).then(function (res) {
             if (res.data.status) {
                 app.config.gData.mobile = res.data.user.mobile;
-                wx.navigateBack();
-                clearInterval(that.data.countDownCron)
+                clearInterval(that.data.countDownCron);
+                wx.reLaunch({url: '/pages/index/index'});
             } else {
                 that.setData({msg: res.data.msg});
             }
@@ -63,11 +64,15 @@ Page({
             app.helper.postApi('join2wx', e.detail).then(function (res) {
                 if (res.data.status) {
                     app.config.gData.mobile = res.data.mobile;
-                    wx.navigateBack();
+                    wx.reLaunch({url: '/pages/index/index'});
                 } else {
                     that.setData({msg: res.data.msg});
                 }
             });
         }
+    },
+
+    showInput: function () {
+        this.setData({showInput: true})
     }
 });
