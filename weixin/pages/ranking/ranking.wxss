@@ -33,7 +33,7 @@
 }
 
 .item .user-name {
-    width: 45%;
+    width: 40%;
     line-height: 140rpx;
     text-align: left;
     margin-left: 20rpx;
@@ -44,13 +44,10 @@
 }
 
 .item .step {
+    width: 160rpx;
     color: #4dc47f;
     font-size: 50rpx;
     line-height: 140rpx;
-    float: right;
-    position: fixed;
-    right: 0;
-    margin-right: 40rpx;
 }
 
 .summary-image {

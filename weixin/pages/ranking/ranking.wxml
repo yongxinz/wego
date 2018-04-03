@@ -19,7 +19,7 @@
                         <image class="user-face" src="{{ item.user_info.avatar_url }}"></image>
                     </view>
                     <text class="user-name">{{ item.user_info.nickname }}</text>
-                    <text class="step"> {{ item.step }}</text>
+                    <view class="step"><text style="float: right;">{{ item.step }}</text></view>
                 </view>
             </view>
         </view>
