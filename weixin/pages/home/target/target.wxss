@@ -1,0 +1,38 @@
+page {
+    background-color: #F0F0F0;
+}
+
+.target {
+    height: 100rpx;
+    background-color: white;
+    margin-top:16rpx;
+    font-size: 30rpx;
+}
+
+.target-input {
+    height: 100rpx;
+    text-align: center;
+    color: #999;
+}
+
+.toast-v {
+    width: 100%;
+    bottom: 80px;
+    position: fixed;
+    text-align: center;
+}
+
+.toast-t {
+    background: #808080;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 8px;
+}
+
+.show {
+    visibility: visible;
+}
+
+.hidden {
+    visibility: hidden;
+}

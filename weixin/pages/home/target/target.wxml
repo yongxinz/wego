@@ -1,0 +1,13 @@
+<view class="target">
+    <input bindinput="targetInput" class="target-input" placeholder="" value="{{ target }}"/>
+</view>
+
+<view class="weui-flex">
+    <view class="weui-flex__item weui-btn-area">
+        <button class="weui-btn" type="primary" bindtap="targetSubmit" style="font-size:16px;">保存</button>
+    </view>
+</view>
+
+<view class="toast-v {{ toastMessage != '' ? 'show' : 'hidden'}}">
+    <text class="toast-t" style="font-size: 12px">{{ toastMessage }}</text>
+</view>
