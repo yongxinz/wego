@@ -22,14 +22,6 @@ Page({
                 });
             }
         });
-
-        // 检验小程序是否绑定手机号
-        app.helper.waitUserSid(function () {
-            app.helper.checkJoin().then(function (res) {
-                app.config.gData.mobile = res.data.user.mobile;
-                that.setData({'gData.mobile': app.config.gData.mobile})
-            });
-        });
     },
 
     onShow: function () {

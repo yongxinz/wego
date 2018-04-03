@@ -9,6 +9,7 @@ Page({
         countDownCron: '',
         showInput: false
     },
+
     bindSubmit: function (e) {
         let that = this;
         // 验证手机验证码
@@ -22,6 +23,7 @@ Page({
             }
         });
     },
+
     bindGetSms: function () {
         if (!this.data.countDown) {
             let that = this;
@@ -52,11 +54,13 @@ Page({
             });
         }
     },
+
     bindKeyInput: function (e) {
         this.setData({
             mobile: e.detail.value
         });
     },
+
     getPhoneNumber: function (e) {
         let that = this;
         if (e.detail.errMsg === 'getPhoneNumber:ok') {

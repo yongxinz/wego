@@ -8,14 +8,7 @@ Page({
     },
 
     onLoad: function () {
-        let that = this;
 
-        // app.helper.waitUserSid(function () {
-        //     app.helper.checkJoin().then(function (res) {
-        //         app.config.gData.mobile = res.data.user.mobile;
-        //         that.setData({'gData.mobile': app.config.gData.mobile})
-        //     });
-        // });
     },
 
     onShow: function () {
