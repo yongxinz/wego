@@ -12,11 +12,6 @@
             <view style="color: black; text-align: center; padding-top: 30rpx">
                 <text>{{ gData.mobile }}</text>
             </view>
-            <view style="text-align: center; margin-top: 40rpx">
-                <button open-type="getUserInfo" bindgetuserinfo="bindGetUserinfo" size="mini">
-                    授权使用昵称和头像
-                </button>
-            </view>
         </block>
     </view>
 

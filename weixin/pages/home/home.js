@@ -56,14 +56,6 @@ Page({
         })
     },
 
-    // 获取用户头像昵称
-    bindGetUserinfo: function (res) {
-        app.config.gData.userInfo = res.detail.userInfo;
-        this.setData({'gData.userInfo': res.detail.userInfo});
-
-        app.helper.waitUserSid(this.updateUsers);
-    },
-
     updateTarget(e) {
         wx.navigateTo({url: e.currentTarget.dataset.url})
     },

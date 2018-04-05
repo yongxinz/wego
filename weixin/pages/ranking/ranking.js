@@ -2,7 +2,7 @@ var app = getApp();
 
 Page({
     data: {
-        tabs: ['全国排名', '个人数据'],
+        tabs: ['个人数据', '全国排名'],
         is_ready: false,
         activeIndex: 0,
         sliderOffset: 0,
@@ -26,7 +26,7 @@ Page({
     },
 
     onShow: function () {
-        app.helper.waitUserSid(this.getApiData);
+        app.helper.waitUserSid(this.getPersonalData);
     },
 
     getApiData: function () {
@@ -55,9 +55,9 @@ Page({
         });
 
         if (this.data.activeIndex === 0) {
-            this.getApiData()
+            app.helper.waitUserSid(this.getPersonalData);
         } else {
-            this.getPersonalData()
+            app.helper.waitUserSid(this.getApiData);
         }
     },
 

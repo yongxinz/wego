@@ -12,18 +12,6 @@
                   style="transform: translateX({{ sliderOffset }}px);-webkit-transform: translateX({{ sliderOffset }}px);width: {{ 100/tabs.length }}%"></view>
         </view>
         <view wx:if="{{ activeIndex == 0 }}" class="weui-tab__panel">
-            <view class="list">
-                <view class="item" wx:for="{{ ranks }}" wx:key="{{ id }}">
-                    <text class="rank"> {{ index + 1 }}</text>
-                    <view class="user">
-                        <image class="user-face" src="{{ item.user_info.avatar_url }}"></image>
-                    </view>
-                    <text class="user-name">{{ item.user_info.nickname }}</text>
-                    <view class="step"><text style="float: right;">{{ item.step }}</text></view>
-                </view>
-            </view>
-        </view>
-        <view wx:if="{{ activeIndex == 1 }}" class="weui-tab__panel">
             <view>
                 <view class='sign'>
                     <image class="summary-image" src="/static/image/today.png" bindtap='sharePic'
@@ -42,6 +30,18 @@
                            data-item="{{ personal.step_month }}" data-type="S" data-gather="month"></image>
                     <text class="summary-text">本月我走了{{ personal.step_month }}步, 大概
                         {{ personal.mileage_month }}公里。</text>
+                </view>
+            </view>
+        </view>
+        <view wx:if="{{ activeIndex == 1 }}" class="weui-tab__panel">
+            <view class="list">
+                <view class="item" wx:for="{{ ranks }}" wx:key="{{ id }}">
+                    <text class="rank"> {{ index + 1 }}</text>
+                    <view class="user">
+                        <image class="user-face" src="{{ item.user_info.avatar_url }}"></image>
+                    </view>
+                    <text class="user-name">{{ item.user_info.nickname }}</text>
+                    <view class="step"><text style="float: right;">{{ item.step }}</text></view>
                 </view>
             </view>
         </view>

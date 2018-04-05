@@ -79,5 +79,12 @@ Page({
         cxt_arc.arc(this.data.windowWidth / 2, this.data.windowWidth / 2 - 71 + 57.5, this.data.radius, 1.5 * Math.PI, endAngle, false);
         cxt_arc.stroke();
         cxt_arc.draw();
+    },
+
+    onShareAppMessage: function () {
+        return {
+            title: '快来看看你今天的运动距离吧',
+            path: '/pages/index/index'
+        }
     }
 });
