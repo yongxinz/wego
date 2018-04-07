@@ -118,6 +118,14 @@ def captcha_refresh(request):
 class WeixinUserViewSet(viewsets.ViewSet):
     permission_classes = ()
 
+    @list_route(methods=['get'])
+    def info(self, request):
+        return Response({
+            "status": True,
+            'user': model_to_dict(request.user, fields=('username',)),
+            'time': arrow.now().for_json(),
+        })
+
     @list_route(methods=['get'], authentication_classes=())
     def check(self, request):
         sid = request.META.get('HTTP_AUTHORIZATION', 'whoareyou')

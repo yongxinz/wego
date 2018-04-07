@@ -8,18 +8,11 @@ Page({
     },
 
     onLoad: function () {
-
-    },
-
-    onShow: function () {
         let that = this;
 
         app.helper.wxPromisify(wx.getUserInfo)().then(function (res) {
             app.config.gData.userInfo = res.userInfo;
             that.setData({'gData.userInfo': app.config.gData.userInfo, is_ready: true});
-            that.setData({gData: app.config.gData});
-
-            app.helper.waitUserSid(that.getApiData);
         }).catch(function (res) {
             wx.showModal({
                 title: '微信授权',
@@ -38,6 +31,10 @@ Page({
         });
     },
 
+    onShow: function () {
+        app.helper.waitUserSid(this.getApiData);
+    },
+
     updateUsers: function () {
         let that = this;
 
@@ -53,6 +50,10 @@ Page({
             that.setData({results: res.data.results[0]});
         }).then(function (res) {
             app.helper.waitUserSid(that.updateUsers);
+        });
+
+        app.helper.getApi('info').then(function (res) {
+            that.setData({'gData.mobile': res.data.user.username});
         })
     },
 
@@ -69,7 +70,8 @@ Page({
         app.helper.getApi('cancel').then(function (res) {
             if (res.data.status) {
                 app.config.gData.mobile = '';
-                that.setData({'gData.mobile': app.config.gData.mobile})
+                that.setData({'gData.mobile': app.config.gData.mobile});
+                wx.redirectTo({url: '/pages/login/login'})
             }
         })
     }

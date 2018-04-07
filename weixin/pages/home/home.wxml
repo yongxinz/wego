@@ -23,8 +23,7 @@
 
     <view class="weui-flex">
         <view class="weui-flex__item weui-btn-area">
-            <button wx:if="{{gData.mobile !== ''}}" class="weui-btn" type="warn" bindtap="cancelBind" style="font-size:16px;">取消绑定</button>
-            <button wx:else class="weui-btn" type="primary" bindtap="mobBind" style="font-size:16px;">绑定手机号</button>
+            <button class="weui-btn" type="warn" bindtap="cancelBind" style="font-size:16px;">退出登录</button>
         </view>
     </view>
 </view>

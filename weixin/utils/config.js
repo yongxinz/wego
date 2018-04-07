@@ -18,6 +18,7 @@ module.exports.apiMap = {
     login: '/passport/wx/login/',
     join: '/passport/wx/join/',
     check: '/passport/wx/check/',
+    info: '/passport/wx/info/',
     home: '/passport/wx/check/',
     share_info: '/passport/wx/share_info/',
     get_applet_image: '/passport/wx/applet_image/',
