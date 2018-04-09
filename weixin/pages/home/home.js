@@ -48,13 +48,10 @@ Page({
 
         app.helper.getApi('users').then(function (res) {
             that.setData({results: res.data.results[0]});
+            that.setData({'gData.mobile': res.data.results[0].mobile});
         }).then(function (res) {
             app.helper.waitUserSid(that.updateUsers);
         });
-
-        app.helper.getApi('info').then(function (res) {
-            that.setData({'gData.mobile': res.data.user.username});
-        })
     },
 
     updateTarget(e) {
