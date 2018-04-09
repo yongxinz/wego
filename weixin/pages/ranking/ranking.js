@@ -9,7 +9,9 @@ Page({
         winWidth: 0,
         winHeight: 0,
         ranks: [],
-        personal: {}
+        personal: {},
+        gData: null,
+        results: {}
     },
 
     onLoad: function () {
@@ -22,6 +24,27 @@ Page({
                     winHeight: res.windowHeight
                 });
             }
+        });
+
+        app.helper.wxPromisify(wx.getUserInfo)().then(function (res) {
+            app.config.gData.userInfo = res.userInfo;
+            that.setData({'gData.userInfo': app.config.gData.userInfo, is_ready: true});
+            app.helper.waitUserSid(that.getApiUserData);
+        }).catch(function (res) {
+            wx.showModal({
+                title: '微信授权',
+                content: '为获得最佳体验，请按确定并在授权管理中选中“用户信息”，再重新进入小程序即可正常使用。',
+                showCancel: false,
+                success: function (res) {
+                    if (res.confirm) {
+                        wx.openSetting({
+                            success: function success(res) {
+                                console.log('openSetting success', res.authSetting);
+                            }
+                        });
+                    }
+                }
+            })
         });
     },
 
@@ -66,5 +89,23 @@ Page({
         let type = e.currentTarget.dataset.type;
         let gather = e.currentTarget.dataset.gather;
         wx.navigateTo({ url: './share/share?item=' + item + '&type=' + type + '&gather=' + gather })
+    },
+
+    updateUsers: function () {
+        let that = this;
+
+        app.helper.putApi('users', that.data.gData, this.data.results.id + '/nickname/').then(function (res) {
+            console.log(res)
+        })
+    },
+
+    getApiUserData: function () {
+        let that = this;
+
+        app.helper.getApi('users').then(function (res) {
+            that.setData({results: res.data.results[0]});
+        }).then(function (res) {
+            app.helper.waitUserSid(that.updateUsers);
+        });
     }
 });
