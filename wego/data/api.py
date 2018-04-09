@@ -21,10 +21,12 @@ class WeRunViewSet(viewsets.ModelViewSet):
     queryset = DayData.objects.all()
     serializer_class = DayDataSerializer
 
-    def get_queryset(self):
-        queryset = DayData.objects.filter(created_time=datetime.now().date()).order_by('-step')
+    @list_route(methods=['get'])
+    def ranking(self, request):
+        queryset = DayData.objects.filter(created_time=datetime.now().date()).order_by('-step')[0:100]
+        serializer = self.get_serializer(queryset, many=True)
 
-        return queryset
+        return Response({'results': serializer.data})
 
     @list_route(methods=['get'])
     def today(self, request):

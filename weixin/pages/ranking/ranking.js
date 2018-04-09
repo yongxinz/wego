@@ -53,7 +53,7 @@ Page({
 
     getApiData: function () {
         let that = this;
-        app.helper.getApi('werun').then(function (res) {
+        app.helper.getApi('ranking').then(function (res) {
             that.setData({ranks: res.data.results})
         });
     },
