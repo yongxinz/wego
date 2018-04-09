@@ -31,6 +31,9 @@
                     <text class="summary-text">本月我走了{{ personal.step_month }}步, 大概
                         {{ personal.mileage_month }}公里。</text>
                 </view>
+                <view style="width: 100%;text-align: center">
+                    <text style="font-size: 28rpx; color: #999">点击图片，生成海报</text>
+                </view>
             </view>
         </view>
         <view wx:if="{{ activeIndex == 1 }}" class="weui-tab__panel">
