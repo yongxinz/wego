@@ -17,7 +17,7 @@
 
     <view bindtap="updateTarget" data-url="./target/target?id={{ results.id }}&target={{ results.target }}"
           class="target">
-        <view class="target-title">我的目标</view>
+        <view class="target-title">目标步数</view>
         <view class="target-value">{{ results.target }}</view>
     </view>
 

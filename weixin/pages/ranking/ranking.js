@@ -3,7 +3,6 @@ var app = getApp();
 Page({
     data: {
         tabs: ['个人数据', '全国排名'],
-        is_ready: false,
         activeIndex: 0,
         sliderOffset: 0,
         winWidth: 0,
@@ -28,7 +27,7 @@ Page({
 
         app.helper.wxPromisify(wx.getUserInfo)().then(function (res) {
             app.config.gData.userInfo = res.userInfo;
-            that.setData({'gData.userInfo': app.config.gData.userInfo, is_ready: true});
+            that.setData({'gData.userInfo': app.config.gData.userInfo});
             app.helper.waitUserSid(that.getApiUserData);
         }).catch(function (res) {
             wx.showModal({
