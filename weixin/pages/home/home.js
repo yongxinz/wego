@@ -61,10 +61,6 @@ Page({
         wx.navigateTo({url: e.currentTarget.dataset.url})
     },
 
-    mobBind: function () {
-        wx.navigateTo({url: '/pages/login/login'})
-    },
-
     cancelBind: function () {
         let that = this;
         app.helper.getApi('cancel').then(function (res) {
