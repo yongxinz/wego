@@ -14,10 +14,12 @@ STATUS = (
 )
 
 
-class ActivityCreate(models.Model):
+class Activity(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     title = models.CharField(u"标题", max_length=20)
     summary = models.CharField(u"介绍", max_length=50)
+    reward = models.IntegerField(u"奖金", default=0)
+    target_step = models.IntegerField(u"目标步数", default=0)
     start_time = models.DateTimeField(u"开始时间")
     end_time = models.DateTimeField(u"结束时间")
     status = models.CharField(u"活动状态", max_length=1, choices=STATUS, default='0')
@@ -29,12 +31,14 @@ class ActivityCreate(models.Model):
 
 class ActivityJoin(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    is_creater = models.BooleanField(default=False)
-    activity = models.ForeignKey(ActivityCreate, on_delete=models.SET_NULL, null=True)
+    activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True)
     step = models.IntegerField(u"步数", default=0)
-    mileage = models.DecimalField(u"距离", default=0, max_digits=25, decimal_places=2, )
-    altitude = models.DecimalField(u"海拔", default=0, max_digits=25, decimal_places=2, )
-    calorie = models.DecimalField(u"卡路里", default=0, max_digits=25, decimal_places=2, )
+    mileage = models.FloatField(u"距离", default=0)
+    altitude = models.FloatField(u"海拔", default=0)
+    calorie = models.IntegerField(u"卡路里", default=0)
+    fabulous = models.IntegerField(u"赞", default=0)
+    is_creater = models.BooleanField(default=False)
+    is_observe = models.BooleanField(default=False)
     status = models.CharField(u"活动状态", max_length=1, choices=STATUS)
     created_time = models.DateTimeField(auto_now_add=True)
 
