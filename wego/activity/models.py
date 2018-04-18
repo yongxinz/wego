@@ -5,12 +5,12 @@ from django.db import models
 
 
 STATUS = (
-    ('0', u"未开始"),
-    ('1', u"进行中"),
-    ('2', u"已结束"),
-    ('3', u"已删除"),
-    ('4', u"未参加"),
-    ('5', u"已参加")
+    ('CIM', u"已提交"),
+    ('ONL', u"已上线"),
+    ('FIN', u"已结束"),
+    ('DEL', u"已删除"),
+    ('OBS', u"已观战"),
+    ('JOI', u"已参加")
 )
 
 
@@ -20,9 +20,9 @@ class Activity(models.Model):
     summary = models.CharField(u"介绍", max_length=50)
     reward = models.IntegerField(u"奖金", default=0)
     target_step = models.IntegerField(u"目标步数", default=0)
-    start_time = models.DateTimeField(u"开始时间")
-    end_time = models.DateTimeField(u"结束时间")
-    status = models.CharField(u"活动状态", max_length=1, choices=STATUS, default='0')
+    start_time = models.DateField(u"开始时间")
+    end_time = models.DateField(u"结束时间")
+    status = models.CharField(u"活动状态", max_length=5, choices=STATUS, default='ONL')
     created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -37,9 +37,7 @@ class ActivityJoin(models.Model):
     altitude = models.FloatField(u"海拔", default=0)
     calorie = models.IntegerField(u"卡路里", default=0)
     fabulous = models.IntegerField(u"赞", default=0)
-    is_creater = models.BooleanField(default=False)
-    is_observe = models.BooleanField(default=False)
-    status = models.CharField(u"活动状态", max_length=1, choices=STATUS)
+    status = models.CharField(u"活动状态", max_length=5, choices=STATUS, default='JOI')
     created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
