@@ -24,6 +24,10 @@ class YMMixin(object):
 
     def perform_create(self, serializer):
         update_dict = {}
+        fields = [f.name for f in serializer.Meta.model._meta.local_fields]
+
+        if 'user' in fields:
+            update_dict['user'] = self.request.user
 
         serializer.save(**update_dict)
 

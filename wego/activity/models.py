@@ -1,7 +1,10 @@
 # coding=utf-8
+import uuid
 
 from django.contrib.auth.models import User
 from django.db import models
+
+from tools.helper import Helper
 
 
 STATUS = (
@@ -20,10 +23,28 @@ class Activity(models.Model):
     summary = models.CharField(u"介绍", max_length=50)
     reward = models.IntegerField(u"奖金", default=0)
     target_step = models.IntegerField(u"目标步数", default=0)
-    start_time = models.DateField(u"开始时间")
-    end_time = models.DateField(u"结束时间")
+    start_time = models.DateTimeField(u"开始时间")
+    end_time = models.DateTimeField(u"结束时间")
     status = models.CharField(u"活动状态", max_length=5, choices=STATUS, default='ONL')
     created_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-id']
+
+
+def title_pic_path(instance, file):
+    now = Helper.get_safe_now()
+    return 'static/title-pic/{0}/{1}'.format(str(now.year) + str(now.month), uuid.uuid4())
+
+
+class TitlePic(models.Model):
+    """
+    活动图片
+    """
+    activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True)
+    pic = models.ImageField(upload_to=title_pic_path, default='')
+    status = models.CharField(u"状态", max_length=5, choices=STATUS, default='CIM')
+    created_time = models.DateTimeField(u"创建时间", auto_now_add=True)
 
     class Meta:
         ordering = ['-id']
