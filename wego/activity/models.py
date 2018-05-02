@@ -69,5 +69,5 @@ class ActivityJoin(models.Model):
     status = models.CharField(u"活动状态", max_length=5, choices=STATUS, default='JOI')
     created_time = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        ordering = ['-id']
+    # class Meta:
+    #     ordering = ['-id']

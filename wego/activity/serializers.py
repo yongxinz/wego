@@ -2,7 +2,7 @@
 
 from rest_framework import serializers
 
-from .models import Activity, TitlePic
+from .models import Activity, TitlePic, ActivityJoin
 
 
 class ActivitySerializer(serializers.ModelSerializer):
@@ -18,3 +18,11 @@ class TitlePicSerializer(serializers.ModelSerializer):
     class Meta:
         model = TitlePic
         exclude = ('created_time',)
+
+
+class ActivityJoinSerializer(serializers.ModelSerializer):
+    title = serializers.ReadOnlyField(source='activity.title')
+
+    class Meta:
+        model = ActivityJoin
+        exclude = ()

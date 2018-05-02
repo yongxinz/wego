@@ -48,6 +48,13 @@ export default [
         // meta: {auth: false},
         component: resolve => require(['./pages/activity/define'], resolve)
     },
+    {
+        path: '/activity/list',
+        name: '002-3',
+        label: '活动列表',
+        // meta: {auth: false},
+        component: resolve => require(['./pages/activity/list'], resolve)
+    },
     // 其他
     {
         path: '*', // 其他页面，强制跳转到登录页面

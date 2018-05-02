@@ -6,8 +6,8 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import list_route, detail_route
 
-from .models import Activity, TitlePic, ACTIVITY_TYPE
-from .serializers import ActivitySerializer, TitlePicSerializer
+from .models import Activity, TitlePic, ACTIVITY_TYPE, ActivityJoin
+from .serializers import ActivitySerializer, TitlePicSerializer, ActivityJoinSerializer
 from tools.rest_helper import YMMixin
 
 
@@ -87,3 +87,24 @@ def get_title_pic(request):
         return HttpResponse(data, content_type="image/png")
 
     return HttpResponse({}, content_type="image/png")
+
+
+class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
+    queryset = ActivityJoin.objects.all()
+    serializer_class = ActivityJoinSerializer
+
+    def get_queryset_distinct(self):
+        queryset = super(ActivityJoinViewSet, self).get_queryset()
+        queryset = queryset.distinct('activity', 'start_time', 'end_time').order_by('start_time')
+
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset_distinct())
+        # queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        serializer = self.get_serializer(page, many=True)
+        rsp = self.get_paginated_response(serializer.data)
+
+        return rsp
