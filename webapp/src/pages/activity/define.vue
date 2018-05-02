@@ -5,6 +5,8 @@
                 <el-button type="primary" size="small" @click="handleNew()" class="float_right">新增</el-button>
             </el-row>
             <el-table :data="apiData" stripe border>
+                <el-table-column prop="type_display" label="类型" min-width="50"
+                                 show-overflow-tooltip></el-table-column>
                 <el-table-column prop="title" label="标题" min-width="200"
                                  show-overflow-tooltip></el-table-column>
                 <el-table-column prop="summary" label="简介" min-width="200"
@@ -12,20 +14,6 @@
                 <el-table-column prop="reward" label="奖金" min-width="60"
                                  show-overflow-tooltip></el-table-column>
                 <el-table-column prop="target_step" label="目标步数" min-width="60" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="start_time" label="开始时间" min-width="100" show-overflow-tooltip>
-                    <template slot-scope="scope">
-                        <div>
-                            {{ scope.row.start_time|moment }}
-                        </div>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="end_time" label="结束时间" min-width="100" show-overflow-tooltip>
-                    <template slot-scope="scope">
-                        <div>
-                            {{ scope.row.end_time|moment }}
-                        </div>
-                    </template>
-                </el-table-column>
                 <el-table-column label="操作" fixed="right" min-width="100">
                     <template slot-scope="scope">
                         <el-button size="small" type="info" @click="handleEditImg(scope.$index, scope.row)">图片</el-button>
@@ -49,25 +37,23 @@
         </el-card>
 
         <div slot="footer-dialog">
-            <el-dialog title="运动数据定义" custom-class="ym-select-dialog" :visible.sync="dialogFormVisible" top="5%">
+            <el-dialog title="活动定义" custom-class="ym-select-dialog" :visible.sync="dialogFormVisible" top="5%">
                 <el-form :model="form" :rules=rules :inline="true" ref="form" :label-width="'100px'">
                     <el-row>
-                        <el-form-item label="活动标题" prop="title">
-                            <el-input v-model="form.title" placeholder="请输入" style="width: 300%"></el-input>
+                        <el-form-item label="运动类型" prop="type">
+                            <el-select v-model="form.type" placeholder="请选择">
+                                <el-option
+                                    v-for="item in type"
+                                    :label="item.label"
+                                    :key="item.value"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-row>
                     <el-row>
-                        <el-form-item label="活动时间" prop="">
-                            <el-date-picker
-                                v-model="form.start_time"
-                                type="date"
-                                placeholder="开始时间">
-                            </el-date-picker>
-                            <el-date-picker
-                                v-model="form.end_time"
-                                type="date"
-                                placeholder="结束时间">
-                            </el-date-picker>
+                        <el-form-item label="活动标题" prop="title">
+                            <el-input v-model="form.title" placeholder="请输入" style="width: 300%"></el-input>
                         </el-form-item>
                     </el-row>
                     <el-row>
@@ -122,18 +108,17 @@
     export default {
         data() {
             return {
-                url: this.ym_api + '/activity/list/',
+                url: this.ym_api + '/activity/define/',
                 apiData: [],
                 searchForm: {
                     page: 1
                 },
                 total: 0,
                 form: {
+                    type: '',
                     title: '',
                     target_step: '',
                     reward: '',
-                    start_time: '',
-                    end_time: '',
                     summary: ''
                 },
                 time_range: null,
@@ -158,6 +143,7 @@
 
         activated() {
             this.search();
+            this.fetchType();
         },
 
         methods: {
@@ -181,11 +167,10 @@
             handleNew() {
                 this.form = {
                     id: '',
+                    type: '',
                     title: '',
                     target_step: '',
                     reward: '',
-                    start_time: '',
-                    end_time: '',
                     summary: ''
                 };
                 this.dialogFormVisible = true
@@ -259,6 +244,12 @@
                         }
                     }
                 });
+            },
+
+            fetchType() {
+                this.$http.get(this.url + 'type/').then((response) => {
+                    this.type = response.data
+                })
             }
         }
     }

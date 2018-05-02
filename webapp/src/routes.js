@@ -42,11 +42,11 @@ export default [
         component: resolve => require(['./pages/adminset/define'], resolve)
     },
     {
-        path: '/activity/list',
+        path: '/activity/define',
         name: '002-2',
-        label: '活动列表',
+        label: '活动定义',
         // meta: {auth: false},
-        component: resolve => require(['./pages/activity/list'], resolve)
+        component: resolve => require(['./pages/activity/define'], resolve)
     },
     // 其他
     {

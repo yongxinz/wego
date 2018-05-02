@@ -6,6 +6,7 @@ from .models import Activity, TitlePic
 
 
 class ActivitySerializer(serializers.ModelSerializer):
+    type_display = serializers.ReadOnlyField(source='get_type_display')
 
     class Meta:
         model = Activity

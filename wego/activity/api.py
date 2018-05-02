@@ -6,9 +6,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import list_route, detail_route
 
-from adminset.serializers import UsersSerializer, DataDefineSerializer, SummaryPicSerializer
-from adminset.models import Users, DataDefine, TYPE, SummaryPic
-from .models import Activity, TitlePic
+from .models import Activity, TitlePic, ACTIVITY_TYPE
 from .serializers import ActivitySerializer, TitlePicSerializer
 from tools.rest_helper import YMMixin
 
@@ -20,7 +18,7 @@ class ActivityViewSet(YMMixin, viewsets.ModelViewSet):
     @list_route()
     def type(self, request):
         result = []
-        for option in TYPE:
+        for option in ACTIVITY_TYPE:
             option_group = {'label': option[1], 'value': option[0]}
             result.append(option_group)
         return Response(result)

@@ -3,6 +3,7 @@ import uuid
 
 from django.contrib.auth.models import User
 from django.db import models
+import django.utils.timezone as timezone
 
 from tools.helper import Helper
 
@@ -16,6 +17,12 @@ STATUS = (
     ('JOI', u"已参加")
 )
 
+ACTIVITY_TYPE = (
+    ('D', u"日活动"),
+    ('W', u"周活动"),
+    ('C', u"自定义")
+)
+
 
 class Activity(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
@@ -23,9 +30,8 @@ class Activity(models.Model):
     summary = models.CharField(u"介绍", max_length=50)
     reward = models.IntegerField(u"奖金", default=0)
     target_step = models.IntegerField(u"目标步数", default=0)
-    start_time = models.DateTimeField(u"开始时间")
-    end_time = models.DateTimeField(u"结束时间")
     status = models.CharField(u"活动状态", max_length=5, choices=STATUS, default='ONL')
+    type = models.CharField(u"活动类型", max_length=5, choices=ACTIVITY_TYPE, default='D')
     created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -58,6 +64,8 @@ class ActivityJoin(models.Model):
     altitude = models.FloatField(u"海拔", default=0)
     calorie = models.IntegerField(u"卡路里", default=0)
     fabulous = models.IntegerField(u"赞", default=0)
+    start_time = models.DateTimeField(u"开始时间", default=timezone.now)
+    end_time = models.DateTimeField(u"结束时间", default=timezone.now)
     status = models.CharField(u"活动状态", max_length=5, choices=STATUS, default='JOI')
     created_time = models.DateTimeField(auto_now_add=True)
 

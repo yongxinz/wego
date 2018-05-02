@@ -29,7 +29,7 @@ router.register(r'werun', WeRunViewSet, base_name='werun'),
 router.register(r'users', UsersViewSet)
 router.register(r'define', DataDefineViewSet)
 router.register(r'summary_pic', SummaryPicViewSet)
-router.register(r'activity/list', ActivityViewSet)
+router.register(r'activity/define', ActivityViewSet)
 router.register(r'title_pic', TitlePicViewSet)
 
 urlpatterns = [
