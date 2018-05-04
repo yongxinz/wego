@@ -59,10 +59,6 @@ class TitlePic(models.Model):
 class ActivityJoin(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True)
-    step = models.IntegerField(u"步数", default=0)
-    mileage = models.FloatField(u"距离", default=0)
-    altitude = models.FloatField(u"海拔", default=0)
-    calorie = models.IntegerField(u"卡路里", default=0)
     fabulous = models.IntegerField(u"赞", default=0)
     start_time = models.DateTimeField(u"开始时间", default=timezone.now)
     end_time = models.DateTimeField(u"结束时间", default=timezone.now)

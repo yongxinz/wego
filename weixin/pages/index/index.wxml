@@ -1,4 +1,6 @@
-<scroll-view class="section" scroll-y="true" style="width: {{ windowWidth-20 }}px;height: {{ windowHeight-10 }}px;">
+<swiper style="height: {{ windowHeight }}px;" current="{{ current }}">
+    <swiper-item>
+        <scroll-view class="section" scroll-y="true" style="width: {{ windowWidth-20 }}px;height: {{ windowHeight-10 }}px;">
     <view class="circle-box">
         <canvas class="circle" style="height: {{ windowWidth-142+57.5+52 }}px;"
                 canvas-id="canvasCircle">
@@ -54,3 +56,15 @@
         </view>
     </view>
 </scroll-view>
+    </swiper-item>
+    <block wx:for="{{ apiData }}" wx:key="index" wx:for-index="id" wx:for-item="item">
+        <swiper-item>
+            <scroll-view class="section" scroll-y="true" style="width: {{ windowWidth-20 }}px;height: {{ windowHeight-10 }}px;">
+                <view class="target">
+                    {{ item.title }}
+                </view>
+                <button class="weui-input" type="primary" size="mini" data-item="{{ item }}" bindtap="bindJoinConfirm">加入活动</button>
+            </scroll-view>
+        </swiper-item>
+    </block>
+</swiper>

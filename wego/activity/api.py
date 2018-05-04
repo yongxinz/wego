@@ -15,6 +15,12 @@ class ActivityViewSet(YMMixin, viewsets.ModelViewSet):
     queryset = Activity.objects.all()
     serializer_class = ActivitySerializer
 
+    @list_route(methods=['get'])
+    def all(self, request):
+        queryset = Activity.objects.filter(status='ONL')
+        serializer = self.get_serializer(queryset, many=True)
+        return Response({'results': serializer.data})
+
     @list_route()
     def type(self, request):
         result = []

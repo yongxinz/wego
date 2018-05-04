@@ -1,16 +1,26 @@
 # coding=utf-8
 
 from rest_framework import serializers
+from django.utils import timezone as datetime
 
 from .models import Activity, TitlePic, ActivityJoin
 
 
 class ActivitySerializer(serializers.ModelSerializer):
     type_display = serializers.ReadOnlyField(source='get_type_display')
+    join_status = serializers.SerializerMethodField()
+
+    def get_join_status(self, obj):
+        try:
+            obj = ActivityJoin.objects.get(user=obj.user, activity=obj.id, start_time__lte=datetime.now(), end_time__gte=datetime.now())
+            status = obj.status
+        except:
+            status = ''
+        return status
 
     class Meta:
         model = Activity
-        exclude = ('user', 'created_time')
+        exclude = ()
 
 
 class TitlePicSerializer(serializers.ModelSerializer):

@@ -1,3 +1,5 @@
+import util from '../../utils/util'
+
 var app = getApp();
 
 Page({
@@ -8,7 +10,8 @@ Page({
         encryptedData: '',
         iv: '',
         results: {},
-        targetFlag: 0
+        targetFlag: 0,
+        current: 0
     },
 
     onLoad: function (options) {
@@ -50,6 +53,8 @@ Page({
                 }
             })
         });
+
+        app.helper.waitUserSid(that.getActivity);
     },
 
     submitWeRunData: function () {
@@ -63,12 +68,76 @@ Page({
         let that = this;
 
         app.helper.getApi('today').then(function (res) {
-            let targetFlag = res.data.results.step/res.data.results.target;
+            let targetFlag = res.data.results.step / res.data.results.target;
             that.setData({results: res.data.results, targetFlag: targetFlag});
 
             var cxt_arc = wx.createCanvasContext('canvasArcCir');
             that.drawCircle(cxt_arc, '#d81e06', (2 * targetFlag + 1.5) * Math.PI)
         })
+    },
+
+    getActivity: function () {
+        let that = this;
+
+        app.helper.getApi('activity_define').then(function (res) {
+            that.setData({apiData: res.data.results});
+        })
+    },
+
+    bindJoinConfirm: function (e) {
+        var content = '';
+        var id = e.target.dataset.item.id;
+        var user = e.target.dataset.item.user;
+        var reward = e.target.dataset.item.reward;
+        var type = e.target.dataset.item.type;
+
+        if (type === 'D') {
+            var d1 = new Date();
+            var d2 = new Date(d1);
+            var d3 = new Date(d1);
+            d2.setDate(d1.getDate()+1);
+            d3.setDate(d1.getDate()+2);
+            var date_start = util.formatTime(d2);
+            var date_reward = util.formatTime(d3);
+
+            var start_time = util.formatFullTime(d2) + ' 00:00:00';
+            var end_time = util.formatFullTime(d2) + ' 24:00:00';
+
+            content = '活动时间：' + date_start + ' 00:00~24:00。挑战需要支付 ' + reward + ' 元钱，挑战成功后，奖金会在 '
+                + date_reward + ' 上午 10:00 发放到微信零钱。记得在 10:00 点之前同步步数哦。'
+        } else if (type === 'W') {
+            var d1 = new Date();
+            var d2 = new Date(d1);
+            var d3 = new Date(d1);
+            var d4 = new Date(d1);
+            d2.setDate(d1.getDate()+1);
+            d3.setDate(d1.getDate()+7);
+            d4.setDate(d1.getDate()+8);
+            var date_start = util.formatTime(d2);
+            var date_end = util.formatTime(d3);
+            var date_reward = util.formatTime(d4);
+
+            var start_time = util.formatFullTime(d2) + ' 00:00:00';
+            var end_time = util.formatFullTime(d3) + ' 24:00:00';
+
+            content = '活动时间：' + date_start + ' 00:00~' + date_end + ' 24:00' + '挑战需要支付 ' + reward + ' 元钱，挑战成功后，奖金会在 '
+                + date_reward + ' 上午 10:00 发放到微信零钱。记得在 10:00 点之前同步步数哦。'
+        }
+
+        var form = {'user': user, 'activity': id, 'start_time': new Date(start_time), 'end_time': new Date(end_time)};
+        wx.showModal({
+            title: '活动信息',
+            content: content,
+            confirmText: "确定",
+            cancelText: "取消",
+            success: function (res) {
+                if (res.confirm) {
+                    app.helper.postApi('activity_join', form).then(function (res) {
+                        wx.showToast({title: '参加成功', icon: 'success', duration: 1000})
+                    })
+                }
+            }
+        });
     },
 
     drawCircle: function (cxt_arc, color, endAngle) {

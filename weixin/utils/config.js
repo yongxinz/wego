@@ -30,7 +30,9 @@ module.exports.apiMap = {
     personal: '/werun/personal/',
     users: '/users/',
     summary: '/define/summary/',
-    summary_pic: '/summary_pic/get_summary_pic/'
+    summary_pic: '/summary_pic/get_summary_pic/',
+    activity_define: '/activity/define/all/',
+    activity_join: '/activity/list/'
 };
 
 
