@@ -76,7 +76,7 @@ Page({
         cxt_arc.setStrokeStyle(color);
         cxt_arc.setLineCap('round');
         cxt_arc.beginPath();
-        cxt_arc.arc(this.data.windowWidth / 2, this.data.windowWidth / 2 - 71 + 57.5, this.data.radius, 1.5 * Math.PI, endAngle, false);
+        cxt_arc.arc((this.data.windowWidth - 20) / 2, (this.data.windowWidth - 20) / 2 - 71 + 57.5, this.data.radius, 1.5 * Math.PI, endAngle, false);
         cxt_arc.stroke();
         cxt_arc.draw();
     },
