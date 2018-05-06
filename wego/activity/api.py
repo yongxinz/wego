@@ -11,6 +11,7 @@ from rest_framework.decorators import list_route, detail_route
 
 from .models import Activity, TitlePic, ACTIVITY_TYPE, ActivityJoin
 from .serializers import ActivitySerializer, TitlePicSerializer, ActivityJoinSerializer
+from .filter import ActivityJoinFilter
 from tools.rest_helper import YMMixin
 
 
@@ -101,22 +102,23 @@ def get_title_pic(request):
 class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
     queryset = ActivityJoin.objects.all()
     serializer_class = ActivityJoinSerializer
+    filter_class = ActivityJoinFilter
 
-    def get_queryset_distinct(self):
-        queryset = super(ActivityJoinViewSet, self).get_queryset()
-        queryset = queryset.distinct('activity', 'start_time', 'end_time').order_by('start_time')
-
-        return queryset
-
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset_distinct())
-        # queryset = self.filter_queryset(self.get_queryset())
-
-        page = self.paginate_queryset(queryset)
-        serializer = self.get_serializer(page, many=True)
-        rsp = self.get_paginated_response(serializer.data)
-
-        return rsp
+    # def get_queryset_distinct(self):
+    #     queryset = super(ActivityJoinViewSet, self).get_queryset()
+    #     queryset = queryset.distinct('activity', 'start_time', 'end_time').order_by('start_time')
+    #
+    #     return queryset
+    #
+    # def list(self, request, *args, **kwargs):
+    #     queryset = self.filter_queryset(self.get_queryset_distinct())
+    #     # queryset = self.filter_queryset(self.get_queryset())
+    #
+    #     page = self.paginate_queryset(queryset)
+    #     serializer = self.get_serializer(page, many=True)
+    #     rsp = self.get_paginated_response(serializer.data)
+    #
+    #     return rsp
 
     @list_route(methods=['get'])
     def personal(self, request):

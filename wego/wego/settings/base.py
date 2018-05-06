@@ -46,4 +46,5 @@ WEIXIN = {
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ('tools.auth.YMAuthentication',),
     'DEFAULT_PAGINATION_CLASS': 'tools.rest_helper.YMPagination',
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }

@@ -72,7 +72,7 @@ Page({
             var targetFlag = step / res.data.results.target;
             that.setData({results: res.data.results, targetFlag: targetFlag});
 
-            app.helper.getApi('activity_join').then(function (res) {
+            app.helper.getApi('activity_join_personal').then(function (res) {
                 that.setData({apiDataJoin: res.data.results});
                 if (res.data.results.target !== '') {
                     targetFlag = step / res.data.results.target;
@@ -140,17 +140,25 @@ Page({
         }
 
         var form = {'user': user, 'activity': id, 'start_time': new Date(start_time), 'end_time': new Date(end_time)};
-        wx.showModal({
-            title: '活动信息',
-            content: content,
-            confirmText: "确定",
-            cancelText: "取消",
-            success: function (res) {
-                if (res.confirm) {
-                    app.helper.postApi('activity_join', form).then(function (res) {
-                        wx.showToast({title: '参加成功', icon: 'success', duration: 1000})
-                    })
-                }
+
+        app.helper.getApi('activity_join', {'user': user, 'start_time': new Date(start_time).toISOString(),
+                                            'end_time': new Date(end_time).toISOString()}).then(function (res) {
+            if (res.data.results.length > 0) {
+                wx.showToast({title: '参加失败，已有活动正在进行中...', icon: 'none', duration: 2000})
+            } else {
+                wx.showModal({
+                    title: '活动信息',
+                    content: content,
+                    confirmText: "确定",
+                    cancelText: "取消",
+                    success: function (res) {
+                        if (res.confirm) {
+                            app.helper.postApi('activity_join', form).then(function (res) {
+                                wx.showToast({title: '参加成功', icon: 'success', duration: 1000})
+                            })
+                        }
+                    }
+                });
             }
         });
     },
