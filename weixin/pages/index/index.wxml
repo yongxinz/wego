@@ -7,15 +7,25 @@
                 </canvas>
                 <canvas class="circle" style="height: {{ windowWidth-142+57.5+52 }}px;" canvas-id="canvasArcCir">
                 </canvas>
-                <view class="step" style="line-height: {{ windowWidth-142 }}px">{{ results.step }}</view>
+                <view wx:if="{{ apiDataJoin.start_time === '' }}">
+                    <view class="step" style="line-height: {{ windowWidth-142 }}px">{{ results.step }}</view>
+                </view>
+                <view wx:else>
+                    <view class="step" style="line-height: {{ windowWidth-142 }}px">{{ results.step }}/{{ apiDataJoin.target }}</view>
+                </view>
             </view>
 
             <view class="target">
-                <view wx:if="{{ targetFlag < 1 }}">
-                    今日目标{{ results.target }}步，未完成
+                <view wx:if="{{ apiDataJoin.start_time === '' }}">
+                    <view wx:if="{{ targetFlag < 1 }}">
+                        今日目标{{ results.target }}步，未完成
+                    </view>
+                    <view wx:else>
+                        今日目标{{ results.target }}步，已完成
+                    </view>
                 </view>
                 <view wx:else>
-                    今日目标{{ results.target }}步，已完成
+                    <view>奖金池 {{ apiDataJoin.reward }} 元，加油</view>
                 </view>
             </view>
 

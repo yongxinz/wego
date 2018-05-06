@@ -68,11 +68,18 @@ Page({
         let that = this;
 
         app.helper.getApi('today').then(function (res) {
-            let targetFlag = res.data.results.step / res.data.results.target;
+            var step = res.data.results.step;
+            var targetFlag = step / res.data.results.target;
             that.setData({results: res.data.results, targetFlag: targetFlag});
 
-            var cxt_arc = wx.createCanvasContext('canvasArcCir');
-            that.drawCircle(cxt_arc, '#d81e06', (2 * targetFlag + 1.5) * Math.PI)
+            app.helper.getApi('activity_join').then(function (res) {
+                that.setData({apiDataJoin: res.data.results});
+                if (res.data.results.target !== '') {
+                    targetFlag = step / res.data.results.target;
+                }
+                var cxt_arc = wx.createCanvasContext('canvasArcCir');
+                that.drawCircle(cxt_arc, '#d81e06', (2 * targetFlag + 1.5) * Math.PI)
+            })
         })
     },
 
@@ -83,6 +90,14 @@ Page({
             that.setData({apiData: res.data.results});
         })
     },
+
+    // getActivityJoin: function () {
+    //     let that = this;
+    //
+    //     app.helper.getApi('activity_join').then(function (res) {
+    //         that.setData({apiDataJoin: res.data.results});
+    //     })
+    // },
 
     bindJoinConfirm: function (e) {
         var content = '';

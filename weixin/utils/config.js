@@ -32,7 +32,7 @@ module.exports.apiMap = {
     summary: '/define/summary/',
     summary_pic: '/summary_pic/get_summary_pic/',
     activity_define: '/activity/define/all/',
-    activity_join: '/activity/list/'
+    activity_join: '/activity/list/personal/'
 };
 
 

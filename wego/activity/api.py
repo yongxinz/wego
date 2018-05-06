@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.http import HttpResponse
+from dateutil import tz
 
+from django.http import HttpResponse
+from django.utils import timezone as datetime
+from django.conf import settings
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import list_route, detail_route
@@ -114,3 +117,26 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
         rsp = self.get_paginated_response(serializer.data)
 
         return rsp
+
+    @list_route(methods=['get'])
+    def personal(self, request):
+        try:
+            obj = ActivityJoin.objects.get(user=self.request.user, start_time__lte=datetime.now(), end_time__gte=datetime.now())
+            start_time = obj.start_time.astimezone(tz.gettz(settings.TIME_ZONE))
+            end_time = obj.end_time.astimezone(tz.gettz(settings.TIME_ZONE))
+            fabulous = obj.fabulous
+
+            obj_ = Activity.objects.get(id=obj.activity.pk)
+            target = obj_.target_step
+            count = ActivityJoin.objects.filter(activity=obj.activity, start_time__lte=datetime.now(), end_time__gte=datetime.now()).distinct(
+                'user').count()
+            reward = obj_.reward * count
+        except:
+            start_time = ''
+            end_time = ''
+            fabulous = 0
+            reward = 0
+            target = ''
+
+        return Response({'results': {'start_time': start_time, 'end_time': end_time, 'fabulous': fabulous, 'reward': reward,
+                                     'target': target}})
