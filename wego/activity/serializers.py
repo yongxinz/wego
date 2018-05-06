@@ -9,6 +9,7 @@ from .models import Activity, TitlePic, ActivityJoin
 class ActivitySerializer(serializers.ModelSerializer):
     type_display = serializers.ReadOnlyField(source='get_type_display')
     join_status = serializers.SerializerMethodField()
+    join_reward = serializers.SerializerMethodField()
 
     def get_join_status(self, obj):
         try:
@@ -16,7 +17,13 @@ class ActivitySerializer(serializers.ModelSerializer):
             status = obj.status
         except:
             status = ''
+
         return status
+
+    def get_join_reward(self, obj):
+        count = ActivityJoin.objects.filter(activity=obj.id, start_time__lte=datetime.now(), end_time__gte=datetime.now()).distinct('user').count()
+
+        return obj.reward * count
 
     class Meta:
         model = Activity

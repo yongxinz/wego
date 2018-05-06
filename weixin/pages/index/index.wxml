@@ -1,61 +1,61 @@
 <swiper style="height: {{ windowHeight }}px;" current="{{ current }}">
     <swiper-item>
         <scroll-view class="section" scroll-y="true" style="width: {{ windowWidth-20 }}px;height: {{ windowHeight-10 }}px;">
-    <view class="circle-box">
-        <canvas class="circle" style="height: {{ windowWidth-142+57.5+52 }}px;"
-                canvas-id="canvasCircle">
-        </canvas>
-        <canvas class="circle" style="height: {{ windowWidth-142+57.5+52 }}px;" canvas-id="canvasArcCir">
-        </canvas>
-        <view class="step" style="line-height: {{ windowWidth-142 }}px">{{ results.step }}</view>
-    </view>
+            <view class="circle-box">
+                <canvas class="circle" style="height: {{ windowWidth-142+57.5+52 }}px;"
+                        canvas-id="canvasCircle">
+                </canvas>
+                <canvas class="circle" style="height: {{ windowWidth-142+57.5+52 }}px;" canvas-id="canvasArcCir">
+                </canvas>
+                <view class="step" style="line-height: {{ windowWidth-142 }}px">{{ results.step }}</view>
+            </view>
 
-    <view class="target">
-        <view wx:if="{{ targetFlag < 1 }}">
-            今日目标{{ results.target }}步，未完成
-        </view>
-        <view wx:else>
-            今日目标{{ results.target }}步，已完成
-        </view>
-    </view>
+            <view class="target">
+                <view wx:if="{{ targetFlag < 1 }}">
+                    今日目标{{ results.target }}步，未完成
+                </view>
+                <view wx:else>
+                    今日目标{{ results.target }}步，已完成
+                </view>
+            </view>
 
-    <view class="page__bd page__bd_spacing" style="width: 100%;">
-        <view class="weui-flex">
-            <view class="weui-flex__item">
-                <view class="placeholder">
-                    <view style="height:3px;border:none;border-top:3px solid #f0efef;"></view>
-                    <view class="weui-flex">
-                        <view class="weui-flex__item footer-section">
-                            <view class="footer-section-title">
-                                消耗能量
+            <view class="page__bd page__bd_spacing" style="width: 100%;">
+                <view class="weui-flex">
+                    <view class="weui-flex__item">
+                        <view class="placeholder">
+                            <view style="height:3px;border:none;border-top:3px solid #f0efef;"></view>
+                            <view class="weui-flex">
+                                <view class="weui-flex__item footer-section">
+                                    <view class="footer-section-title">
+                                        消耗能量
+                                    </view>
+                                    <view class="footer-section-content">
+                                        {{ results.calorie_summary }}
+                                    </view>
+                                </view>
+                                <view class="footer-section-right">
+                                    {{ results.calorie }}<span class="footer-section-unit">kcal</span>
+                                </view>
                             </view>
-                            <view class="footer-section-content">
-                                {{ results.calorie_summary }}
+                            <view style="height:3px;border:none;border-top:3px solid #f0efef;"></view>
+                            <view class="weui-flex index-footer">
+                                <view class="weui-flex__item footer-section">
+                                    <view class="footer-section-title">
+                                        运动距离
+                                    </view>
+                                    <view class="footer-section-content">
+                                        {{ results.mileage_summary }}
+                                    </view>
+                                </view>
+                                <view class="footer-section-right">
+                                    {{ results.mileage }}<span class="footer-section-unit">km</span>
+                                </view>
                             </view>
-                        </view>
-                        <view class="footer-section-right">
-                            {{ results.calorie }}<span class="footer-section-unit">kcal</span>
-                        </view>
-                    </view>
-                    <view style="height:3px;border:none;border-top:3px solid #f0efef;"></view>
-                    <view class="weui-flex index-footer">
-                        <view class="weui-flex__item footer-section">
-                            <view class="footer-section-title">
-                                运动距离
-                            </view>
-                            <view class="footer-section-content">
-                                {{ results.mileage_summary }}
-                            </view>
-                        </view>
-                        <view class="footer-section-right">
-                            {{ results.mileage }}<span class="footer-section-unit">km</span>
                         </view>
                     </view>
                 </view>
             </view>
-        </view>
-    </view>
-</scroll-view>
+        </scroll-view>
     </swiper-item>
     <block wx:for="{{ apiData }}" wx:key="index" wx:for-index="id" wx:for-item="item">
         <swiper-item>
