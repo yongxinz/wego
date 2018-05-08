@@ -7,7 +7,7 @@
                 </canvas>
                 <canvas class="circle" style="height: {{ windowWidth-142+57.5+52 }}px;" canvas-id="canvasArcCir">
                 </canvas>
-                <view wx:if="{{ apiDataJoin.start_time === '' }}">
+                <view wx:if="{{ apiDataJoin.target === '' }}">
                     <view class="step" style="line-height: {{ windowWidth-142 }}px">{{ results.step }}</view>
                 </view>
                 <view wx:else>
@@ -16,7 +16,7 @@
             </view>
 
             <view class="target">
-                <view wx:if="{{ apiDataJoin.start_time === '' }}">
+                <view wx:if="{{ apiDataJoin.target === '' }}">
                     <view wx:if="{{ targetFlag < 1 }}">
                         今日目标{{ results.target }}步，未完成
                     </view>

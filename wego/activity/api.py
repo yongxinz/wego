@@ -129,23 +129,16 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
 
     @list_route(methods=['get'])
     def personal(self, request):
-        try:
+        if ActivityJoin.objects.filter(user=self.request.user, start_time__lte=datetime.now(), end_time__gte=datetime.now()).exists():
             obj = ActivityJoin.objects.get(user=self.request.user, start_time__lte=datetime.now(), end_time__gte=datetime.now())
-            start_time = obj.start_time.astimezone(tz.gettz(settings.TIME_ZONE))
-            end_time = obj.end_time.astimezone(tz.gettz(settings.TIME_ZONE))
-            fabulous = obj.fabulous
 
             obj_ = Activity.objects.get(id=obj.activity.pk)
             target = obj_.target_step
             count = ActivityJoin.objects.filter(activity=obj.activity, start_time__lte=datetime.now(), end_time__gte=datetime.now()).distinct(
                 'user').count()
             reward = obj_.reward * count
-        except:
-            start_time = ''
-            end_time = ''
-            fabulous = 0
+        else:
             reward = 0
             target = ''
 
-        return Response({'results': {'start_time': start_time, 'end_time': end_time, 'fabulous': fabulous, 'reward': reward,
-                                     'target': target}})
+        return Response({'results': {'reward': reward, 'target': target}})
