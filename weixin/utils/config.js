@@ -33,6 +33,7 @@ module.exports.apiMap = {
     summary_pic: '/summary_pic/get_summary_pic/',
     activity_define: '/activity/define/all/',
     activity_join: '/activity/list/',
+    activity_detail: '/activity/list/detail/',
     activity_join_personal: '/activity/list/personal/'
 };
 

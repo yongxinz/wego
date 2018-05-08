@@ -9,9 +9,11 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import list_route, detail_route
 
+from adminset.models import Users
+from data.models import DayData
 from .models import Activity, TitlePic, ACTIVITY_TYPE, ActivityJoin
 from .serializers import ActivitySerializer, TitlePicSerializer, ActivityJoinSerializer
-from .filter import ActivityJoinFilter
+# from .filter import ActivityJoinFilter
 from tools.rest_helper import YMMixin
 
 
@@ -142,3 +144,25 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
             target = ''
 
         return Response({'results': {'reward': reward, 'target': target}})
+
+    @list_route(methods=['get'])
+    def detail(self, request):
+        activity = self.request.query_params.get('activity')
+
+        res = []
+        if ActivityJoin.objects.filter(activity=activity, start_time__lte=datetime.now(), end_time__gte=datetime.now()).exists():
+            obj = ActivityJoin.objects.filter(activity=activity, start_time__lte=datetime.now(), end_time__gte=datetime.now())
+            for item in obj:
+                user = Users.objects.get(user=item.user)
+                data = DayData.objects.filter(user=item.user).first()
+                res.append({'nickname': user.nickname, 'step': data.step, 'start_time': item.start_time.astimezone(tz.gettz(settings.TIME_ZONE)),
+                            'end_time': item.end_time.astimezone(tz.gettz(settings.TIME_ZONE)), 'fabulous': item.fabulous})
+
+            obj_ = Activity.objects.get(id=activity)
+            count = ActivityJoin.objects.filter(activity=activity, start_time__lte=datetime.now(), end_time__gte=datetime.now()).distinct(
+                'user').count()
+            reward = obj_.reward * count
+        else:
+            reward = 0
+
+        return Response({'results': {'reward': reward, 'res': res}})

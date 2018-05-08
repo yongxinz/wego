@@ -99,6 +99,16 @@ Page({
     //     })
     // },
 
+    bindChange: function (e) {
+        var that = this;
+        var current = e.detail.current;
+        if (current > 0) {
+            app.helper.getApi('activity_detail', {'activity': that.data.apiData[current-1].id}).then(function (res) {
+                console.log(res)
+            });
+        }
+    },
+
     bindJoinConfirm: function (e) {
         var content = '';
         var id = e.target.dataset.item.id;
