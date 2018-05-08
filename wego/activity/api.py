@@ -102,7 +102,7 @@ def get_title_pic(request):
 class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
     queryset = ActivityJoin.objects.all()
     serializer_class = ActivityJoinSerializer
-    filter_class = ActivityJoinFilter
+    # filter_class = ActivityJoinFilter
 
     # def get_queryset_distinct(self):
     #     queryset = super(ActivityJoinViewSet, self).get_queryset()
@@ -119,6 +119,13 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
     #     rsp = self.get_paginated_response(serializer.data)
     #
     #     return rsp
+
+    def get_queryset(self):
+        start_time = self.request.query_params.get('start_time')
+        end_time = self.request.query_params.get('end_time')
+        queryset = ActivityJoin.objects.filter(user=self.request.user, start_time__lte=start_time, end_time__gte=end_time)
+
+        return queryset
 
     @list_route(methods=['get'])
     def personal(self, request):
