@@ -70,11 +70,13 @@
     <block wx:for="{{ apiData }}" wx:key="index" wx:for-index="id" wx:for-item="item">
         <swiper-item>
             <scroll-view class="section" scroll-y="true" style="width: {{ windowWidth-20 }}px;height: {{ windowHeight-10 }}px;">
-                <view style="width: 100%;height: 600rpx">
+                <view class="activity-top">
                     <image src="{{ image_url }}" style="width: 100%;height: 600rpx"></image>
-                    <text style="position: relative;bottom: 100rpx">今日奖池</text>
-                    <button style="position: relative;bottom: 300rpx"
-                        data-item="{{ item }}" bindtap="bindJoinConfirm">加入活动</button>
+                    <text class="activity-reward">奖池金额 {{ detail.reward }}</text>
+                    <button class="activity-join-button"
+                            data-item="{{ item }}" bindtap="bindJoinConfirm">立即参加</button>
+                    <button class="activity-obvious-button" plain="true"
+                            data-item="{{ item }}" bindtap="bindObviousConfirm">速去观战</button>
                 </view>
 
                 <view class="step-total">
