@@ -85,3 +85,10 @@
 .footer-section-unit {
     font-size: 24rpx
 }
+
+.step-total {
+    text-align: center;
+    font-size: 36rpx;
+    margin-top: 30rpx;
+    margin-bottom: 30rpx;
+}
