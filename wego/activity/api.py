@@ -150,23 +150,28 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
         activity = self.request.query_params.get('activity')
 
         res = []
+        start_time = ''
+        end_time = ''
         if ActivityJoin.objects.filter(activity=activity, start_time__lte=datetime.now(), end_time__gte=datetime.now()).exists():
             obj = ActivityJoin.objects.filter(activity=activity, start_time__lte=datetime.now(), end_time__gte=datetime.now())
             for item in obj:
+                start_time = str(item.start_time.astimezone(tz.gettz(settings.TIME_ZONE)))[5:10].replace('-', '.')
+                end_time = str(item.end_time.astimezone(tz.gettz(settings.TIME_ZONE)))[5:10].replace('-', '.')
+
                 user = Users.objects.get(user=item.user)
                 data = DayData.objects.filter(user=item.user).first()
-                res.append({'nickname': user.nickname, 'avatar_url': user.avatar_url, 'step': data.step,
-                            'start_time': item.start_time.astimezone(tz.gettz(settings.TIME_ZONE)),
-                            'end_time': item.end_time.astimezone(tz.gettz(settings.TIME_ZONE)), 'fabulous': item.fabulous})
+                res.append({'nickname': user.nickname, 'avatar_url': user.avatar_url, 'step': data.step, 'fabulous': item.fabulous})
+            res.sort(key=lambda k: k['step'], reverse=True)
 
             obj_ = Activity.objects.get(id=activity)
             count = ActivityJoin.objects.filter(activity=activity, start_time__lte=datetime.now(), end_time__gte=datetime.now()).distinct(
                 'user').count()
             reward = obj_.reward * count
+
             pic = TitlePic.objects.get(activity=activity, status='CIM')
             pic_id = pic.id
         else:
             reward = 0
             pic_id = ''
 
-        return Response({'results': {'reward': reward, 'res': res, 'pic_id': pic_id}})
+        return Response({'results': {'reward': reward, 'res': res, 'pic_id': pic_id, 'start_time': start_time, 'end_time': end_time}})
