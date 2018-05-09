@@ -155,14 +155,18 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
             for item in obj:
                 user = Users.objects.get(user=item.user)
                 data = DayData.objects.filter(user=item.user).first()
-                res.append({'nickname': user.nickname, 'step': data.step, 'start_time': item.start_time.astimezone(tz.gettz(settings.TIME_ZONE)),
+                res.append({'nickname': user.nickname, 'avatar_url': user.avatar_url, 'step': data.step,
+                            'start_time': item.start_time.astimezone(tz.gettz(settings.TIME_ZONE)),
                             'end_time': item.end_time.astimezone(tz.gettz(settings.TIME_ZONE)), 'fabulous': item.fabulous})
 
             obj_ = Activity.objects.get(id=activity)
             count = ActivityJoin.objects.filter(activity=activity, start_time__lte=datetime.now(), end_time__gte=datetime.now()).distinct(
                 'user').count()
             reward = obj_.reward * count
+            pic = TitlePic.objects.get(activity=activity, status='CIM')
+            pic_id = pic.id
         else:
             reward = 0
+            pic_id = ''
 
-        return Response({'results': {'reward': reward, 'res': res}})
+        return Response({'results': {'reward': reward, 'res': res, 'pic_id': pic_id}})
