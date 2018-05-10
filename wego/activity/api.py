@@ -124,8 +124,7 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
 
     def get_queryset(self):
         start_time = self.request.query_params.get('start_time')
-        end_time = self.request.query_params.get('end_time')
-        queryset = ActivityJoin.objects.filter(user=self.request.user, start_time__lte=start_time, end_time__gte=end_time)
+        queryset = ActivityJoin.objects.filter(user=self.request.user, start_time__lte=start_time, status='JOI')
 
         return queryset
 
