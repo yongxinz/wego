@@ -92,10 +92,29 @@
     text-align: center;
 }
 
+.info-icon {
+    float: right;
+    margin-right: 10rpx;
+    margin-top: 4rpx;
+}
+
 .activity-reward {
     position: relative;
     bottom: 600rpx;
     font-size: 29rpx;
+    color: #4cd8e3;
+    background-color: white;
+    width: 400rpx;
+    border-radius: 51rpx;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.activity-time {
+    position: relative;
+    bottom: 600rpx;
+    color: #4cd8e3;
+    font-size: 21rpx;
 }
 
 .activity-join-button {
@@ -104,7 +123,6 @@
     width: 300rpx;
     height: 80rpx;
     background-color: white;
-    font-size: 30rpx;
 }
 
 .activity-obvious-button {
@@ -113,6 +131,7 @@
     width: 300rpx;
     height: 50rpx;
     font-size: 25rpx;
+    color: #4cd8e3;
 }
 
 button[plain] {

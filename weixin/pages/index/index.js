@@ -207,6 +207,18 @@ Page({
         })
     },
 
+    openActivityInfoAlert: function () {
+        wx.showModal({
+            content: '弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内',
+            showCancel: false,
+            success: function (res) {
+                if (res.confirm) {
+                    console.log('用户点击确定')
+                }
+            }
+        });
+    },
+
     drawCircle: function (cxt_arc, color, endAngle) {
         cxt_arc.setLineWidth(25);
         cxt_arc.setStrokeStyle(color);
