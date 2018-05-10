@@ -79,8 +79,19 @@
                             data-item="{{ item }}" bindtap="bindObviousConfirm">速去观战</button>
                 </view>
 
-                <view class="step-total">
-                    总步数：{{ results.target }}
+                <view wx:if="{{ item.type === 'W' }}">
+                    <view class="step-total">
+                        总步数：{{ detail.step }}
+                    </view>
+
+                    <view>
+                        <canvas canvas-id="lineCanvas" disable-scroll="true" class="canvas"></canvas>
+                    </view>
+                </view>
+                <view wx:else>
+                    <view class="step-total">
+                        总步数：{{ results.step }}
+                    </view>
                 </view>
 
                 <view class="list">

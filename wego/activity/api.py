@@ -149,14 +149,22 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
     def detail(self, request):
         activity = self.request.query_params.get('activity')
 
-        res = []
-        start_time = ''
-        end_time = ''
+        start_time, end_time = '', ''
+        res, dates, steps = [], [], []
+        step, reward = 0, 0
+        pic_id = ''
+
         if ActivityJoin.objects.filter(activity=activity, start_time__lte=datetime.now(), end_time__gte=datetime.now()).exists():
+            start_time_zone, end_time_zone = '', ''
+
             obj = ActivityJoin.objects.filter(activity=activity, start_time__lte=datetime.now(), end_time__gte=datetime.now())
             for item in obj:
-                start_time = str(item.start_time.astimezone(tz.gettz(settings.TIME_ZONE)))[5:10].replace('-', '.')
-                end_time = str(item.end_time.astimezone(tz.gettz(settings.TIME_ZONE)))[5:10].replace('-', '.')
+                if start_time == '':
+                    start_time_zone = item.start_time.astimezone(tz.gettz(settings.TIME_ZONE))
+                    end_time_zone = item.end_time.astimezone(tz.gettz(settings.TIME_ZONE))
+
+                    start_time = str(start_time_zone)[5:10].replace('-', '.')
+                    end_time = str(end_time_zone)[5:10].replace('-', '.')
 
                 user = Users.objects.get(user=item.user)
                 data = DayData.objects.filter(user=item.user).first()
@@ -164,14 +172,19 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
             res.sort(key=lambda k: k['step'], reverse=True)
 
             obj_ = Activity.objects.get(id=activity)
-            count = ActivityJoin.objects.filter(activity=activity, start_time__lte=datetime.now(), end_time__gte=datetime.now()).distinct(
-                'user').count()
+            count = ActivityJoin.objects.filter(activity=activity, start_time__lte=datetime.now(), end_time__gte=datetime.now()).count()
             reward = obj_.reward * count
+
+            if obj_.type == 'W':
+                day_data = DayData.objects.filter(user=self.request.user,
+                                                  created_time__range=[start_time_zone, end_time_zone]).values('created_time', 'step')
+                for item in day_data:
+                    dates.insert(0, str(item['created_time'])[5:10].replace('-', '.'))
+                    steps.insert(0, item['step'])
+                    step += item['step']
 
             pic = TitlePic.objects.get(activity=activity, status='CIM')
             pic_id = pic.id
-        else:
-            reward = 0
-            pic_id = ''
 
-        return Response({'results': {'reward': reward, 'res': res, 'pic_id': pic_id, 'start_time': start_time, 'end_time': end_time}})
+        return Response({'results': {'reward': reward, 'res': res, 'pic_id': pic_id, 'start_time': start_time, 'end_time': end_time,
+                                     'dates': dates, 'steps': steps, 'step': step}})

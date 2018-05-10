@@ -1,4 +1,6 @@
 import util from '../../utils/util'
+var wxCharts = require('../../utils/wxcharts.js');
+var lineChart = null;
 
 var app = getApp();
 
@@ -106,7 +108,8 @@ Page({
             app.helper.getApi('activity_detail', {'activity': that.data.apiData[current-1].id}).then(function (res) {
                 var image_url = app.config.baseURL + app.config.apiMap.get_title_pic + '?pk=' + res.data.results.pic_id;
                 that.setData({'image_url': image_url});
-                that.setData({'detail': res.data.results})
+                that.setData({'detail': res.data.results});
+                that.initChart(res.data.results.dates, res.data.results.steps)
             });
         }
     },
@@ -173,6 +176,35 @@ Page({
                 });
             }
         });
+    },
+
+    initChart: function (cate, d1) {
+        lineChart = new wxCharts({
+            canvasId: 'lineCanvas',
+            type: 'line',
+            categories: cate,
+            series: [{
+                name: '步数',
+                data: d1
+            }],
+            xAxis: {
+                disableGrid: true
+            },
+            yAxis: {
+                title: '',
+                min: 0,
+                disabled: true
+            },
+            width: this.data.windowWidth-20,
+            height: 180,
+            animation: true,
+            background: '#f5f5f5',
+            dataPointShape: true,
+            legend: false,
+            extra: {
+                lineStyle: 'straight'
+            }
+        })
     },
 
     drawCircle: function (cxt_arc, color, endAngle) {
