@@ -123,6 +123,8 @@
     width: 300rpx;
     height: 80rpx;
     background-color: white;
+    font-size: 30rpx;
+    color: #4cd8e3;
 }
 
 .activity-obvious-button {
@@ -130,12 +132,12 @@
     bottom: 240rpx;
     width: 300rpx;
     height: 50rpx;
-    font-size: 25rpx;
-    color: #4cd8e3;
 }
 
 button[plain] {
     border: 0;
+    font-size: 25rpx;
+    color: #4cd8e3;
 }
 
 .step-total {
