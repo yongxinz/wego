@@ -124,7 +124,13 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
 
     def get_queryset(self):
         start_time = self.request.query_params.get('start_time')
-        queryset = ActivityJoin.objects.filter(user=self.request.user, start_time__lte=start_time, status='JOI')
+        status = self.request.query_params.get('status')
+        activity = self.request.query_params.get('activity')
+
+        if status == 'JOI':
+            queryset = ActivityJoin.objects.filter(user=self.request.user, start_time__lte=start_time, status=status)
+        else:
+            queryset = ActivityJoin.objects.filter(user=self.request.user, activity=activity, start_time__lte=start_time)
 
         return queryset
 
