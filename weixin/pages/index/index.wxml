@@ -107,6 +107,10 @@
                         </view>
                         <text class="user-name">{{ item.nickname }}</text>
                         <view class="step"><text style="float: right;">{{ item.step }}</text></view>
+                        <view class="fabulous">
+                            <text class="fabulous-text"></text>
+                            <image class="fabulous-image" src="../../static/image/icon_fabulous.png"></image>
+                        </view>
                     </view>
                 </view>
             </scroll-view>
