@@ -107,9 +107,12 @@ Page({
         if (current > 0) {
             app.helper.getApi('activity_detail', {'activity': that.data.apiData[current-1].id}).then(function (res) {
                 var image_url = app.config.baseURL + app.config.apiMap.get_title_pic + '?pk=' + res.data.results.pic_id;
-                that.setData({'image_url': image_url});
-                that.setData({'detail': res.data.results});
-                that.initChart(res.data.results.dates, res.data.results.steps)
+                that.setData({image_url: image_url});
+                that.setData({detail: res.data.results});
+
+                if (that.data.apiData[current-1].type === 'W') {
+                    that.initChart(res.data.results.dates, res.data.results.steps)
+                }
             });
         }
     },
