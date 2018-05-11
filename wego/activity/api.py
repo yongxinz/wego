@@ -173,7 +173,7 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
 
                 user = Users.objects.get(user=item.user)
                 data = DayData.objects.filter(user=item.user).first()
-                res.append({'nickname': user.nickname, 'avatar_url': user.avatar_url, 'step': data.step, 'fabulous': item.fabulous})
+                res.append({'nickname': user.nickname, 'avatar_url': user.avatar_url, 'step': data.step})
             res.sort(key=lambda k: k['step'], reverse=True)
 
             obj_ = Activity.objects.get(id=activity)

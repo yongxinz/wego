@@ -59,7 +59,6 @@ class TitlePic(models.Model):
 class ActivityJoin(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True)
-    fabulous = models.IntegerField(u"赞", default=0)
     start_time = models.DateTimeField(u"开始时间", default=timezone.now)
     end_time = models.DateTimeField(u"结束时间", default=timezone.now)
     status = models.CharField(u"活动状态", max_length=5, choices=STATUS, default='JOI')
@@ -67,3 +66,13 @@ class ActivityJoin(models.Model):
 
     # class Meta:
     #     ordering = ['-id']
+
+
+class Fabulous(models.Model):
+    activity_join = models.ForeignKey(ActivityJoin, on_delete=models.SET_NULL, null=True)
+    user_receive = models.ForeignKey(User, related_name='user_receive', on_delete=models.SET_NULL, null=True)
+    user_give = models.ForeignKey(User, related_name='user_give', on_delete=models.SET_NULL, null=True)
+    created_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-id']
