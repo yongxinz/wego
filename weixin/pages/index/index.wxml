@@ -108,8 +108,12 @@
                         <text class="user-name">{{ item.nickname }}</text>
                         <view class="step"><text style="float: right;">{{ item.step }}</text></view>
                         <view class="fabulous">
-                            <text class="fabulous-text"></text>
-                            <image class="fabulous-image" src="../../static/image/icon_fabulous.png"></image>
+                            <text class="fabulous-text">{{ item.fabulous }}</text>
+                            <image wx:if="{{ item.is_fabulous }}" class="fabulous-image"
+                                   src="../../static/image/icon_fabulous_select.png"></image>
+                            <image wx:else class="fabulous-image" src="../../static/image/icon_fabulous.png"
+                                   data-activity_join="{{ item.activity_join }}" data-user_receive="{{ item.user }}" data-index="{{ index }}"
+                                   bindtap="bindFabulous"></image>
                         </view>
                     </view>
                 </view>

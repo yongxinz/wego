@@ -11,8 +11,8 @@ from rest_framework.decorators import list_route, detail_route
 
 from adminset.models import Users
 from data.models import DayData
-from .models import Activity, TitlePic, ACTIVITY_TYPE, ActivityJoin
-from .serializers import ActivitySerializer, TitlePicSerializer, ActivityJoinSerializer
+from .models import Activity, TitlePic, ACTIVITY_TYPE, ActivityJoin, Fabulous
+from .serializers import ActivitySerializer, TitlePicSerializer, ActivityJoinSerializer, FabulousSerializer
 # from .filter import ActivityJoinFilter
 from tools.rest_helper import YMMixin
 
@@ -173,7 +173,10 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
 
                 user = Users.objects.get(user=item.user)
                 data = DayData.objects.filter(user=item.user).first()
-                res.append({'nickname': user.nickname, 'avatar_url': user.avatar_url, 'step': data.step})
+                fabulous = Fabulous.objects.filter(activity_join=item.id, user_receive=item.user).count()
+                is_fabulous = Fabulous.objects.filter(activity_join=item.id, user_give=self.request.user).exists()
+                res.append({'user': user.id, 'nickname': user.nickname, 'avatar_url': user.avatar_url, 'step': data.step, 'activity_join': item.id,
+                            'fabulous': fabulous, 'is_fabulous': is_fabulous})
             res.sort(key=lambda k: k['step'], reverse=True)
 
             obj_ = Activity.objects.get(id=activity)
@@ -193,3 +196,8 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
 
         return Response({'results': {'reward': reward, 'res': res, 'pic_id': pic_id, 'start_time': start_time, 'end_time': end_time,
                                      'dates': dates, 'steps': steps, 'step': step}})
+
+
+class FabulousViewSet(YMMixin, viewsets.ModelViewSet):
+    queryset = Fabulous.objects.all()
+    serializer_class = FabulousSerializer

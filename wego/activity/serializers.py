@@ -3,7 +3,7 @@
 from rest_framework import serializers
 from django.utils import timezone as datetime
 
-from .models import Activity, TitlePic, ActivityJoin
+from .models import Activity, TitlePic, ActivityJoin, Fabulous
 
 
 class ActivitySerializer(serializers.ModelSerializer):
@@ -43,3 +43,10 @@ class ActivityJoinSerializer(serializers.ModelSerializer):
     class Meta:
         model = ActivityJoin
         exclude = ()
+
+
+class FabulousSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Fabulous
+        exclude = ('created_time',)

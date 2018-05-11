@@ -29,6 +29,9 @@ class YMMixin(object):
         if 'user' in fields:
             update_dict['user'] = self.request.user
 
+        if 'user_give' in fields:
+            update_dict['user_give'] = self.request.user
+
         serializer.save(**update_dict)
 
     def perform_destroy(self, instance):

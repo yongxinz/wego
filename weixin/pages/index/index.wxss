@@ -208,6 +208,7 @@ button[plain] {
     flex-direction: column;
     justify-content:center;
     margin-left: 40rpx;
+    text-align: center;
 }
 
 .fabulous-text {

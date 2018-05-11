@@ -21,7 +21,7 @@ from rest_framework import routers
 from passport.api import WeixinUserViewSet
 from data.api import WeRunViewSet
 from adminset.api import UsersViewSet, DataDefineViewSet, SummaryPicViewSet, get_pic
-from activity.api import ActivityViewSet, TitlePicViewSet, get_title_pic, ActivityJoinViewSet
+from activity.api import ActivityViewSet, TitlePicViewSet, get_title_pic, ActivityJoinViewSet, FabulousViewSet
 
 router = routers.DefaultRouter()
 router.register(r'passport/wx', WeixinUserViewSet, base_name='passport_wx'),
@@ -32,6 +32,7 @@ router.register(r'summary_pic', SummaryPicViewSet)
 router.register(r'activity/define', ActivityViewSet)
 router.register(r'activity/list', ActivityJoinViewSet)
 router.register(r'title_pic', TitlePicViewSet)
+router.register(r'fabulous', FabulousViewSet)
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),

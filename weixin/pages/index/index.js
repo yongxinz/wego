@@ -233,6 +233,17 @@ Page({
         });
     },
 
+    bindFabulous: function (e) {
+        let that = this;
+        let activity_join = e.target.dataset.activity_join;
+        let user_receive = e.target.dataset.user_receive;
+        let index = e.target.dataset.index;
+
+        app.helper.postApi('fabulous', {'activity_join': activity_join, 'user_receive': user_receive}).then(function (res) {
+            that.data.detail.res[index].is_fabulous = true;
+        })
+    },
+
     drawCircle: function (cxt_arc, color, endAngle) {
         cxt_arc.setLineWidth(25);
         cxt_arc.setStrokeStyle(color);
