@@ -1,4 +1,4 @@
-import util from '../../utils/util'
+var util = require('../../utils/util.js');
 var wxCharts = require('../../utils/wxcharts.js');
 var lineChart = null;
 
@@ -114,10 +114,7 @@ Page({
         }
     },
 
-    bindJoinConfirm: function (e) {
-        var content = '';
-        var id = e.target.dataset.item.id;
-        var user = e.target.dataset.item.user;
+    activityContent: function (e) {
         var reward = e.target.dataset.item.reward;
         var type = e.target.dataset.item.type;
 
@@ -131,38 +128,48 @@ Page({
             var start_time = util.formatFullTime(d2) + ' 00:00:00';
             var end_time = util.formatFullTime(d2) + ' 24:00:00';
 
-            content = '活动时间：' + util.formatTime(d2) + ' 00:00~24:00。挑战需要支付 ' + reward + ' 元钱，挑战成功后，奖金会在 '
+            var content = '活动时间：' + util.formatTime(d2) + ' 00:00~24:00。挑战需要支付 ' + reward + ' 元钱，挑战成功后，奖金会在 '
                 + util.formatTime(d3) + ' 上午 10:00 发放到微信零钱。记得在 10:00 点之前同步步数哦。'
-        } else if (type === 'W') {
-            var d1 = new Date();
-            var d2 = new Date(d1);
-            var d3 = new Date(d1);
+        } else if (e.target.dataset.item.type === 'W') {
+            d1 = new Date();
+            d2 = new Date(d1);
+            d3 = new Date(d1);
             var d4 = new Date(d1);
             d2.setDate(d1.getDate()+1);
             d3.setDate(d1.getDate()+7);
             d4.setDate(d1.getDate()+8);
 
-            var start_time = util.formatFullTime(d2) + ' 00:00:00';
-            var end_time = util.formatFullTime(d3) + ' 24:00:00';
+            start_time = util.formatFullTime(d2) + ' 00:00:00';
+            end_time = util.formatFullTime(d3) + ' 24:00:00';
 
             content = '活动时间：' + util.formatTime(d2) + ' 00:00~' + util.formatTime(d3) + ' 24:00'
                 + '挑战需要支付 ' + reward + ' 元钱，挑战成功后，奖金会在 '
                 + util.formatTime(d4) + ' 上午 10:00 发放到微信零钱。记得在 10:00 点之前同步步数哦。'
         }
 
-        var form = {'user': user, 'activity': id, 'start_time': new Date(start_time), 'end_time': new Date(end_time)};
+        return {'start_time': start_time, 'end_time': end_time, 'content': content};
+    },
 
-        app.helper.getApi('activity_join', {'user': user, 'start_time': new Date(start_time).toISOString()}).then(function (res) {
+    bindJoinConfirm: function (e) {
+        let id = e.target.dataset.item.id;
+        let user = e.target.dataset.item.user;
+
+        let content = this.activityContent(e);
+
+        app.helper.getApi('activity_join', {'user': user, 'start_time': new Date(content.start_time).toISOString()}).then(function (res) {
             if (res.data.results.length > 0) {
                 wx.showToast({title: '参加失败，已有活动正在进行中...', icon: 'none', duration: 2000})
             } else {
                 wx.showModal({
                     title: '活动信息',
-                    content: content,
+                    content: content.content,
                     confirmText: "确定",
                     cancelText: "取消",
                     success: function (res) {
                         if (res.confirm) {
+                            let form = {'user': user, 'activity': id,
+                                        'start_time': new Date(content.start_time), 'end_time': new Date(content.end_time)};
+
                             app.helper.postApi('activity_join', form).then(function (res) {
                                 wx.showToast({title: '参加成功', icon: 'success', duration: 1000})
                             })
