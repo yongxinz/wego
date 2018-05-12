@@ -212,7 +212,7 @@ button[plain] {
 }
 
 .fabulous-text {
-    font-size: 25rpx;
+    font-size: 28rpx;
     color: #9b9b9b;
 }
 

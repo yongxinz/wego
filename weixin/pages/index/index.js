@@ -234,13 +234,17 @@ Page({
     },
 
     bindFabulous: function (e) {
-        let that = this;
         let activity_join = e.target.dataset.activity_join;
         let user_receive = e.target.dataset.user_receive;
         let index = e.target.dataset.index;
 
+        let that = this;
+        let detail = that.data.detail;
+
         app.helper.postApi('fabulous', {'activity_join': activity_join, 'user_receive': user_receive}).then(function (res) {
-            that.data.detail.res[index].is_fabulous = true;
+            detail.res[index].is_fabulous = true;
+            detail.res[index].fabulous += 1;
+            that.setData({detail: detail})
         })
     },
 
