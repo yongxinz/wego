@@ -1,4 +1,4 @@
-<swiper style="height: {{ windowHeight }}px;" current="{{ current }}" bindchange="bindChange">
+<swiper style="height: {{ windowHeight }}px;" current="{{ current }}" indicator-dots="true" bindchange="bindChange">
     <swiper-item>
         <scroll-view class="section" scroll-y="true" style="width: {{ windowWidth-20 }}px;height: {{ windowHeight-10 }}px;">
             <view class="circle-box">
