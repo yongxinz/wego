@@ -111,7 +111,13 @@ Page({
                 that.setData({detail: res.data.results});
 
                 if (that.data.apiData[current-1].type === 'W') {
-                    that.initChart(res.data.results.dates, res.data.results.steps)
+                    that.initChart(res.data.results.dates, res.data.results.steps);
+                    wx.canvasToTempFilePath({
+                        canvasId: 'lineCanvas',
+                        success: function (res) {
+                            that.setData({image_line_canvas: res.tempFilePath});
+                        }
+                    });
                 }
             });
         }
@@ -211,7 +217,6 @@ Page({
             },
             width: this.data.windowWidth-20,
             height: 180,
-            animation: true,
             background: '#f5f5f5',
             dataPointShape: true,
             legend: false,

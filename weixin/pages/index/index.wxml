@@ -2,11 +2,8 @@
     <swiper-item>
         <scroll-view class="section" scroll-y="true" style="width: {{ windowWidth-20 }}px;height: {{ windowHeight-10 }}px;">
             <view class="circle-box">
-                <canvas class="circle" style="height: {{ windowWidth-142+57.5+52 }}px;"
-                        canvas-id="canvasCircle">
-                </canvas>
-                <canvas class="circle" style="height: {{ windowWidth-142+57.5+52 }}px;" canvas-id="canvasArcCir">
-                </canvas>
+                <canvas class="circle" style="height: {{ windowWidth-142+57.5+52 }}px;" canvas-id="canvasCircle"></canvas>
+                <canvas class="circle" style="height: {{ windowWidth-142+57.5+52 }}px;" canvas-id="canvasArcCir"></canvas>
                 <view wx:if="{{ apiDataJoin.target === '' }}">
                     <view class="step-index" style="line-height: {{ windowWidth-142 }}px">{{ results.step }}</view>
                 </view>
@@ -90,7 +87,8 @@
                     </view>
 
                     <view>
-                        <canvas canvas-id="lineCanvas" disable-scroll="true" class="canvas"></canvas>
+                        <canvas canvas-id="lineCanvas" style="visibility: hidden; position: absolute;top: -1200px;" class="canvas"></canvas>
+                        <image src="{{ image_line_canvas }}" class="canvas"></image>
                     </view>
                 </view>
                 <view wx:else>
