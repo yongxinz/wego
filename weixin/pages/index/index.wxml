@@ -2,13 +2,21 @@
     <swiper-item>
         <scroll-view class="section" scroll-y="true" style="width: {{ windowWidth-20 }}px;height: {{ windowHeight-10 }}px;">
             <view class="circle-box">
-                <canvas class="circle" style="height: {{ windowWidth-142+57.5+52 }}px;" canvas-id="canvasCircle"></canvas>
-                <canvas class="circle" style="height: {{ windowWidth-142+57.5+52 }}px;" canvas-id="canvasArcCir"></canvas>
-                <view wx:if="{{ apiDataJoin.target === '' }}">
-                    <view class="step-index" style="line-height: {{ windowWidth-142 }}px">{{ results.step }}</view>
+                <canvas class="circle" style="height: {{ windowWidth-142+57.5+52 }}px;visibility: hidden; position: absolute;top: -1200px;"
+                        canvas-id="canvasCircle"></canvas>
+                <canvas class="circle" style="height: {{ windowWidth-142+57.5+52 }}px;visibility: hidden; position: absolute;top: -1200px;"
+                        canvas-id="canvasArcCir"></canvas>
+                <image src="{{ canvasCircle }}" style="width: 100%;height: {{ windowWidth-142+57.5+52 }}px;"></image>
+                <image src="{{ canvasArcCir }}"
+                       style="width: 100%;height: {{ windowWidth-142+57.5+52 }}px;position: relative;bottom: {{ windowWidth-142+57.5+52+6 }}px;">
+
+                </image>
+                <view wx:if="{{ apiDataJoin.target === '' }}"
+                      class="step-index" style="line-height: {{ windowWidth-142 }}px;bottom: {{ windowHeight+100 }}px;">
+                    {{ results.step }}
                 </view>
-                <view wx:else>
-                    <view class="step-index" style="line-height: {{ windowWidth-142 }}px">{{ results.step }}/{{ apiDataJoin.target }}</view>
+                <view wx:else class="step-index" style="line-height: {{ windowWidth-142 }}px;bottom: {{ windowHeight+100 }}px;">
+                    {{ results.step }}/{{ apiDataJoin.target }}
                 </view>
             </view>
 

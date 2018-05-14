@@ -16,12 +16,12 @@
 }
 
 .step-index {
+    position: relative;
     right: 0;
     left: 0;
     text-align: center;
     font-size: 72rpx;
     color: #5c5c5c;
-    margin-top: 115rpx
 }
 
 .target {
@@ -42,7 +42,7 @@
 
 .circle-box {
     top: 0;
-    height: 600rpx;
+    height: 700rpx;
 }
 
 .circle {

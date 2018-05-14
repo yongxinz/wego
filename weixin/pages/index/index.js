@@ -33,7 +33,7 @@ Page({
         let that = this;
 
         var cxt_arc = wx.createCanvasContext('canvasCircle');
-        that.drawCircle(cxt_arc, '#eeeeee', 3.5 * Math.PI);
+        that.drawCircle(cxt_arc, '#eeeeee', 3.5 * Math.PI, 'canvasCircle');
 
         // 获取微信运动权限
         app.helper.wxPromisify(wx.getWeRunData)().then(function (res) {
@@ -80,7 +80,7 @@ Page({
                     targetFlag = step / res.data.results.target;
                 }
                 var cxt_arc = wx.createCanvasContext('canvasArcCir');
-                that.drawCircle(cxt_arc, '#d81e06', (2 * targetFlag + 1.5) * Math.PI)
+                that.drawCircle(cxt_arc, '#d81e06', (2 * targetFlag + 1.5) * Math.PI, 'canvasArcCir')
             })
         })
     },
@@ -255,7 +255,7 @@ Page({
         })
     },
 
-    drawCircle: function (cxt_arc, color, endAngle) {
+    drawCircle: function (cxt_arc, color, endAngle, canvasId) {
         cxt_arc.setLineWidth(25);
         cxt_arc.setStrokeStyle(color);
         cxt_arc.setLineCap('round');
@@ -263,6 +263,27 @@ Page({
         cxt_arc.arc((this.data.windowWidth - 20) / 2, (this.data.windowWidth - 20) / 2 - 71 + 57.5, this.data.radius, 1.5 * Math.PI, endAngle, false);
         cxt_arc.stroke();
         cxt_arc.draw();
+
+        let that = this;
+        if (canvasId === 'canvasCircle') {
+            setTimeout( function () {
+                wx.canvasToTempFilePath({
+                    canvasId: canvasId,
+                    success: function (res) {
+                        that.setData({canvasCircle: res.tempFilePath});
+                    }
+                });
+            }, 1000);
+        } else {
+            setTimeout( function () {
+                wx.canvasToTempFilePath({
+                    canvasId: canvasId,
+                    success: function (res) {
+                        that.setData({canvasArcCir: res.tempFilePath});
+                    }
+                });
+            }, 1000);
+        }
     },
 
     onShareAppMessage: function () {
