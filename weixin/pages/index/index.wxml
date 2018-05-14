@@ -89,19 +89,18 @@
                             data-item="{{ item }}" data-status="OBS" data-pk="{{ detail.pk }}" bindtap="bindJoinConfirm">速去观战</button>
                 </view>
 
-                <view wx:if="{{ item.type === 'W' }}">
-                    <view class="step-total">
-                        总步数：{{ detail.step }}
-                    </view>
-
-                    <view>
+                <view class="step-total">
+                    <view wx:if="{{ item.type === 'W' }}">
+                        <text>
+                            总步数：{{ detail.step }}
+                        </text>
                         <canvas canvas-id="lineCanvas" style="visibility: hidden; position: absolute;top: -1200px;" class="canvas"></canvas>
                         <image src="{{ image_line_canvas }}" class="canvas"></image>
                     </view>
-                </view>
-                <view wx:else>
-                    <view class="step-total">
-                        总步数：{{ results.step }}
+                    <view wx:else>
+                        <text>
+                            总步数：{{ results.step }}
+                        </text>
                     </view>
                 </view>
 
