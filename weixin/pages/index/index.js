@@ -112,12 +112,14 @@ Page({
 
                 if (that.data.apiData[current-1].type === 'W') {
                     that.initChart(res.data.results.dates, res.data.results.steps);
-                    wx.canvasToTempFilePath({
-                        canvasId: 'lineCanvas',
-                        success: function (res) {
-                            that.setData({image_line_canvas: res.tempFilePath});
-                        }
-                    });
+                    setTimeout( function () {
+                        wx.canvasToTempFilePath({
+                            canvasId: 'lineCanvas',
+                            success: function (res) {
+                                that.setData({image_line_canvas: res.tempFilePath});
+                            }
+                        });
+                    }, 1100);
                 }
             });
         }
