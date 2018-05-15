@@ -101,6 +101,16 @@ Page({
     //     })
     // },
 
+    bindCheck: function (e) {
+        var id = e.target.dataset.id;
+
+        for (let i = 0; i < this.data.apiData.length; i++) {
+            if (id === this.data.apiData[i].id) {
+                this.setData({current: i + 1})
+            }
+        }
+    },
+
     bindChange: function (e) {
         var that = this;
         var current = e.detail.current;
