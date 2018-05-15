@@ -24,6 +24,13 @@
     color: #5c5c5c;
 }
 
+.index-button {
+    position: relative;
+    width: 200rpx;
+    font-size: 26rpx;
+    line-height:2.3;
+}
+
 .target {
     text-align: center;
     font-size: 36rpx;
