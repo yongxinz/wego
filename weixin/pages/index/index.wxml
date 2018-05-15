@@ -12,12 +12,13 @@
 
                 </image>
                 <view wx:if="{{ apiDataJoin.target === '' }}"
-                      class="step-index" style="line-height: {{ windowWidth-142 }}px;bottom: {{ windowHeight+100 }}px;">
+                      class="step-index" style="line-height: {{ windowWidth-142 }}px;bottom: {{ windowWidth+280 }}px;">
                     {{ results.step }}
                 </view>
-                <view wx:else class="step-index" style="line-height: {{ windowWidth-142 }}px;bottom: {{ windowHeight+100 }}px;">
+                <view wx:else class="step-index" style="line-height: {{ windowWidth-142 }}px;bottom: {{ windowWidth+280 }}px;">
                     {{ results.step }}/{{ apiDataJoin.target }}
                 </view>
+                <button style="position: relative;bottom: {{ windowWidth+360 }}px;width: 200rpx;font-size: 26rpx;line-height:2.3;">查看</button>
             </view>
 
             <view class="target">
