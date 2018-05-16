@@ -106,33 +106,32 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
     serializer_class = ActivityJoinSerializer
     # filter_class = ActivityJoinFilter
 
-    # def get_queryset_distinct(self):
-    #     queryset = super(ActivityJoinViewSet, self).get_queryset()
-    #     queryset = queryset.distinct('activity', 'start_time', 'end_time').order_by('start_time')
-    #
-    #     return queryset
-    #
-    # def list(self, request, *args, **kwargs):
-    #     queryset = self.filter_queryset(self.get_queryset_distinct())
-    #     # queryset = self.filter_queryset(self.get_queryset())
-    #
-    #     page = self.paginate_queryset(queryset)
-    #     serializer = self.get_serializer(page, many=True)
-    #     rsp = self.get_paginated_response(serializer.data)
-    #
-    #     return rsp
-
-    def get_queryset(self):
-        start_time = self.request.query_params.get('start_time')
-        status = self.request.query_params.get('status')
-        activity = self.request.query_params.get('activity')
-
-        if status == 'JOI':
-            queryset = ActivityJoin.objects.filter(user=self.request.user, start_time__lte=start_time, status=status)
-        else:
-            queryset = ActivityJoin.objects.filter(user=self.request.user, activity=activity, start_time__lte=start_time)
+    def get_queryset_distinct(self):
+        queryset = super(ActivityJoinViewSet, self).get_queryset()
+        queryset = queryset.distinct('activity', 'start_time', 'end_time').order_by('start_time')
 
         return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset_distinct())
+        # queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        serializer = self.get_serializer(page, many=True)
+        rsp = self.get_paginated_response(serializer.data)
+
+        return rsp
+
+    @list_route(methods=['get'])
+    def is_join(self, request):
+        start_time = self.request.query_params.get('start_time')
+
+        res = []
+        obj = ActivityJoin.objects.filter(user=self.request.user, end_time__gte=start_time)
+        for item in obj:
+            res.append({'id': item.id, 'status': item.status})
+
+        return Response({'results': res})
 
     @list_route(methods=['get'])
     def personal(self, request):
@@ -199,6 +198,16 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
 
         return Response({'results': {'reward': reward, 'res': res, 'pic_id': pic_id, 'start_time': start_time, 'end_time': end_time,
                                      'dates': dates, 'steps': steps, 'step': step}})
+
+    @detail_route(methods=['patch', 'put'])
+    def join(self, request, pk):
+        status = self.request.data.get('status')
+
+        obj = self.get_object()
+        obj.status = status
+        obj.save()
+
+        return Response({'status': True})
 
 
 class FabulousViewSet(YMMixin, viewsets.ModelViewSet):

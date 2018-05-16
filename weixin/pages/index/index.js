@@ -179,14 +179,18 @@ Page({
         let id = e.target.dataset.item.id;
         let user = e.target.dataset.item.user;
         let status = e.target.dataset.status;
-        let pk = e.target.dataset.pk;
 
         let content = this.activityContent(e);
 
-        app.helper.getApi('activity_join', {'start_time': new Date(content.start_time).toISOString(),
-                                            'status': status, 'activity': id}).then(function (res) {
+        app.helper.getApi('is_join', {'start_time': new Date(content.start_time).toISOString()}).then(function (res) {
             if (res.data.results.length > 0) {
-                wx.showToast({title: '已经参加了哦~', icon: 'none', duration: 2000})
+                if (res.data.results[0].status === 'OBS') {
+                    app.helper.putApi('activity_join', {'status': status}, res.data.results[0].id + '/join/').then(function (res) {
+                        wx.showToast({title: '参加成功', icon: 'success', duration: 1000})
+                    });
+                } else {
+                    wx.showToast({title: '已经参加了哦~', icon: 'none', duration: 2000})
+                }
             } else {
                 wx.showModal({
                     title: '活动信息',
@@ -195,18 +199,12 @@ Page({
                     cancelText: "取消",
                     success: function (res_) {
                         if (res_.confirm) {
-                            if (res.data.results[0].status === 'OBS') {
-                                app.helper.putApi('activity_join' + pk + '/', {'status': status}).then(function (res) {
-                                    wx.showToast({title: '参加成功', icon: 'success', duration: 1000})
-                                });
-                            } else {
-                                let form = {'user': user, 'activity': id, 'status': status,
-                                            'start_time': new Date(content.start_time), 'end_time': new Date(content.end_time)};
+                            let form = {'user': user, 'activity': id, 'status': status,
+                                        'start_time': new Date(content.start_time), 'end_time': new Date(content.end_time)};
 
-                                app.helper.postApi('activity_join', form).then(function (res) {
-                                    wx.showToast({title: '参加成功', icon: 'success', duration: 1000})
-                                })
-                            }
+                            app.helper.postApi('activity_join', form).then(function (res) {
+                                wx.showToast({title: '参加成功', icon: 'success', duration: 1000})
+                            })
                         }
                     }
                 });
