@@ -104,9 +104,13 @@ Page({
     bindCheck: function (e) {
         var id = e.target.dataset.id;
 
-        for (let i = 0; i < this.data.apiData.length; i++) {
-            if (id === this.data.apiData[i].id) {
-                this.setData({current: i + 1})
+        if (id === '') {
+            this.setData({current: 1})
+        } else {
+            for (let i = 0; i < this.data.apiData.length; i++) {
+                if (id === this.data.apiData[i].id) {
+                    this.setData({current: i + 1})
+                }
             }
         }
     },
@@ -120,7 +124,7 @@ Page({
                 that.setData({image_url: image_url});
                 that.setData({detail: res.data.results});
 
-                if (that.data.apiData[current-1].type === 'W') {
+                if (that.data.apiData[current-1].type === 'W' && res.data.results.dates.length > 0) {
                     that.initChart(res.data.results.dates, res.data.results.steps);
                     setTimeout( function () {
                         wx.canvasToTempFilePath({

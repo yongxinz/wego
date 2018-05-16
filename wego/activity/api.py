@@ -155,10 +155,15 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
     def detail(self, request):
         activity = self.request.query_params.get('activity')
 
+        try:
+            pic = TitlePic.objects.get(activity=activity, status='CIM')
+            pic_id = pic.id
+        except:
+            pic_id = ''
+
         start_time, end_time = '', ''
         res, dates, steps = [], [], []
         step, reward = 0, 0
-        pic_id = ''
 
         if ActivityJoin.objects.filter(activity=activity, start_time__lte=datetime.now(), end_time__gte=datetime.now()).exists():
             start_time_zone, end_time_zone = '', ''
@@ -191,9 +196,6 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
                     dates.insert(0, str(item['created_time'])[5:10].replace('-', '.'))
                     steps.insert(0, item['step'])
                     step += item['step']
-
-            pic = TitlePic.objects.get(activity=activity, status='CIM')
-            pic_id = pic.id
 
         return Response({'results': {'reward': reward, 'res': res, 'pic_id': pic_id, 'start_time': start_time, 'end_time': end_time,
                                      'dates': dates, 'steps': steps, 'step': step}})
