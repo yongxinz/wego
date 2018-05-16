@@ -91,7 +91,7 @@
 
 .activity-top {
     width: 100%;
-    height: 600rpx;
+    height: 682rpx;
     text-align: center;
 }
 
@@ -103,7 +103,7 @@
 
 .activity-reward {
     position: relative;
-    bottom: 600rpx;
+    bottom: 682rpx;
     font-size: 29rpx;
     color: #4cd8e3;
     background-color: white;
@@ -115,14 +115,14 @@
 
 .activity-time {
     position: relative;
-    bottom: 600rpx;
+    bottom: 682rpx;
     color: #4cd8e3;
     font-size: 21rpx;
 }
 
 .activity-join-button {
     position: relative;
-    bottom: 250rpx;
+    bottom: 270rpx;
     width: 300rpx;
     height: 80rpx;
     background-color: white;
@@ -132,7 +132,7 @@
 
 .activity-obvious-button {
     position: relative;
-    bottom: 240rpx;
+    bottom: 260rpx;
     width: 300rpx;
     height: 50rpx;
 }
