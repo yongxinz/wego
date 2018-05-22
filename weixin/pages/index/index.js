@@ -224,6 +224,46 @@ Page({
         });
     },
 
+    bindCancelConfirm: function (e) {
+        let id = e.target.dataset.item.id;
+        let join_id = e.target.dataset.join_id;
+        let type = e.target.dataset.type;
+
+        let that = this;
+        let content = '取消观战就可以立即参加活动啦';
+
+        wx.showModal({
+            title: '取消观战',
+            content: content,
+            confirmText: "确定",
+            cancelText: "取消",
+            success: function (res_) {
+                if (res_.confirm) {
+                    app.helper.putApi('activity_join', {'status': 'DEL'}, join_id + '/join/').then(function (res) {
+                        wx.showToast({title: '取消观战成功', icon: 'success', duration: 1000});
+                        app.helper.getApi('activity_detail', {'activity': id}).then(function (res) {
+                            var image_url = app.config.baseURL + app.config.apiMap.get_title_pic + '?pk=' + res.data.results.pic_id;
+                            that.setData({image_url: image_url});
+                            that.setData({detail: res.data.results});
+
+                            if (type === 'W' && res.data.results.dates.length > 0) {
+                                that.initChart(res.data.results.dates, res.data.results.steps);
+                                setTimeout( function () {
+                                    wx.canvasToTempFilePath({
+                                        canvasId: 'lineCanvas',
+                                        success: function (res) {
+                                            that.setData({image_line_canvas: res.tempFilePath});
+                                        }
+                                    });
+                                }, 1100);
+                            }
+                        });
+                    });
+                }
+            }
+        });
+    },
+
     initChart: function (cate, d1) {
         lineChart = new wxCharts({
             canvasId: 'lineCanvas',

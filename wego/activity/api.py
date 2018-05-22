@@ -128,7 +128,7 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
         activity = self.request.query_params.get('activity')
 
         res = []
-        obj = ActivityJoin.objects.filter(user=self.request.user, activity=activity, end_time__gte=start_time)
+        obj = ActivityJoin.objects.exclude(status='DEL').filter(user=self.request.user, activity=activity, end_time__gte=start_time)
         for item in obj:
             res.append({'id': item.id, 'status': item.status})
 
@@ -144,15 +144,15 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
         except:
             pic_id = ''
 
-        time_range = ''
+        time_range, status, join_id, type = '', '', '', ''
         res, dates, steps = [], [], []
         step, reward = 0, 0
 
-        if ActivityJoin.objects.filter(user=self.request.user, activity=activity,
-                                       start_time__lte=datetime.now(), end_time__gte=datetime.now()).exists():
+        if ActivityJoin.objects.exclude(status='DEL').filter(user=self.request.user, activity=activity,
+                                                             start_time__lte=datetime.now(), end_time__gte=datetime.now()).exists():
             start_time_zone, end_time_zone = '', ''
 
-            obj = ActivityJoin.objects.filter(activity=activity, start_time__lte=datetime.now(), end_time__gte=datetime.now())
+            obj = ActivityJoin.objects.filter(activity=activity, start_time__lte=datetime.now(), end_time__gte=datetime.now()).exclude(status='DEL')
             for item in obj:
                 if time_range == '':
                     start_time_zone = item.start_time.astimezone(tz.gettz(settings.TIME_ZONE))
@@ -161,6 +161,11 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
                     start_time = str(start_time_zone)[5:10].replace('-', '.')
                     end_time = str(end_time_zone)[5:10].replace('-', '.')
                     time_range = start_time + '~' + end_time
+
+                if item.user == self.request.user:
+                    status = item.status
+                    join_id = item.id
+                    type = item.activity.type
 
                 user = Users.objects.get(user=item.user)
                 data = DayData.objects.filter(user=item.user).first()
@@ -182,7 +187,7 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
                 step += item['step']
 
         return Response({'results': {'reward': reward, 'res': res, 'pic_id': pic_id, 'time_range': time_range,
-                                     'dates': dates, 'steps': steps, 'step': step}})
+                                     'dates': dates, 'steps': steps, 'step': step, 'status': status, 'join_id': join_id, 'type': type}})
 
     @detail_route(methods=['patch', 'put'])
     def join(self, request, pk):
