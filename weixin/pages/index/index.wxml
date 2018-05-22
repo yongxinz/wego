@@ -80,7 +80,7 @@
                         <icon type="info_circle" size="18" color="#4cd8e3" class="info-icon"
                               bindtap="openActivityInfoAlert"></icon>
                     </view>
-                    <text class="activity-time">{{ detail.start_time }}~{{ detail.end_time }}</text>
+                    <text class="activity-time">{{ detail.time_range }}</text>
                     <button class="activity-join-button"
                             data-item="{{ item }}" data-status="JOI" bindtap="bindJoinConfirm">立即参加</button>
                     <button class="activity-obvious-button" plain="true"

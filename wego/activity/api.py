@@ -143,7 +143,7 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
         except:
             pic_id = ''
 
-        start_time, end_time = '', ''
+        time_range = ''
         res, dates, steps = [], [], []
         step, reward = 0, 0
 
@@ -152,12 +152,13 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
 
             obj = ActivityJoin.objects.filter(activity=activity, start_time__lte=datetime.now(), end_time__gte=datetime.now())
             for item in obj:
-                if start_time == '':
+                if time_range == '':
                     start_time_zone = item.start_time.astimezone(tz.gettz(settings.TIME_ZONE))
                     end_time_zone = item.end_time.astimezone(tz.gettz(settings.TIME_ZONE))
 
                     start_time = str(start_time_zone)[5:10].replace('-', '.')
                     end_time = str(end_time_zone)[5:10].replace('-', '.')
+                    time_range = start_time + '~' + end_time
 
                 user = Users.objects.get(user=item.user)
                 data = DayData.objects.filter(user=item.user).first()
@@ -179,7 +180,7 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
                     steps.insert(0, item['step'])
                     step += item['step']
 
-        return Response({'results': {'reward': reward, 'res': res, 'pic_id': pic_id, 'start_time': start_time, 'end_time': end_time,
+        return Response({'results': {'reward': reward, 'res': res, 'pic_id': pic_id, 'time_range': time_range,
                                      'dates': dates, 'steps': steps, 'step': step}})
 
     @detail_route(methods=['patch', 'put'])
