@@ -133,8 +133,9 @@ Page({
     },
 
     activityContent: function (e) {
-        var reward = e.target.dataset.item.reward;
-        var type = e.target.dataset.item.type;
+        let reward = e.target.dataset.item.reward;
+        let type = e.target.dataset.item.type;
+        let status = e.target.dataset.status;
 
         if (type === 'D') {
             var d1 = new Date();
@@ -146,8 +147,12 @@ Page({
             var start_time = util.formatFullTime(d2) + ' 00:00:00';
             var end_time = util.formatFullTime(d2) + ' 24:00:00';
 
-            var content = '活动时间：' + util.formatTime(d2) + ' 00:00~24:00。挑战需要支付 ' + reward + ' 元钱，挑战成功后，奖金会在 '
-                + util.formatTime(d3) + ' 上午 10:00 发放到微信零钱。记得在 10:00 点之前同步步数哦。'
+            if (status === 'JOI') {
+                var content = '活动时间：' + util.formatTime(d2) + ' 00:00~24:00。挑战需要支付 ' + reward + ' 元钱，挑战成功后，奖金会在 '
+                    + util.formatTime(d3) + ' 上午 10:00 发放到微信零钱。记得在 10:00 点之前同步步数哦。'
+            } else {
+                content = '活动时间：' + util.formatTime(d2) + ' 00:00~24:00。' + '观战可参与活动排名，但不分享奖金。记得在 10:00 点之前同步步数哦。'
+            }
         } else if (e.target.dataset.item.type === 'W') {
             d1 = new Date();
             d2 = new Date(d1);
@@ -160,9 +165,14 @@ Page({
             start_time = util.formatFullTime(d2) + ' 00:00:00';
             end_time = util.formatFullTime(d3) + ' 24:00:00';
 
-            content = '活动时间：' + util.formatTime(d2) + ' 00:00~' + util.formatTime(d3) + ' 24:00'
-                + '挑战需要支付 ' + reward + ' 元钱，挑战成功后，奖金会在 '
-                + util.formatTime(d4) + ' 上午 10:00 发放到微信零钱。记得在 10:00 点之前同步步数哦。'
+            if (status === 'JOI') {
+                content = '活动时间：' + util.formatTime(d2) + ' 00:00~' + util.formatTime(d3) + ' 24:00'
+                    + '挑战需要支付 ' + reward + ' 元钱，挑战成功后，奖金会在 '
+                    + util.formatTime(d4) + ' 上午 10:00 发放到微信零钱。记得在 10:00 点之前同步步数哦。'
+            } else {
+                content = '活动时间：' + util.formatTime(d2) + ' 00:00~' + util.formatTime(d3) + ' 24:00'
+                    + '观战可参与活动排名，但不分享奖金。记得在 10:00 点之前同步步数哦。'
+            }
         }
 
         return {'start_time': start_time, 'end_time': end_time, 'content': content};
