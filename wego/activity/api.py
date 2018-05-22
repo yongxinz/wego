@@ -134,23 +134,6 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
         return Response({'results': res})
 
     @list_route(methods=['get'])
-    def personal(self, request):
-        if ActivityJoin.objects.filter(user=self.request.user, start_time__lte=datetime.now(), end_time__gte=datetime.now()).exists():
-            obj = ActivityJoin.objects.get(user=self.request.user, start_time__lte=datetime.now(), end_time__gte=datetime.now())
-
-            obj_ = Activity.objects.get(id=obj.activity.pk)
-            id = obj_.id
-            target = obj_.target_step
-            count = ActivityJoin.objects.filter(activity=obj.activity, start_time__lte=datetime.now(), end_time__gte=datetime.now()).count()
-            reward = obj_.reward * count
-        else:
-            reward = 0
-            target = ''
-            id = ''
-
-        return Response({'results': {'reward': reward, 'target': target, 'id': id}})
-
-    @list_route(methods=['get'])
     def detail(self, request):
         activity = self.request.query_params.get('activity')
 

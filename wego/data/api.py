@@ -13,6 +13,7 @@ from rest_framework.decorators import list_route
 from adminset.models import DataDefine
 from data.models import DayData
 from passport.models import WeixinUsers
+from activity.models import Activity, ActivityJoin
 from data.serializers import DayDataSerializer
 from tools.wx_helper import WXBizDataCrypt
 
@@ -31,6 +32,7 @@ class WeRunViewSet(viewsets.ModelViewSet):
     @list_route(methods=['get'])
     def today(self, request):
         obj = DayData.objects.filter(user=self.request.user).first()
+        step = obj.step
         mileage = obj.mileage
         calorie = obj.calorie
 
@@ -48,9 +50,22 @@ class WeRunViewSet(viewsets.ModelViewSet):
         else:
             calorie_summary = '相当于' + str(round(calorie / 80, 2)) + '个苹果'
 
-        return Response({'results': {'step': obj.step, 'mileage': mileage, 'calorie': calorie,
+        # 参加活动相关
+        id, reward = '', 0
+        target = self.request.auth.target
+
+        if ActivityJoin.objects.filter(user=self.request.user, start_time__lte=datetime.now(), end_time__gte=datetime.now(), status='JOI').exists():
+            obj = ActivityJoin.objects.get(user=self.request.user, start_time__lte=datetime.now(), end_time__gte=datetime.now(), status='JOI')
+
+            obj_ = Activity.objects.get(id=obj.activity.pk)
+            id = obj_.id
+            target = obj_.target_step
+            count = ActivityJoin.objects.filter(activity=obj.activity, start_time__lte=datetime.now(), end_time__gte=datetime.now()).count()
+            reward = obj_.reward * count
+
+        return Response({'results': {'step': step, 'target': target, 'mileage': mileage, 'calorie': calorie,
                                      'mileage_summary': mileage_summary, 'calorie_summary': calorie_summary,
-                                     'target': self.request.auth.target}})
+                                     'reward': reward, 'id': id}})
 
     @list_route(methods=['get'])
     def personal(self, request):

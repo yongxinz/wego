@@ -70,18 +70,11 @@ Page({
         let that = this;
 
         app.helper.getApi('today').then(function (res) {
-            var step = res.data.results.step;
-            var targetFlag = step / res.data.results.target;
+            var targetFlag = res.data.results.step / res.data.results.target;
             that.setData({results: res.data.results, targetFlag: targetFlag});
 
-            app.helper.getApi('activity_join_personal').then(function (res) {
-                that.setData({apiDataJoin: res.data.results});
-                if (res.data.results.target !== '') {
-                    targetFlag = step / res.data.results.target;
-                }
-                var cxt_arc = wx.createCanvasContext('canvasArcCir');
-                that.drawCircle(cxt_arc, '#d81e06', (2 * targetFlag + 1.5) * Math.PI, 'canvasArcCir')
-            })
+            var cxt_arc = wx.createCanvasContext('canvasArcCir');
+            that.drawCircle(cxt_arc, '#d81e06', (2 * targetFlag + 1.5) * Math.PI, 'canvasArcCir')
         })
     },
 
