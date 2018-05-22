@@ -147,7 +147,8 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
         res, dates, steps = [], [], []
         step, reward = 0, 0
 
-        if ActivityJoin.objects.filter(activity=activity, start_time__lte=datetime.now(), end_time__gte=datetime.now()).exists():
+        if ActivityJoin.objects.filter(user=self.request.user, activity=activity,
+                                       start_time__lte=datetime.now(), end_time__gte=datetime.now()).exists():
             start_time_zone, end_time_zone = '', ''
 
             obj = ActivityJoin.objects.filter(activity=activity, start_time__lte=datetime.now(), end_time__gte=datetime.now())
@@ -165,11 +166,11 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
                 fabulous = Fabulous.objects.filter(activity_join=item.id, user_receive=item.user).count()
                 is_fabulous = Fabulous.objects.filter(activity_join=item.id, user_give=self.request.user).exists()
                 res.append({'user': user.id, 'nickname': user.nickname, 'avatar_url': user.avatar_url, 'step': data.step, 'activity_join': item.id,
-                            'fabulous': fabulous, 'is_fabulous': is_fabulous})
+                            'fabulous': fabulous, 'is_fabulous': is_fabulous, 'status': item.status})
             res.sort(key=lambda k: k['step'], reverse=True)
 
             obj_ = Activity.objects.get(id=activity)
-            count = ActivityJoin.objects.filter(activity=activity, start_time__lte=datetime.now(), end_time__gte=datetime.now()).count()
+            count = ActivityJoin.objects.filter(activity=activity, start_time__lte=datetime.now(), end_time__gte=datetime.now(), status='JOI').count()
             reward = obj_.reward * count
 
             if obj_.type == 'W':

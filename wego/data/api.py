@@ -60,7 +60,8 @@ class WeRunViewSet(viewsets.ModelViewSet):
             obj_ = Activity.objects.get(id=obj.activity.pk)
             id = obj_.id
             target = obj_.target_step
-            count = ActivityJoin.objects.filter(activity=obj.activity, start_time__lte=datetime.now(), end_time__gte=datetime.now()).count()
+            count = ActivityJoin.objects.filter(activity=obj.activity, start_time__lte=datetime.now(),
+                                                end_time__gte=datetime.now(), status='JOI').count()
             reward = obj_.reward * count
 
         return Response({'results': {'step': step, 'target': target, 'mileage': mileage, 'calorie': calorie,

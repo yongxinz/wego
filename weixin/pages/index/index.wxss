@@ -190,11 +190,22 @@ button[plain] {
 }
 
 .item .user-name {
-    width: 35%;
+    width: 25%;
     line-height: 140rpx;
     text-align: left;
     margin-left: 20rpx;
     font-size: 35rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.item .user-status {
+    line-height: 140rpx;
+    text-align: left;
+    margin-left: 20rpx;
+    font-size: 20rpx;
+    color: #4cd8e3;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

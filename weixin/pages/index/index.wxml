@@ -109,6 +109,12 @@
                             <image class="user-face" src="{{ item.avatar_url }}"></image>
                         </view>
                         <text class="user-name">{{ item.nickname }}</text>
+                        <view wx:if="{{ item.status === 'OBS' }}">
+                            <text class="user-status">观战</text>
+                        </view>
+                        <view wx:else>
+                            <text class="user-status" decode="true">&emsp;&emsp;</text>
+                        </view>
                         <view class="step"><text style="float: right;">{{ item.step }}</text></view>
                         <view class="fabulous">
                             <text class="fabulous-text">{{ item.fabulous }}</text>
