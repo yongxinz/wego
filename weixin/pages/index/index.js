@@ -173,34 +173,43 @@ Page({
         let user = e.target.dataset.item.user;
         let status = e.target.dataset.status;
 
+        let that = this;
         let content = this.activityContent(e);
 
-        app.helper.getApi('is_join', {'start_time': new Date(content.start_time).toISOString()}).then(function (res) {
+        app.helper.getApi('is_join', {'start_time': new Date(content.start_time).toISOString(), 'activity': id}).then(function (res) {
             if (res.data.results.length > 0) {
-                if (res.data.results[0].status === 'OBS') {
+                if (res.data.results[0].status === 'OBS' && status === 'JOI' && !that.data.results.is_join) {
                     app.helper.putApi('activity_join', {'status': status}, res.data.results[0].id + '/join/').then(function (res) {
-                        wx.showToast({title: '参加成功', icon: 'success', duration: 1000})
+                        wx.showToast({title: '参加成功', icon: 'success', duration: 1000});
+                        that.data.results.is_join = true;
+                        that.setData({results: that.data.results})
                     });
                 } else {
                     wx.showToast({title: '已经参加了哦~', icon: 'none', duration: 2000})
                 }
             } else {
-                wx.showModal({
-                    title: '活动信息',
-                    content: content.content,
-                    confirmText: "确定",
-                    cancelText: "取消",
-                    success: function (res_) {
-                        if (res_.confirm) {
-                            let form = {'user': user, 'activity': id, 'status': status,
-                                        'start_time': new Date(content.start_time), 'end_time': new Date(content.end_time)};
+                if (that.data.results.is_join && status === 'JOI') {
+                    wx.showToast({title: '已经参加了哦~', icon: 'none', duration: 2000})
+                } else {
+                    wx.showModal({
+                        title: '活动信息',
+                        content: content.content,
+                        confirmText: "确定",
+                        cancelText: "取消",
+                        success: function (res_) {
+                            if (res_.confirm) {
+                                let form = {'user': user, 'activity': id, 'status': status,
+                                            'start_time': new Date(content.start_time), 'end_time': new Date(content.end_time)};
 
-                            app.helper.postApi('activity_join', form).then(function (res) {
-                                wx.showToast({title: '参加成功', icon: 'success', duration: 1000})
-                            })
+                                app.helper.postApi('activity_join', form).then(function (res) {
+                                    wx.showToast({title: '参加成功', icon: 'success', duration: 1000});
+                                    that.data.results.is_join = true;
+                                    that.setData({results: that.data.results})
+                                })
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
     },

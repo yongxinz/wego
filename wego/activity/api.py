@@ -125,9 +125,10 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
     @list_route(methods=['get'])
     def is_join(self, request):
         start_time = self.request.query_params.get('start_time')
+        activity = self.request.query_params.get('activity')
 
         res = []
-        obj = ActivityJoin.objects.filter(user=self.request.user, end_time__gte=start_time)
+        obj = ActivityJoin.objects.filter(user=self.request.user, activity=activity, end_time__gte=start_time)
         for item in obj:
             res.append({'id': item.id, 'status': item.status})
 
@@ -173,13 +174,12 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
             count = ActivityJoin.objects.filter(activity=activity, start_time__lte=datetime.now(), end_time__gte=datetime.now(), status='JOI').count()
             reward = obj_.reward * count
 
-            if obj_.type == 'W':
-                day_data = DayData.objects.filter(user=self.request.user,
-                                                  created_time__range=[start_time_zone, end_time_zone]).values('created_time', 'step')
-                for item in day_data:
-                    dates.insert(0, str(item['created_time'])[5:10].replace('-', '.'))
-                    steps.insert(0, item['step'])
-                    step += item['step']
+            day_data = DayData.objects.filter(user=self.request.user,
+                                              created_time__range=[start_time_zone, end_time_zone]).values('created_time', 'step')
+            for item in day_data:
+                dates.insert(0, str(item['created_time'])[5:10].replace('-', '.'))
+                steps.insert(0, item['step'])
+                step += item['step']
 
         return Response({'results': {'reward': reward, 'res': res, 'pic_id': pic_id, 'time_range': time_range,
                                      'dates': dates, 'steps': steps, 'step': step}})

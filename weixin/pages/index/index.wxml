@@ -19,7 +19,7 @@
             </view>
 
             <view class="target">
-                <view wx:if="{{ results.reward === '' }}">
+                <view wx:if="{{ results.reward <= 0 }}">
                     <view wx:if="{{ targetFlag < 1 }}">
                         今日目标{{ results.target }}步，未完成
                     </view>
@@ -88,17 +88,12 @@
                 </view>
 
                 <view class="step-total">
+                    <text>
+                        总步数：{{ detail.step }}
+                    </text>
                     <view wx:if="{{ item.type === 'W' }}">
-                        <text>
-                            总步数：{{ detail.step }}
-                        </text>
                         <canvas canvas-id="lineCanvas" style="visibility: hidden; position: absolute;top: -1200px;" class="canvas"></canvas>
                         <image src="{{ image_line_canvas }}" class="canvas"></image>
-                    </view>
-                    <view wx:else>
-                        <text>
-                            总步数：{{ results.step }}
-                        </text>
                     </view>
                 </view>
 
