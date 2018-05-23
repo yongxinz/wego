@@ -188,12 +188,8 @@ Page({
 
         app.helper.getApi('is_join', {'start_time': new Date(content.start_time).toISOString(), 'activity': id}).then(function (res) {
             if (res.data.results.length > 0) {
-                if (res.data.results[0].status === 'OBS' && status === 'JOI' && !that.data.results.is_join) {
-                    app.helper.putApi('activity_join', {'status': status}, res.data.results[0].id + '/join/').then(function (res) {
-                        wx.showToast({title: '参加成功', icon: 'success', duration: 1000});
-                        that.data.results.is_join = true;
-                        that.setData({results: that.data.results})
-                    });
+                if (res.data.results[0].status === 'OBS') {
+                    wx.showToast({title: '取消观战之后再参加活动吧~', icon: 'none', duration: 2000})
                 } else {
                     wx.showToast({title: '已经参加了哦~', icon: 'none', duration: 2000})
                 }
