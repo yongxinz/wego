@@ -5,6 +5,7 @@ from dateutil import tz
 from django.http import HttpResponse
 from django.utils import timezone as datetime
 from django.conf import settings
+from django.db.models import Q
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import list_route, detail_route
@@ -128,11 +129,11 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
         activity = self.request.query_params.get('activity')
 
         res = []
-        obj = ActivityJoin.objects.exclude(status='DEL').filter(user=self.request.user, activity=activity, end_time__gte=start_time)
+        obj = ActivityJoin.objects.filter((Q(status='JOI') | Q(status='OBS')), user=self.request.user, activity=activity, end_time__gt=start_time)
         for item in obj:
             res.append({'id': item.id, 'status': item.status})
 
-        is_join = ActivityJoin.objects.filter(user=self.request.user, status='JOI').exists()
+        is_join = ActivityJoin.objects.filter(user=self.request.user, status='JOI', end_time__gt=start_time).exists()
 
         return Response({'results': res, 'is_join': is_join})
 
@@ -150,11 +151,12 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
         res, dates, steps = [], [], []
         step, reward = 0, 0
 
-        if ActivityJoin.objects.exclude(status='DEL').filter(user=self.request.user, activity=activity,
-                                                             start_time__lte=datetime.now(), end_time__gte=datetime.now()).exists():
+        if ActivityJoin.objects.filter((Q(status='JOI') | Q(status='OBS')), user=self.request.user, activity=activity,
+                                       start_time__lte=datetime.now(), end_time__gte=datetime.now()).exists():
             start_time_zone, end_time_zone = '', ''
 
-            obj = ActivityJoin.objects.filter(activity=activity, start_time__lte=datetime.now(), end_time__gte=datetime.now()).exclude(status='DEL')
+            obj = ActivityJoin.objects.filter((Q(status='JOI') | Q(status='OBS')), activity=activity,
+                                              start_time__lte=datetime.now(), end_time__gte=datetime.now())
             for item in obj:
                 if time_range == '':
                     start_time_zone = item.start_time.astimezone(tz.gettz(settings.TIME_ZONE))
