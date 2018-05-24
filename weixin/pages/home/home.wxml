@@ -20,10 +20,26 @@
         </block>
     </view>
 
-    <view bindtap="updateTarget" data-url="./target/target?id={{ results.id }}&target={{ results.target }}"
-          class="target">
-        <view class="target-title">目标步数</view>
-        <view class="target-value">{{ results.target }}</view>
+    <view class="page__bd">
+        <view class="weui-cells weui-cells_after-title">
+            <navigator url="./target/target?id={{ results.id }}&target={{ results.target }}"
+                       class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+                <view class="weui-cell__bd">目标步数</view>
+                <view class="weui-cell__ft weui-cell__ft_in-access">{{ results.target }}</view>
+            </navigator>
+        </view>
+
+        <view class="weui-cells weui-cells_after-title" style="margin-top: 30rpx">
+            <navigator class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+                <view class="weui-cell__bd">挑战活动(次)</view>
+                <view class="weui-cell__ft">{{ ActivityData.count }}</view>
+            </navigator>
+
+            <navigator class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+                <view class="weui-cell__bd">挑战奖金(元)</view>
+                <view class="weui-cell__ft">{{ ActivityData.reward }}</view>
+            </navigator>
+        </view>
     </view>
 
     <view class="weui-flex">

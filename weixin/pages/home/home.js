@@ -12,6 +12,7 @@ Page({
 
     onShow: function () {
         app.helper.waitUserSid(this.getApiData);
+        app.helper.waitUserSid(this.getActivitySummaryData);
     },
 
     updateUsers: function () {
@@ -28,6 +29,14 @@ Page({
         app.helper.getApi('users').then(function (res) {
             that.setData({results: res.data.results[0]});
             that.setData({'gData.mobile': res.data.results[0].mobile});
+        })
+    },
+
+    getActivitySummaryData: function () {
+        let that = this;
+
+        app.helper.getApi('activity_summary').then(function (res) {
+            that.setData({ActivityData: res.data});
         })
     },
 
