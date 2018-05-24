@@ -51,12 +51,10 @@ class WeRunViewSet(viewsets.ModelViewSet):
             calorie_summary = '相当于' + str(round(calorie / 80, 2)) + '个苹果'
 
         # 参加活动相关
-        id, reward, is_join = '', 0, False
+        id, reward = '', 0
         target = self.request.auth.target
 
         if ActivityJoin.objects.filter(user=self.request.user, start_time__lte=datetime.now(), end_time__gte=datetime.now(), status='JOI').exists():
-            is_join = True
-
             obj = ActivityJoin.objects.get(user=self.request.user, start_time__lte=datetime.now(), end_time__gte=datetime.now(), status='JOI')
 
             obj_ = Activity.objects.get(id=obj.activity.pk)
@@ -68,7 +66,7 @@ class WeRunViewSet(viewsets.ModelViewSet):
 
         return Response({'results': {'step': step, 'target': target, 'mileage': mileage, 'calorie': calorie,
                                      'mileage_summary': mileage_summary, 'calorie_summary': calorie_summary,
-                                     'reward': reward, 'id': id, 'is_join': is_join}})
+                                     'reward': reward, 'id': id}})
 
     @list_route(methods=['get'])
     def personal(self, request):

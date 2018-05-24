@@ -132,7 +132,9 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
         for item in obj:
             res.append({'id': item.id, 'status': item.status})
 
-        return Response({'results': res})
+        is_join = ActivityJoin.objects.filter(user=self.request.user, status='JOI').exists()
+
+        return Response({'results': res, 'is_join': is_join})
 
     @list_route(methods=['get'])
     def detail(self, request):

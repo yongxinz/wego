@@ -109,8 +109,9 @@ Page({
     },
 
     bindChange: function (e) {
-        var that = this;
-        var current = e.detail.current;
+        let that = this;
+        let current = e.detail.current;
+
         if (current > 0) {
             app.helper.getApi('activity_detail', {'activity': that.data.apiData[current-1].id}).then(function (res) {
                 var image_url = app.config.baseURL + app.config.apiMap.get_title_pic + '?pk=' + res.data.results.pic_id;
@@ -129,6 +130,8 @@ Page({
                     }, 1100);
                 }
             });
+        } else {
+            app.helper.waitUserSid(that.getApiData);
         }
     },
 
@@ -183,7 +186,6 @@ Page({
         let user = e.target.dataset.item.user;
         let status = e.target.dataset.status;
 
-        let that = this;
         let content = this.activityContent(e);
 
         app.helper.getApi('is_join', {'start_time': new Date(content.start_time).toISOString(), 'activity': id}).then(function (res) {
@@ -194,7 +196,7 @@ Page({
                     wx.showToast({title: '已经参加了哦~', icon: 'none', duration: 2000})
                 }
             } else {
-                if (that.data.results.is_join && status === 'JOI') {
+                if (res.data.is_join && status === 'JOI') {
                     wx.showToast({title: '已经参加了哦~', icon: 'none', duration: 2000})
                 } else {
                     wx.showModal({
@@ -209,8 +211,6 @@ Page({
 
                                 app.helper.postApi('activity_join', form).then(function (res) {
                                     wx.showToast({title: '参加成功', icon: 'success', duration: 1000});
-                                    that.data.results.is_join = true;
-                                    that.setData({results: that.data.results})
                                 })
                             }
                         }
