@@ -5,7 +5,8 @@ from dateutil import tz
 from django.http import HttpResponse
 from django.utils import timezone as datetime
 from django.conf import settings
-from django.db.models import Q, Sum
+from django.db.models import Q, Sum, Value
+from django.db.models.functions import Coalesce
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import list_route, detail_route
@@ -206,9 +207,9 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
     @list_route(methods=['get'])
     def summary(self, request):
         count = ActivityJoin.objects.filter((Q(status='JOI') | Q(status='FIN')), user=self.request.user).count()
-        reward = ActivityJoin.objects.filter(user=self.request.user, status='FIN').aggregate(Sum('reward'))
+        reward = ActivityJoin.objects.filter(user=self.request.user, status='FIN').aggregate(reward=Coalesce(Sum('reward'), Value(0)))
 
-        return Response({'count': count, 'reward': reward.get('reward__sum', 0)})
+        return Response({'count': count, 'reward': reward.get('reward', 0)})
 
 
 class FabulousViewSet(YMMixin, viewsets.ModelViewSet):
