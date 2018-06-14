@@ -1,17 +1,42 @@
 # coding=utf-8
 from datetime import timedelta, datetime
+import time
+import uuid
+import requests
 
 from django.core.management.base import BaseCommand
 from django.db.models import Q
+from django.conf import settings
 
 from activity.models import ActivityJoin, Activity
 from data.models import DayData
+from tools.helper import Dict2obj, dict_to_xml, generate_sign
 
 
 class Command(BaseCommand):
     help = 'Finish activity and grant bonuses'
 
     def handle(self, *args, **options):
+        conf = Dict2obj(settings.WEIXIN)
+        data = {
+            'mch_appid': conf.id,
+            'mchid': conf.mch_id,
+            'nonce_str': str(uuid.uuid4()).replace('-', ''),
+            'desc': 'WeGo活动奖励'.encode('utf-8'),
+            'openid': 'oujiG5BWZqneBMm3qUQwGgFklhVo',
+            'partner_trade_no': str(int(time.time())),
+            'amount': 1,
+            'spbill_create_ip': '127.0.0.1',
+            'check_name': 'NO_CHECK'
+        }
+        sign = generate_sign(data, conf.mch_key)
+        data['sign'] = sign
+        xml_data = dict_to_xml(data)
+        response = requests.post('https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers',
+                                 data=xml_data, headers={'Content-type': 'text/xml'},
+                                 cert=('/Users/zyx/lvzhou/cert/apiclient_cert.pem', '/Users/zyx/lvzhou/cert/apiclient_key.pem'))
+        print(response.text)
+
         yesterday = datetime.today() + timedelta(-1)
         yesterday_format = yesterday.strftime('%Y-%m-%d')
 

@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 from dateutil import tz
 import time
 import uuid
-import hashlib
 import requests
 
 from django.http import HttpResponse
