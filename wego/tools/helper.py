@@ -5,6 +5,8 @@ import datetime
 import re
 import random
 import requests
+import hashlib
+import xml.etree.ElementTree as ET
 
 from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -140,3 +142,41 @@ def paginator(data, paginate_num=10, page_num=1):
     except EmptyPage:
         contacts = paginator.page(paginator.num_pages)
     return contacts
+
+
+def dict_to_xml(dict_data):
+    """
+    dict to xml
+    :param dict_data:
+    :return:
+    """
+
+    xml = ["<xml>"]
+    for k, v in dict_data.items():
+        xml.append("<{0}>{1}</{0}>".format(k, v))
+    xml.append("</xml>")
+
+    return "".join(xml)
+
+
+def xml_to_dict(xml_data):
+    """
+    xml to dict
+    :param xml_data:
+    :return:
+    """
+
+    xml_dict = {}
+    root = ET.fromstring(xml_data)
+    for child in root:
+        xml_dict[child.tag] = child.text
+
+    return xml_dict
+
+
+def generate_sign(data, mch_key):
+    stringA = '&'.join(["{0}={1}".format(k, data.get(k)) for k in sorted(data)])
+    stringSignTemp = '{0}&key={1}'.format(stringA, mch_key)
+    sign = hashlib.md5(stringSignTemp.encode('utf-8')).hexdigest()
+
+    return sign.upper()

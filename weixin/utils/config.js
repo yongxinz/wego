@@ -35,6 +35,7 @@ module.exports.apiMap = {
     activity_join: '/activity/list/',
     activity_detail: '/activity/list/detail/',
     activity_summary: '/activity/list/summary/',
+    payments: '/activity/list/payments/',
     is_join: '/activity/list/is_join/',
     get_title_pic: '/get_title_pic/',
     fabulous: '/fabulous/'

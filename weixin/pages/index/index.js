@@ -206,11 +206,25 @@ Page({
                         cancelText: "取消",
                         success: function (res_) {
                             if (res_.confirm) {
-                                let form = {'user': user, 'activity': id, 'status': status,
-                                            'start_time': new Date(content.start_time), 'end_time': new Date(content.end_time)};
+                                app.helper.getApi('payments').then(function (res) {
+                                    wx.requestPayment({
+                                        'timeStamp': res.data.timeStamp,
+                                        'nonceStr': res.data.nonceStr,
+                                        'package': res.data.package,
+                                        'signType': 'MD5',
+                                        'paySign': res.data.paySign,
+                                        'success':function(res){
+                                            let form = {'user': user, 'activity': id, 'status': status,
+                                                        'start_time': new Date(content.start_time), 'end_time': new Date(content.end_time)};
 
-                                app.helper.postApi('activity_join', form).then(function (res) {
-                                    wx.showToast({title: '参加成功', icon: 'success', duration: 1000});
+                                            app.helper.postApi('activity_join', form).then(function (res) {
+                                                wx.showToast({title: '参加成功', icon: 'success', duration: 1000});
+                                            })
+                                        },
+                                        'fail':function(res){
+                                            console.log(res)
+                                        }
+                                    })
                                 })
                             }
                         }

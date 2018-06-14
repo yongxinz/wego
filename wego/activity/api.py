@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from dateutil import tz
+import time
+import uuid
+import hashlib
+import requests
 
 from django.http import HttpResponse
 from django.utils import timezone as datetime
@@ -17,6 +21,7 @@ from .models import Activity, TitlePic, ACTIVITY_TYPE, ActivityJoin, Fabulous
 from .serializers import ActivitySerializer, TitlePicSerializer, ActivityJoinSerializer, FabulousSerializer
 # from .filter import ActivityJoinFilter
 from tools.rest_helper import YMMixin
+from tools.helper import Dict2obj, dict_to_xml, xml_to_dict, generate_sign
 
 
 class ActivityViewSet(YMMixin, viewsets.ModelViewSet):
@@ -210,6 +215,50 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
         reward = ActivityJoin.objects.filter(user=self.request.user, status='FIN').aggregate(reward=Coalesce(Sum('reward'), Value(0)))
 
         return Response({'count': count, 'reward': reward.get('reward', 0)})
+
+    @list_route(methods=['get'])
+    def payments(self, request):
+        conf = Dict2obj(settings.WEIXIN)
+        data = {
+            'appid': conf.id,
+            'mch_id': conf.mch_id,
+            'nonce_str': str(uuid.uuid4()).replace('-', ''),
+            'body': 'WeGo活动费'.encode('utf-8'),
+            'openid': self.request.auth.openid,
+            'out_trade_no': str(int(time.time())),
+            'total_fee': 1,
+            'spbill_create_ip': '127.0.0.1',
+            'notify_url': 'http://127.0.0.1:8810/activity/list/notify',
+            'trade_type': 'JSAPI'
+        }
+
+        sign = generate_sign(data, conf.mch_key)
+        data['sign'] = sign
+        xml_data = dict_to_xml(data)
+
+        response = requests.post('https://api.mch.weixin.qq.com/pay/unifiedorder', data=xml_data, headers={'Content-type': 'text/xml'})
+        prepay_id = xml_to_dict(response.text).get('prepay_id')
+        paySign_data = {
+            'appId': data.get('appid'),
+            'timeStamp': data.get('out_trade_no'),
+            'nonceStr': data.get('nonce_str'),
+            'package': 'prepay_id={0}'.format(prepay_id),
+            'signType': 'MD5'
+        }
+
+        sign = generate_sign(paySign_data, conf.mch_key)
+        paySign_data['paySign'] = sign
+
+        return Response(paySign_data)
+
+    @list_route(methods=['post'])
+    def notify(self):
+        result_data = {
+            'return_code': 'SUCCESS',
+            'return_msg': 'OK'
+        }
+
+        return dict_to_xml(result_data), {'Content-Type': 'application/xml'}
 
 
 class FabulousViewSet(YMMixin, viewsets.ModelViewSet):
