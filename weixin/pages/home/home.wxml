@@ -42,6 +42,10 @@
         </view>
     </view>
 
+    <view class="weui-footer" style="margin-top: 30rpx">
+        <view class="weui-footer__text">奖金提现稍后开放</view>
+    </view>
+
     <view class="weui-flex">
         <view class="weui-flex__item weui-btn-area">
             <button class="weui-btn" type="warn" bindtap="cancelBind" style="font-size:16px;">退出登录</button>
