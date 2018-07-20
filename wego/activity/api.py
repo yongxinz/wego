@@ -63,6 +63,10 @@ class ActivityViewSet(YMMixin, viewsets.ModelViewSet):
             'success_msg': u'上线成功!'
         })
 
+    @list_route(methods=['get'])
+    def content(self, request):
+        return Response({'results': settings.CONTENT})
+
 
 class TitlePicViewSet(YMMixin, viewsets.ModelViewSet):
     queryset = TitlePic.objects.all()

@@ -1,7 +1,7 @@
 let EventEmitter = require('./event-emitter');
 
 let baseURL = 'https://wego.lvzhouhuwai.com/api';
-// baseURL = 'http://192.168.8.110:8810/api';
+baseURL = 'http://192.168.8.110:8810/api';
 
 try {
     let res = wx.getSystemInfoSync();
@@ -38,7 +38,8 @@ module.exports.apiMap = {
     payments: '/activity/list/payments/',
     is_join: '/activity/list/is_join/',
     get_title_pic: '/get_title_pic/',
-    fabulous: '/fabulous/'
+    fabulous: '/fabulous/',
+    content: '/activity/define/content/'
 };
 
 
