@@ -59,8 +59,8 @@ class TitlePic(models.Model):
 class ActivityJoin(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True)
-    start_time = models.DateTimeField(u"开始时间", default=timezone.now)
-    end_time = models.DateTimeField(u"结束时间", default=timezone.now)
+    start_time = models.DateField(u"开始时间")
+    end_time = models.DateField(u"结束时间")
     reward = models.FloatField(u"获得奖金", default=0)
     status = models.CharField(u"活动状态", max_length=5, choices=STATUS, default='JOI')
     created_time = models.DateTimeField(auto_now_add=True)

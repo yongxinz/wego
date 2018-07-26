@@ -147,8 +147,8 @@ Page({
             d2.setDate(d1.getDate()+1);
             d3.setDate(d1.getDate()+2);
 
-            var start_time = util.formatFullTime(d2) + ' 00:00:00';
-            var end_time = util.formatFullTime(d2) + ' 24:00:00';
+            var start_time = util.formatFullTime(d2);
+            var end_time = util.formatFullTime(d3);
 
             if (status === 'JOI') {
                 var content = '活动时间：' + util.formatTime(d2) + ' 00:00~24:00。挑战需要支付 ' + reward + ' 元钱，挑战成功后，奖金会在 '
@@ -165,8 +165,8 @@ Page({
             d3.setDate(d1.getDate()+7);
             d4.setDate(d1.getDate()+8);
 
-            start_time = util.formatFullTime(d2) + ' 00:00:00';
-            end_time = util.formatFullTime(d3) + ' 24:00:00';
+            start_time = util.formatFullTime(d2);
+            end_time = util.formatFullTime(d4);
 
             if (status === 'JOI') {
                 content = '活动时间：' + util.formatTime(d2) + ' 00:00~' + util.formatTime(d3) + ' 24:00'
@@ -188,7 +188,7 @@ Page({
 
         let content = this.activityContent(e);
 
-        app.helper.getApi('is_join', {'start_time': new Date(content.start_time).toISOString(), 'activity': id}).then(function (res) {
+        app.helper.getApi('is_join', {'start_time': content.start_time, 'activity': id}).then(function (res) {
             if (res.data.results.length > 0) {
                 if (res.data.results[0].status === 'OBS') {
                     wx.showToast({title: '取消观战之后再参加活动吧~', icon: 'none', duration: 1000})
@@ -206,26 +206,35 @@ Page({
                         cancelText: "取消",
                         success: function (res_) {
                             if (res_.confirm) {
-                                app.helper.getApi('payments').then(function (res) {
-                                    wx.requestPayment({
-                                        'timeStamp': res.data.timeStamp,
-                                        'nonceStr': res.data.nonceStr,
-                                        'package': res.data.package,
-                                        'signType': 'MD5',
-                                        'paySign': res.data.paySign,
-                                        'success':function(res){
-                                            let form = {'user': user, 'activity': id, 'status': status,
-                                                        'start_time': new Date(content.start_time), 'end_time': new Date(content.end_time)};
+                                if (status === 'OBS') {
+                                    let form = {'user': user, 'activity': id, 'status': status,
+                                                'start_time': content.start_time, 'end_time': content.end_time};
 
-                                            app.helper.postApi('activity_join', form).then(function (res) {
-                                                wx.showToast({title: '参加成功', icon: 'success', duration: 1000});
-                                            })
-                                        },
-                                        'fail':function(res){
-                                            console.log(res)
-                                        }
+                                    app.helper.postApi('activity_join', form).then(function (res) {
+                                        wx.showToast({title: '参加成功', icon: 'success', duration: 1000});
                                     })
-                                })
+                                } else {
+                                    app.helper.getApi('payments').then(function (res) {
+                                        wx.requestPayment({
+                                            'timeStamp': res.data.timeStamp,
+                                            'nonceStr': res.data.nonceStr,
+                                            'package': res.data.package,
+                                            'signType': 'MD5',
+                                            'paySign': res.data.paySign,
+                                            'success':function(res){
+                                                let form = {'user': user, 'activity': id, 'status': status,
+                                                            'start_time': content.start_time, 'end_time': content.end_time};
+
+                                                app.helper.postApi('activity_join', form).then(function (res) {
+                                                    wx.showToast({title: '参加成功', icon: 'success', duration: 1000});
+                                                })
+                                            },
+                                            'fail':function(res){
+                                                console.log(res)
+                                            }
+                                        })
+                                    })
+                                }
                             }
                         }
                     });
