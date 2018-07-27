@@ -163,23 +163,30 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
         if ActivityJoin.objects.filter((Q(status='JOI') | Q(status='OBS')), user=self.request.user, activity=activity,
                                        start_time__lte=datetime.now(), end_time__gte=datetime.now()).exists():
 
-            obj = ActivityJoin.objects.get((Q(status='JOI') | Q(status='OBS')), activity=activity,
-                                           start_time__lte=datetime.now(), end_time__gte=datetime.now())
-            start_time = str(obj.start_time)[5:10].replace('-', '.')
-            end_time = str(obj.end_time)[5:10].replace('-', '.')
-            time_range = start_time + '~' + end_time
+            start_time, end_time = '', ''
+            obj = ActivityJoin.objects.filter((Q(status='JOI') | Q(status='OBS')), activity=activity,
+                                              start_time__lte=datetime.now(), end_time__gte=datetime.now())
 
-            if obj.user == self.request.user:
-                status = obj.status
-                join_id = obj.id
-                type = obj.activity.type
+            for item in obj:
+                if time_range == '':
+                    start_time = str(item.start_time)
+                    end_time = str(item.end_time)
 
-                user = Users.objects.get(user=obj.user)
-                data = DayData.objects.filter(user=obj.user).first()
-                fabulous = Fabulous.objects.filter(activity_join=obj.id, user_receive=obj.user).count()
-                is_fabulous = Fabulous.objects.filter(activity_join=obj.id, user_give=self.request.user).exists()
-                res.append({'user': user.id, 'nickname': user.nickname, 'avatar_url': user.avatar_url, 'step': data.step, 'activity_join': obj.id,
-                            'fabulous': fabulous, 'is_fabulous': is_fabulous, 'status': obj.status})
+                    start_time_format = start_time[5:10].replace('-', '.')
+                    end_time_format = end_time[5:10].replace('-', '.')
+                    time_range = start_time_format + '~' + end_time_format
+
+                if item.user == self.request.user:
+                    status = item.status
+                    join_id = item.id
+                    type = item.activity.type
+
+                    user = Users.objects.get(user=item.user)
+                    data = DayData.objects.filter(user=item.user).first()
+                    fabulous = Fabulous.objects.filter(activity_join=item.id, user_receive=item.user).count()
+                    is_fabulous = Fabulous.objects.filter(activity_join=item.id, user_give=self.request.user).exists()
+                    res.append({'user': user.id, 'nickname': user.nickname, 'avatar_url': user.avatar_url, 'step': data.step, 'activity_join': item.id,
+                                'fabulous': fabulous, 'is_fabulous': is_fabulous, 'status': item.status})
             res.sort(key=lambda k: k['step'], reverse=True)
 
             obj_ = Activity.objects.get(id=activity)
@@ -187,7 +194,7 @@ class ActivityJoinViewSet(YMMixin, viewsets.ModelViewSet):
             reward = obj_.reward * count
 
             day_data = DayData.objects.filter(user=self.request.user,
-                                              created_time__range=[obj.start_time, obj.end_time]).values('created_time', 'step')
+                                              created_time__range=[start_time, end_time]).values('created_time', 'step')
             for item in day_data:
                 dates.insert(0, str(item['created_time'])[5:10].replace('-', '.'))
                 steps.insert(0, item['step'])
