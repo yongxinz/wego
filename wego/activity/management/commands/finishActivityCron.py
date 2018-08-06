@@ -37,14 +37,15 @@ class Command(BaseCommand):
         #                          cert=('/Users/zyx/lvzhou/cert/apiclient_cert.pem', '/Users/zyx/lvzhou/cert/apiclient_key.pem'))
         # print(response.text)
 
-        yesterday_format = datetime.today().strftime('%Y-%m-%d')
+        start_time = (datetime.today() - timedelta(1)).strftime('%Y-%m-%d')
+        end_time = datetime.today().strftime('%Y-%m-%d')
 
         user_success = []
         obj = Activity.objects.filter(type='D')
         for item in obj:
-            obj_ = ActivityJoin.objects.filter(activity=item.id, status='JOI', end_time=yesterday_format)
+            obj_ = ActivityJoin.objects.filter(activity=item.id, status='JOI', end_time=end_time)
             for item_ in obj_:
-                data = DayData.objects.get(user=item_.user, created_time=yesterday_format)
+                data = DayData.objects.get(user=item_.user, created_time=start_time)
                 if data.step >= item.target_step:
                     user_success.append(item_.user)
 
@@ -53,8 +54,9 @@ class Command(BaseCommand):
 
             if len(user_success) > 0:
                 reward_avg = reward / len(user_success)
+                ActivityJoin.objects.filter(activity=item.id, status='JOI', end_time=end_time, user__in=user_success).update(reward=reward_avg)
             else:
-                reward_avg = 0
-            ActivityJoin.objects.filter(activity=item.id, status='JOI', end_time=yesterday_format, user__in=user_success).update(reward=reward_avg)
+                reward_avg = reward / count
+                ActivityJoin.objects.filter(activity=item.id, status='JOI', end_time=end_time).update(reward=reward_avg)
 
-        ActivityJoin.objects.filter((Q(status='JOI') | Q(status='OBS')), end_time=yesterday_format).update(status='FIN')
+        ActivityJoin.objects.filter((Q(status='JOI') | Q(status='OBS')), end_time=end_time).update(status='FIN')
