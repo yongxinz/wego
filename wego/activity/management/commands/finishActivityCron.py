@@ -37,8 +37,7 @@ class Command(BaseCommand):
         #                          cert=('/Users/zyx/lvzhou/cert/apiclient_cert.pem', '/Users/zyx/lvzhou/cert/apiclient_key.pem'))
         # print(response.text)
 
-        yesterday = datetime.today() + timedelta(-1)
-        yesterday_format = yesterday.strftime('%Y-%m-%d')
+        yesterday_format = datetime.today().strftime('%Y-%m-%d')
 
         user_success = []
         obj = Activity.objects.filter(type='D')
